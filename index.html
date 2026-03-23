@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lucky Baadshah - Matka Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:opsz,wght@14..32,100;14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; background: #05070C; color: #fff; overflow-x: hidden; }
+        .animated-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 30%, rgba(255,193,7,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255,107,0,0.05) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+        
+        /* Login Page Styles */
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 1; }
+        .login-card { background: linear-gradient(145deg, rgba(18,21,31,0.95), rgba(14,16,24,0.95)); backdrop-filter: blur(20px); border-radius: 48px; padding: 50px 40px; text-align: center; max-width: 450px; width: 100%; border: 1px solid rgba(255,193,7,0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.5); animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .login-logo { margin-bottom: 30px; }
+        .login-logo-img { width: 100px; height: 100px; border-radius: 30px; background: linear-gradient(135deg, #FFD700, #FFA500); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 48px; font-weight: 800; color: #0A0C12; }
+        .login-logo h1 { font-size: 32px; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .powered-by { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; padding: 8px 16px; background: rgba(255,193,7,0.1); border-radius: 50px; width: fit-content; margin-left: auto; margin-right: auto; }
+        .powered-by span { font-size: 12px; color: #8E9AAF; }
+        .powered-by strong { color: #FFD700; font-family: 'Orbitron', monospace; }
+        .welcome-text { font-size: 24px; font-weight: 700; margin: 30px 0 20px; background: linear-gradient(135deg, #fff, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .google-login-btn { background: linear-gradient(95deg, #10b981, #059669); border: none; padding: 16px 32px; border-radius: 60px; font-weight: 700; font-size: 18px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; transition: all 0.3s; }
+        .google-login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(16,185,129,0.3); }
+        .terms { margin-top: 30px; font-size: 12px; color: #6B7280; }
+        .terms a { color: #FFD700; text-decoration: none; }
+        
+        /* Main App - Hidden until login */
+        .main-app { display: none; }
+        
+        /* Header */
+        .bc-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(5, 7, 12, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,193,7,0.25); padding: 12px 20px; }
+        .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo-bc { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .logo-img { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #FFD700, #FFA500); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: #0A0C12; }
+        .logo-text h1 { font-size: 22px; font-weight: 800; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo-text p { font-size: 9px; color: #FFD700; }
+        .user-stats { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.4); padding: 6px 18px; border-radius: 50px; border: 1px solid rgba(255,193,7,0.2); }
+        .balance-premium { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; }
+        .balance-premium i { color: #FFD700; }
+        .balance-amount { color: #FFD700; font-family: 'Orbitron', monospace; }
+        .user-avatar { width: 38px; height: 38px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .user-name { font-size: 13px; font-weight: 600; margin-left: 8px; color: #FFD700; }
+        
+        /* Live Ticker */
+        .live-ticker { position: fixed; top: 78px; left: 0; right: 0; background: linear-gradient(90deg, rgba(255,193,7,0.12), rgba(255,107,0,0.08)); backdrop-filter: blur(12px); padding: 10px 0; overflow: hidden; white-space: nowrap; z-index: 99; border-bottom: 1px solid rgba(255,193,7,0.3); border-top: 1px solid rgba(255,193,7,0.2); }
+        .ticker-content { display: inline-block; animation: tickerScroll 50s linear infinite; font-size: 14px; font-weight: 600; }
+        .ticker-content span { margin: 0 30px; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,193,7,0.12); padding: 5px 15px; border-radius: 40px; }
+        @keyframes tickerScroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+        
+        .main-container { padding-top: 140px; padding-bottom: 85px; max-width: 550px; margin: 0 auto; padding-left: 16px; padding-right: 16px; position: relative; z-index: 1; }
+        
+        /* Matka Card */
+        .matka-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 40px; border: 1px solid rgba(255,193,7,0.3); overflow: hidden; margin-bottom: 20px; }
+        .matka-header { background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,165,0,0.08)); padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,193,7,0.2); }
+        .matka-timer { font-size: 48px; font-weight: 800; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 4px; }
+        .result-board { background: rgba(0,0,0,0.5); padding: 20px; margin: 20px; border-radius: 24px; text-align: center; }
+        .matka-result { display: flex; justify-content: center; gap: 40px; margin: 15px 0; }
+        .result-number { font-size: 48px; font-weight: 800; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .jodi-number { font-size: 36px; font-weight: 800; font-family: 'Orbitron', monospace; color: #FFD700; }
+        
+        /* Bet Types */
+        .bet-types { padding: 20px; border-top: 1px solid rgba(255,193,7,0.2); }
+        .bet-type-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .bet-tab { flex: 1; text-align: center; padding: 10px; background: rgba(255,193,7,0.1); border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
+        .bet-tab.active { background: linear-gradient(135deg, #FFD700, #FFA500); color: #0A0C12; }
+        .number-selector { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+        .number-option { background: linear-gradient(145deg, #1A1E2C, #141724); padding: 12px; text-align: center; border-radius: 16px; cursor: pointer; font-weight: 700; font-family: 'Orbitron', monospace; border: 1px solid rgba(255,193,7,0.2); transition: all 0.2s; }
+        .number-option.selected { background: linear-gradient(135deg, #FFD700, #FFA500); color: #0A0C12; transform: scale(1.05); }
+        .bet-amount-section { display: flex; gap: 10px; margin: 15px 0; }
+        .bet-input-premium { flex: 1; background: #1A1E2C; border: 1px solid rgba(255,193,7,0.2); padding: 14px; border-radius: 50px; color: white; font-size: 16px; font-weight: 600; }
+        .multiply-btn { background: linear-gradient(95deg, #FFD700, #FFA500); border: none; padding: 14px 22px; border-radius: 50px; font-weight: 800; font-size: 18px; color: #0A0C12; cursor: pointer; }
+        .payout-info { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 12px; margin-top: 10px; font-size: 12px; text-align: center; }
+        .place-matka-btn { background: linear-gradient(95deg, #10b981, #059669); border: none; padding: 14px; border-radius: 60px; font-weight: 800; font-size: 16px; color: white; cursor: pointer; width: 100%; margin-top: 10px; }
+        
+        .live-stats-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 28px; padding: 18px; border: 1px solid rgba(255,193,7,0.2); margin-top: 15px; }
+        .stats-header { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,193,7,0.2); }
+        .stats-header h3 { font-size: 15px; color: #FFD700; }
+        .live-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; transform: scale(1.2); } }
+        .player-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+        .player-name { flex: 1; text-align: left; font-weight: 600; }
+        .player-bet { flex: 1; text-align: center; color: #FFD700; font-weight: 700; }
+        .player-result { flex: 1; text-align: right; font-weight: 700; }
+        .player-result.win { color: #10b981; }
+        .player-result.loss { color: #ef4444; }
+        
+        .history-list { max-height: 200px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+        .back-home-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,193,7,0.3); padding: 10px 20px; border-radius: 50px; color: #FFD700; cursor: pointer; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+        
+        .rules-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 28px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,193,7,0.2); }
+        .rules-title { color: #FFD700; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .rule-item { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; line-height: 1.4; }
+        .rule-number { background: rgba(255,193,7,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #FFD700; flex-shrink: 0; }
+        .payout-table { margin-top: 15px; background: rgba(0,0,0,0.3); border-radius: 16px; padding: 12px; }
+        .payout-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .feature-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 24px; padding: 18px; text-align: center; border: 1px solid rgba(255,193,7,0.1); }
+        .feature-icon { font-size: 28px; margin-bottom: 8px; color: #FFD700; }
+        
+        .panel-premium { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 32px; border: 1px solid rgba(255,193,7,0.2); padding: 22px; }
+        .amount-selector { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0; }
+        .amount-btn { background: linear-gradient(145deg, #1A1E2C, #141724); padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; border: 1px solid rgba(255,193,7,0.2); }
+        .amount-btn.selected { background: linear-gradient(135deg, #FFD700, #FFA500); color: #0A0C12; }
+        .qr-wrapper { background: white; padding: 20px; border-radius: 28px; display: flex; justify-content: center; margin: 10px auto; width: fit-content; }
+        #qrcode img { width: 180px; height: 180px; }
+        .deposit-upi-btn { background: linear-gradient(95deg, #10b981, #059669); border: none; padding: 14px; border-radius: 60px; font-weight: 800; color: white; cursor: pointer; width: 100%; margin-top: 15px; }
+        .instructions-box { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 15px; margin: 15px 0; }
+        .step-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 12px; }
+        .step-number { background: rgba(255,193,7,0.2); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #FFD700; }
+        .utr-section { margin-top: 15px; display: none; }
+        
+        .withdraw-input { background: #1A1E2C; border: 1px solid rgba(255,193,7,0.2); padding: 14px; border-radius: 50px; color: white; width: 100%; margin-bottom: 12px; }
+        .quick-amounts { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .quick-amount { background: rgba(255,193,7,0.1); padding: 8px 16px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 12px; }
+        .withdraw-btn { background: linear-gradient(95deg, #ef4444, #dc2626); border: none; padding: 14px; border-radius: 60px; font-weight: 800; color: white; cursor: pointer; width: 100%; }
+        .info-card { background: rgba(255,193,7,0.05); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
+        .info-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; }
+        
+        .profile-header { text-align: center; margin-bottom: 20px; }
+        .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 36px; font-weight: 800; color: #0A0C12; }
+        .profile-name { font-size: 22px; font-weight: 700; color: #FFD700; }
+        .profile-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 20px 0; }
+        .stat-card { background: linear-gradient(145deg, #1A1E2C, #141724); border-radius: 20px; padding: 15px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: 800; font-family: 'Orbitron', monospace; color: #FFD700; }
+        .level-container { background: linear-gradient(145deg, #1A1E2C, #141724); border-radius: 20px; padding: 15px; margin: 15px 0; }
+        .level-progress { background: #0A0C12; border-radius: 20px; padding: 4px; margin-top: 10px; }
+        .progress-bar { background: linear-gradient(90deg, #FFD700, #FFA500); height: 8px; border-radius: 20px; }
+        .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
+        .logout-btn { flex: 1; padding: 12px; border-radius: 50px; font-weight: 700; cursor: pointer; text-align: center; background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
+        
+        .nav-premium { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(5, 7, 12, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,193,7,0.25); display: flex; justify-content: space-around; padding: 10px 20px 22px; z-index: 100; }
+        .nav-item-premium { text-align: center; cursor: pointer; transition: all 0.2s; color: #8E9AAF; }
+        .nav-item-premium.active { color: #FFD700; transform: translateY(-3px); }
+        .nav-item-premium i { font-size: 24px; display: block; margin-bottom: 4px; }
+        .nav-item-premium span { font-size: 10px; }
+        
+        /* Admin Panel Styles */
+        .admin-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,193,7,0.2); display: none; }
+        .request-item { background: #1A1E2C; border-radius: 16px; padding: 15px; margin-bottom: 12px; }
+        .accept-btn { background: #10b981; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; margin-right: 8px; }
+        .reject-btn { background: #ef4444; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; }
+        
+        /* Referral Modal */
+        .modal-premium {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .modal-premium.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content-premium {
+            background: linear-gradient(145deg, #12151F, #0E1018);
+            border-radius: 40px;
+            max-width: 400px;
+            width: 90%;
+            padding: 30px 24px;
+            border: 1px solid rgba(255,193,7,0.4);
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.4s ease;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #FFD700;
+            transition: 0.2s;
+        }
+        .modal-close:hover { transform: scale(1.1); }
+        .modal-title {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .referral-steps {
+            list-style: none;
+            padding: 0;
+        }
+        .referral-steps li {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .step-num {
+            background: rgba(255,193,7,0.2);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #FFD700;
+            flex-shrink: 0;
+        }
+        .referral-code-box {
+            background: #1A1E2C;
+            padding: 12px;
+            border-radius: 30px;
+            text-align: center;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 20px;
+            letter-spacing: 2px;
+            border: 1px dashed #FFD700;
+            word-break: break-all;
+        }
+        .referral-input {
+            background: #1A1E2C;
+            border: 1px solid rgba(255,193,7,0.3);
+            padding: 12px;
+            border-radius: 30px;
+            width: 100%;
+            margin: 8px 0;
+            color: white;
+        }
+        .referral-submit {
+            background: linear-gradient(95deg, #10b981, #059669);
+            border: none;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 800;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 480px) {
+            .matka-timer { font-size: 36px; }
+            .result-number { font-size: 36px; }
+            .login-card { padding: 40px 25px; }
+        }
+    </style>
+</head>
+<body>
+<div class="animated-bg"></div>
+
+<!-- Login Page -->
+<div id="loginPage" class="login-container">
+    <div class="login-card">
+        <div class="login-logo">
+            <div class="login-logo-img">LB</div>
+            <h1>LUCKY BAADSHAH</h1>
+        </div>
+        <div class="powered-by">
+            <i class="fas fa-bolt"></i>
+            <span>POWERED BY</span>
+            <strong>BC.GAME</strong>
+            <i class="fas fa-crown"></i>
+        </div>
+        <div class="welcome-text">Welcome to Lucky Baadshah</div>
+        <button id="googleLoginBtn" class="google-login-btn">
+            <i class="fab fa-google"></i> Continue with Google
+        </button>
+        <div class="terms">
+            By continuing, you agree to our 
+            <a href="#" id="termsLink">Terms & Conditions</a> and 
+            <a href="#" id="privacyLink">Privacy Policy</a>
+        </div>
+    </div>
+</div>
+
+<!-- Main App -->
+<div id="mainApp" class="main-app">
+    <!-- Header -->
+    <div class="bc-header">
+        <div class="header-container">
+            <div class="logo-bc">
+                <div class="logo-img">LB</div>
+                <div class="logo-text">
+                    <h1>LUCKY BAADSHAH</h1>
+                    <p>MATKA GAME</p>
+                </div>
+            </div>
+            <div class="user-stats">
+                <div class="balance-premium">
+                    <i class="fas fa-coins"></i>
+                    <span class="balance-amount" id="walletBalance">0</span>
+                    <span>₹</span>
+                </div>
+                <div class="user-avatar" id="avatarBtn">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span class="user-name" id="userName">Player</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Ticker -->
+    <div class="live-ticker">
+        <div class="ticker-content" id="tickerContent">
+            <span><i class="fas fa-trophy"></i> Rajesh Kumar won ₹7,000 on Single</span>
+            <span><i class="fas fa-trophy"></i> Priya Singh won ₹45,000 on Jodi</span>
+            <span><i class="fas fa-money-bill-wave"></i> Amit Sharma withdrew ₹28,000</span>
+            <span><i class="fas fa-trophy"></i> Neha Verma won ₹12,500 on Single</span>
+        </div>
+    </div>
+
+    <div class="main-container" id="mainContainer">
+        <!-- Home Page -->
+        <div id="homePage">
+            <div class="matka-card">
+                <div class="matka-header">
+                    <div class="matka-timer" id="homeTimer">01:00</div>
+                    <div style="font-size: 12px; color: #8E9AAF;">NEXT RESULT</div>
+                </div>
+                <div class="result-board">
+                    <h4>🎲 LAST RESULT 🎲</h4>
+                    <div class="matka-result">
+                        <div class="result-box"><div class="result-label">OPEN</div><div class="result-number" id="lastOpen">-</div></div>
+                        <div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="lastClose">-</div></div>
+                    </div>
+                    <div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="lastJodi">--</div></div>
+                </div>
+            </div>
+            
+            <div class="rules-card">
+                <div class="rules-title"><i class="fas fa-book-open"></i> How to Play Matka</div>
+                <div class="rule-item"><div class="rule-number">1</div><div class="rule-text">Every round runs for <strong>60 seconds</strong> - place your bets before timer ends</div></div>
+                <div class="rule-item"><div class="rule-number">2</div><div class="rule-text"><strong>Open</strong> and <strong>Close</strong> numbers are drawn from 0-9 (sum of 3 random numbers ka last digit)</div></div>
+                <div class="rule-item"><div class="rule-number">3</div><div class="rule-text"><strong>Jodi</strong> = Open + Close digits combined (00 to 99)</div></div>
+                <div class="rule-item"><div class="rule-number">4</div><div class="rule-text"><strong>Patti</strong> = 3-digit number (like 111, 222, 123, etc.)</div></div>
+                <div class="payout-table">
+                    <div class="payout-row"><span>🎯 Single (Open or Close)</span><span style="color:#FFD700;">7x payout</span></div>
+                    <div class="payout-row"><span>🔗 Jodi (Both digits match)</span><span style="color:#FFD700;">90x payout</span></div>
+                    <div class="payout-row"><span>👑 Patti (3-digit match)</span><span style="color:#FFD700;">600x payout</span></div>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><div class="feature-title">Single: 7x</div><div class="feature-desc">Match Open or Close digit</div></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-link"></i></div><div class="feature-title">Jodi: 90x</div><div class="feature-desc">Match both digits</div></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-crown"></i></div><div class="feature-title">Patti: 600x</div><div class="feature-desc">Match 3-digit Patti</div></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><div class="feature-title">1 Min Rounds</div><div class="feature-desc">Fast-paced action</div></div>
+            </div>
+        </div>
+
+        <!-- Game Panel -->
+        <div id="gamePage" class="game-panel" style="display:none;">
+            <button id="backHomeBtn" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back to Home</button>
+            <div class="matka-card">
+                <div class="matka-header">
+                    <div class="matka-timer" id="gameTimer">01:00</div>
+                    <div style="font-size: 12px; color: #8E9AAF;">BETS CLOSE IN</div>
+                </div>
+                <div class="bet-types">
+                    <div class="bet-type-tabs">
+                        <div class="bet-tab active" data-type="single">🎯 Single (7x)</div>
+                        <div class="bet-tab" data-type="jodi">🔗 Jodi (90x)</div>
+                        <div class="bet-tab" data-type="patti">👑 Patti (600x)</div>
+                    </div>
+                    <div id="singleBetArea">
+                        <div style="font-size: 13px; color: #8E9AAF; margin-bottom: 8px;">Select Open or Close:</div>
+                        <div class="number-selector" id="openCloseSelect"></div>
+                        <div style="font-size: 13px; color: #8E9AAF; margin: 12px 0 8px;">Select Number (0-9):</div>
+                        <div class="number-selector" id="singleNumbers"></div>
+                    </div>
+                    <div id="jodiBetArea" style="display:none;">
+                        <div style="font-size: 13px; color: #8E9AAF; margin-bottom: 8px;">Select Jodi (00-99):</div>
+                        <div class="number-selector" id="jodiNumbers"></div>
+                    </div>
+                    <div id="pattiBetArea" style="display:none;">
+                        <div style="font-size: 13px; color: #8E9AAF; margin-bottom: 8px;">Select Patti (3-digit):</div>
+                        <div class="number-selector" id="pattiNumbers"></div>
+                    </div>
+                    <div class="bet-amount-section">
+                        <input type="number" id="matkaBetAmount" class="bet-input-premium" placeholder="Bet Amount" value="100" min="10">
+                        <button id="multiplyMatkaBtn" class="multiply-btn">2x</button>
+                    </div>
+                    <div class="payout-info">💰 Win: <span id="payoutAmount">₹700</span> on ₹100 bet</div>
+                    <button id="placeMatkaBetBtn" class="place-matka-btn">🎲 PLACE MATKA BET</button>
+                    <div id="matkaBetStatus" style="font-size:12px; text-align:center; margin-top:12px;"></div>
+                </div>
+                <div id="matkaResultDisplay" style="display:none;" class="result-board">
+                    <h4>🎲 RESULT 🎲</h4>
+                    <div class="matka-result">
+                        <div class="result-box"><div class="result-label">OPEN</div><div class="result-number" id="resultOpen">-</div></div>
+                        <div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="resultClose">-</div></div>
+                    </div>
+                    <div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="resultJodi">--</div></div>
+                    <div id="matkaWinMessage" style="margin-top:15px; font-weight:700;"></div>
+                </div>
+            </div>
+            <div class="live-stats-card">
+                <div class="stats-header"><h3><i class="fas fa-users"></i> Live Players <span class="live-dot"></span></h3><span>🔥 1,284 active</span></div>
+                <div id="gameLivePlayerList"></div>
+            </div>
+            <div class="live-stats-card" style="margin-top:15px;">
+                <div class="stats-header"><h3><i class="fas fa-history"></i> Recent Activity</h3><span>Live updates</span></div>
+                <div class="history-list" id="matkaHistoryList"></div>
+            </div>
+        </div>
+
+        <!-- Deposit Panel -->
+        <div id="depositPanel" style="display:none;" class="panel-premium">
+            <button id="backFromDeposit" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
+            <h3 style="text-align:center;">💰 Deposit via UPI</h3>
+            <div class="instructions-box">
+                <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-info-circle"></i> How to Deposit:</div>
+                <div class="step-item"><div class="step-number">1</div><div>Select deposit amount below</div></div>
+                <div class="step-item"><div class="step-number">2</div><div>Scan QR code or click "DEPOSIT VIA UPI"</div></div>
+                <div class="step-item"><div class="step-number">3</div><div>Complete payment in your UPI app</div></div>
+                <div class="step-item"><div class="step-number">4</div><div>After payment, enter UTR number and click Submit</div></div>
+                <div class="step-item"><div class="step-number">5</div><div>Admin will verify and add balance to your wallet</div></div>
+            </div>
+            <div class="amount-selector" id="amountSelector">
+                <div class="amount-btn" data-amount="100">₹100</div>
+                <div class="amount-btn" data-amount="500">₹500</div>
+                <div class="amount-btn" data-amount="1000">₹1000 <span style="font-size:9px;">+200</span></div>
+                <div class="amount-btn" data-amount="5000">₹5000 <span style="font-size:9px;">+2000</span></div>
+            </div>
+            <div style="text-align:center;"><div class="amount-box" style="background:linear-gradient(145deg,#1A1E2C,#141724); border-radius:50px; padding:12px; margin:15px auto; width:70%;"><div class="amount-box-value" id="amountDisplay" style="font-size:28px; font-weight:800; color:#FFD700;">₹0</div></div></div>
+            <div style="text-align:center;"><div class="qr-wrapper"><div id="qrcode"></div></div><div class="qr-message" id="qrMessage" style="color:#FFD700; margin-top:10px;">Scan QR to pay</div></div>
+            <button id="payNowBtn" class="deposit-upi-btn"><i class="fas fa-phone-alt"></i> DEPOSIT VIA UPI</button>
+            <div class="utr-section" id="utrSection">
+                <input type="number" id="utrAmount" class="bet-input-premium" placeholder="Amount paid" style="width:100%; margin-bottom:8px;">
+                <input type="text" id="utrCode" class="bet-input-premium" placeholder="Enter UTR / Transaction ID" style="width:100%; margin-bottom:8px;">
+                <button id="submitUtrBtn" class="bet-btn-premium" style="width:100%; background:linear-gradient(95deg,#10b981,#059669); border:none; padding:14px; border-radius:50px; font-weight:800; color:white;">Submit for Verification</button>
+            </div>
+        </div>
+
+        <!-- Withdraw Panel -->
+        <div id="withdrawPanel" style="display:none;" class="panel-premium">
+            <button id="backFromWithdraw" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
+            <h3 style="text-align:center;">💸 Withdraw Funds</h3>
+            <div class="info-card">
+                <div class="info-row"><span><i class="fas fa-wallet"></i> Available Balance</span><span id="withdrawBalance" style="color:#FFD700; font-weight:700;">₹0</span></div>
+                <div class="info-row"><span><i class="fas fa-calendar-alt"></i> Withdrawal Schedule</span><span>15th & 30th Only</span></div>
+                <div class="info-row"><span><i class="fas fa-chart-line"></i> Minimum Amount</span><span>₹5,000</span></div>
+                <div class="info-row"><span><i class="fas fa-chart-line"></i> Maximum Amount</span><span>₹1,00,000</span></div>
+                <div class="info-row"><span><i class="fas fa-clock"></i> Processing Time</span><span>24-48 hours</span></div>
+            </div>
+            <input type="text" id="accHolderName" class="withdraw-input" placeholder="Account Holder Name *">
+            <input type="text" id="accNumber" class="withdraw-input" placeholder="Account Number *">
+            <input type="text" id="ifscCode" class="withdraw-input" placeholder="IFSC Code *">
+            <input type="text" id="bankName" class="withdraw-input" placeholder="Bank Name (Optional)">
+            <input type="number" id="withdrawAmount" class="withdraw-input" placeholder="Withdrawal Amount *" min="5000" max="100000">
+            <div class="quick-amounts">
+                <div class="quick-amount" data-amount="5000">₹5,000</div>
+                <div class="quick-amount" data-amount="10000">₹10,000</div>
+                <div class="quick-amount" data-amount="25000">₹25,000</div>
+                <div class="quick-amount" data-amount="50000">₹50,000</div>
+                <div class="quick-amount" data-amount="100000">₹1,00,000</div>
+            </div>
+            <button id="requestWithdrawBtn" class="withdraw-btn"><i class="fas fa-paper-plane"></i> REQUEST WITHDRAWAL</button>
+            <div class="info-row" style="margin-top:15px; font-size:11px; color:#8E9AAF; text-align:center;">Withdrawals processed only on 15th & 30th of each month</div>
+        </div>
+
+        <!-- Profile Panel with Admin Section & Referral -->
+        <div id="profilePanel" style="display:none;" class="panel-premium">
+            <button id="backFromProfile" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
+            <div class="profile-header"><div class="profile-avatar" id="profileAvatar"><span id="avatarInitial">P</span></div><div class="profile-name" id="profileNameDisplay">Player</div><button id="editNameBtn" style="background:rgba(255,193,7,0.2); border:1px solid rgba(255,193,7,0.3); padding:5px 12px; border-radius:30px; color:#FFD700; cursor:pointer; margin-top:8px;">Edit Name</button></div>
+            <div class="profile-stats"><div class="stat-card"><div class="stat-value" id="profileBalance">₹0</div><div class="stat-label">Balance</div></div><div class="stat-card"><div class="stat-value" id="profileTotalBets">0</div><div class="stat-label">Total Bets</div></div><div class="stat-card"><div class="stat-value" id="profileWinRate">0%</div><div class="stat-label">Win Rate</div></div><div class="stat-card"><div class="stat-value" id="profileLevel">1</div><div class="stat-label">Level</div></div></div>
+            <div class="level-container"><div class="level-info" style="display:flex; justify-content:space-between;"><span>Level Progress</span><span id="levelBadge" style="background:linear-gradient(135deg,#FFD700,#FFA500); padding:2px 10px; border-radius:20px;">Level 1</span></div><div class="level-progress"><div class="progress-bar" id="profileLevelProgress" style="width:0%"></div></div><div id="nextLevelText" style="font-size:10px; color:#8E9AAF; margin-top:8px;">0/100 bets to next level</div></div>
+            
+            <!-- Referral Section -->
+            <div class="level-container" style="margin-top:15px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:#FFD700;"><i class="fas fa-user-friends"></i> Refer & Earn</span>
+                    <span style="font-size:12px; background:rgba(255,193,7,0.2); padding:2px 8px; border-radius:20px;">Get ₹100 per referral</span>
+                </div>
+                <div class="referral-code-box" id="referralCodeDisplay">LB-XXXXXX</div>
+                <div style="font-size:12px; margin-top:10px; text-align:center;">Share this code with your friends. When they deposit ₹100 or more, submit their UTR below to claim ₹100 bonus!</div>
+                <input type="text" id="refFriendUTR" class="referral-input" placeholder="Friend's UTR Number">
+                <input type="text" id="refFriendEmail" class="referral-input" placeholder="Friend's Email / Name">
+                <button id="submitReferralBonusBtn" class="referral-submit">Submit Referral Bonus Request</button>
+                <div id="referralStatus" style="font-size:11px; margin-top:8px; color:#8E9AAF;"></div>
+            </div>
+
+            <div class="action-buttons"><button id="logoutBtn" class="logout-btn">Logout</button></div>
+            <!-- Admin Panel Section - Only visible to admin email -->
+            <div id="adminPanelSection" class="admin-section">
+                <h4 style="color:#FFD700; margin-bottom:15px;"><i class="fas fa-shield-alt"></i> Admin Panel</h4>
+                <div id="depositRequestsList"></div>
+                <div id="withdrawalRequestsList"></div>
+                <div id="referralRequestsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="nav-premium">
+        <div class="nav-item-premium active" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item-premium" data-page="game"><i class="fas fa-dice-d6"></i><span>Game</span></div>
+        <div class="nav-item-premium" data-page="deposit"><i class="fas fa-plus-circle"></i><span>Deposit</span></div>
+        <div class="nav-item-premium" data-page="withdraw"><i class="fas fa-money-bill-wave"></i><span>Withdraw</span></div>
+        <div class="nav-item-premium" data-page="profile"><i class="fas fa-user"></i><span>Profile</span></div>
+    </div>
+</div>
+
+<!-- Referral Modal Popup -->
+<div id="referralModal" class="modal-premium">
+    <div class="modal-content-premium">
+        <div class="modal-close" id="closeReferralModal">&times;</div>
+        <div class="modal-title">🎁 Refer & Earn ₹100</div>
+        <ul class="referral-steps">
+            <li><div class="step-num">1</div><div>Share your <strong>unique referral code</strong> (shown in Profile) with your friend.</div></li>
+            <li><div class="step-num">2</div><div>Your friend registers and makes a deposit of at least ₹100 via UPI.</div></li>
+            <li><div class="step-num">3</div><div>Ask your friend to share the UTR number with you.</div></li>
+            <li><div class="step-num">4</div><div>Go to Profile → Refer & Earn section, enter friend's UTR and email, submit.</div></li>
+            <li><div class="step-num">5</div><div>Admin verifies and adds ₹100 bonus to your wallet within 24 hours.</div></li>
+        </ul>
+        <div style="background: rgba(255,193,7,0.1); border-radius: 20px; padding: 12px; margin-top: 10px;">
+            <i class="fas fa-gift" style="color:#FFD700;"></i> <strong>Refer as many friends as you want! Each valid referral gives you ₹100.</strong>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyCz0JxrgrZhOdlPBoILI3rayChWebpZZt8",
+        authDomain: "luckybaadshah-f5eb2.firebaseapp.com",
+        databaseURL: "https://luckybaadshah-f5eb2-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "luckybaadshah-f5eb2",
+        storageBucket: "luckybaadshah-f5eb2.firebasestorage.app",
+        messagingSenderId: "81464054643",
+        appId: "1:81464054643:web:62878cb50d373c6e93ab06"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+    
+    // Admin Email
+    const ADMIN_EMAIL = "khantehseen083@gmail.com";
+    
+    // Game State
+    let currentUser = null;
+    let userBalance = 0;
+    let totalBets = 0;
+    let winCount = 0;
+    let currentBetType = "single";
+    let selectedSingleNumber = null;
+    let selectedSingleType = "open";
+    let selectedJodiNumber = null;
+    let selectedPattiNumber = null;
+    let gameInterval = null;
+    let timeLeft = 60;
+    let pendingBet = null;
+    let gameHistory = [];
+    let selectedAmount = null;
+    
+    // UPI Accounts
+    const upiAccounts = [{ id:1, name:"Raj Thakur", upi:"thakurraj8156@okhdfcbank", limit:10000, received:0 }];
+    let currentUPIIndex = 0;
+    
+    // Referral code generator
+    function getReferralCode(uid) {
+        return "LB" + uid.slice(0,6).toUpperCase();
+    }
+    
+    // Load User Data from Firebase
+    async function loadUserData() {
+        if(!currentUser) return;
+        const snapshot = await db.ref(`users/${currentUser.uid}`).once('value');
+        const data = snapshot.val() || {};
+        userBalance = data.balance || 0;
+        totalBets = data.totalBets || 0;
+        winCount = data.winCount || 0;
+        if(data.name) currentUser.displayName = data.name;
+        updateAllDisplay();
+        // Show referral modal only once after login
+        const modalShown = localStorage.getItem('referralModalShown');
+        if(!modalShown) {
+            setTimeout(() => {
+                document.getElementById('referralModal').classList.add('active');
+                localStorage.setItem('referralModalShown', 'true');
+            }, 1000);
+        }
+        // Update referral code in profile
+        const refCode = getReferralCode(currentUser.uid);
+        document.getElementById('referralCodeDisplay').innerText = refCode;
+    }
+    
+    async function saveUserData() {
+        if(!currentUser) return;
+        await db.ref(`users/${currentUser.uid}`).update({
+            balance: userBalance,
+            totalBets: totalBets,
+            winCount: winCount,
+            name: currentUser.displayName,
+            email: currentUser.email,
+            lastUpdated: Date.now()
+        });
+    }
+    
+    function updateAllDisplay() {
+        document.getElementById('walletBalance').textContent = Math.floor(userBalance).toLocaleString();
+        document.getElementById('withdrawBalance').textContent = `₹${Math.floor(userBalance).toLocaleString()}`;
+        document.getElementById('profileBalance').textContent = `₹${Math.floor(userBalance).toLocaleString()}`;
+        document.getElementById('userName').textContent = currentUser?.displayName?.split(' ')[0] || 'Player';
+        document.getElementById('profileNameDisplay').textContent = currentUser?.displayName || 'Player';
+        document.getElementById('avatarInitial').textContent = (currentUser?.displayName?.charAt(0) || 'P').toUpperCase();
+        document.getElementById('profileTotalBets').textContent = totalBets;
+        const winRate = totalBets > 0 ? Math.floor((winCount / totalBets) * 100) : 0;
+        document.getElementById('profileWinRate').textContent = `${winRate}%`;
+        const level = Math.floor(totalBets / 100) + 1;
+        document.getElementById('profileLevel').textContent = level;
+        document.getElementById('levelBadge').innerHTML = `Level ${level}`;
+        const progress = (totalBets % 100);
+        document.getElementById('profileLevelProgress').style.width = `${progress}%`;
+        document.getElementById('nextLevelText').innerHTML = `${progress}/100 bets to next level`;
+    }
+    
+    // Admin Functions - Load and manage deposit/withdrawal/referral requests
+    async function loadAdminRequests() {
+        if(!currentUser || currentUser.email !== ADMIN_EMAIL) return;
+        
+        // Deposit Requests
+        const depositSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
+        const depositDiv = document.getElementById('depositRequestsList');
+        depositDiv.innerHTML = '<h5 style="margin:10px 0;">📋 Deposit Requests</h5>';
+        
+        depositSnap.forEach(child => {
+            const req = child.val();
+            depositDiv.innerHTML += `
+                <div class="request-item">
+                    <strong>👤 ${req.userName}</strong><br>
+                    💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus || 0}<br>
+                    🔢 UTR: ${req.utr}<br>
+                    ⏰ ${new Date(req.timestamp).toLocaleString()}
+                    <div style="margin-top:10px;">
+                        <button class="accept-btn" onclick="approveDeposit('${child.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}')">✅ Accept</button>
+                        <button class="reject-btn" onclick="rejectDeposit('${child.key}')">❌ Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        if(depositSnap.size === 0) depositDiv.innerHTML += '<p style="color:#8E9AAF;">No pending deposits</p>';
+        
+        // Withdrawal Requests
+        const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
+        const withdrawDiv = document.getElementById('withdrawalRequestsList');
+        withdrawDiv.innerHTML = '<h5 style="margin:10px 0;">💸 Withdrawal Requests</h5>';
+        
+        withdrawSnap.forEach(child => {
+            const req = child.val();
+            withdrawDiv.innerHTML += `
+                <div class="request-item">
+                    <strong>👤 ${req.userName}</strong><br>
+                    💰 Amount: ₹${req.amount}<br>
+                    🏦 Account: ${req.accountHolder} - ${req.accountNumber}<br>
+                    ⏰ ${new Date(req.timestamp).toLocaleString()}
+                    <div style="margin-top:10px;">
+                        <button class="accept-btn" onclick="approveWithdraw('${child.key}', ${req.amount}, '${req.userId}')">✅ Accept</button>
+                        <button class="reject-btn" onclick="rejectWithdraw('${child.key}')">❌ Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        if(withdrawSnap.size === 0) withdrawDiv.innerHTML += '<p style="color:#8E9AAF;">No pending withdrawals</p>';
+        
+        // Referral Bonus Requests
+        const referralSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value');
+        const referralDiv = document.getElementById('referralRequestsList');
+        referralDiv.innerHTML = '<h5 style="margin:10px 0;">🎁 Referral Bonus Requests</h5>';
+        
+        referralSnap.forEach(child => {
+            const req = child.val();
+            referralDiv.innerHTML += `
+                <div class="request-item">
+                    <strong>👤 ${req.referrerName}</strong><br>
+                    📧 Referrer: ${req.referrerEmail}<br>
+                    🧑 Friend: ${req.friendEmail}<br>
+                    🔢 UTR: ${req.friendUTR}<br>
+                    💰 Bonus: ₹100<br>
+                    ⏰ ${new Date(req.timestamp).toLocaleString()}
+                    <div style="margin-top:10px;">
+                        <button class="accept-btn" onclick="approveReferralBonus('${child.key}', '${req.referrerId}')">✅ Accept</button>
+                        <button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">❌ Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        if(referralSnap.size === 0) referralDiv.innerHTML += '<p style="color:#8E9AAF;">No pending referral requests</p>';
+    }
+    
+    window.approveDeposit = async (key, amount, bonus, userId) => {
+        await db.ref(`admin/depositRequests/${key}`).update({ status: 'approved' });
+        const userRef = db.ref(`users/${userId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        await userRef.update({ balance: currentBalance + amount + bonus });
+        if(currentUser && currentUser.uid === userId) {
+            userBalance = currentBalance + amount + bonus;
+            updateAllDisplay();
+        }
+        alert(`✅ Deposit approved! ₹${amount + bonus} added.`);
+        loadAdminRequests();
+    };
+    
+    window.rejectDeposit = async (key) => {
+        await db.ref(`admin/depositRequests/${key}`).update({ status: 'rejected' });
+        alert('❌ Deposit rejected');
+        loadAdminRequests();
+    };
+    
+    window.approveWithdraw = async (key, amount, userId) => {
+        const userRef = db.ref(`users/${userId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        if(currentBalance >= amount) {
+            await userRef.update({ balance: currentBalance - amount });
+            await db.ref(`admin/withdrawals/${key}`).update({ status: 'approved' });
+            if(currentUser && currentUser.uid === userId) {
+                userBalance = currentBalance - amount;
+                updateAllDisplay();
+            }
+            alert(`✅ Withdrawal approved! ₹${amount} deducted.`);
+        } else {
+            alert('❌ Insufficient balance!');
+        }
+        loadAdminRequests();
+    };
+    
+    window.rejectWithdraw = async (key) => {
+        await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' });
+        alert('❌ Withdrawal rejected');
+        loadAdminRequests();
+    };
+    
+    window.approveReferralBonus = async (key, referrerId) => {
+        const userRef = db.ref(`users/${referrerId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        await userRef.update({ balance: currentBalance + 100 });
+        await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'approved' });
+        if(currentUser && currentUser.uid === referrerId) {
+            userBalance = currentBalance + 100;
+            updateAllDisplay();
+        }
+        alert(`✅ Referral bonus approved! ₹100 added to referrer.`);
+        loadAdminRequests();
+    };
+    
+    window.rejectReferralBonus = async (key) => {
+        await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'rejected' });
+        alert('❌ Referral request rejected');
+        loadAdminRequests();
+    };
+    
+    // Referral Bonus Request by User
+    async function submitReferralBonus() {
+        if(!currentUser) return alert('Please login!');
+        const friendUTR = document.getElementById('refFriendUTR').value.trim();
+        const friendEmail = document.getElementById('refFriendEmail').value.trim();
+        if(!friendUTR || !friendEmail) return alert('Please enter both UTR and friend email/name.');
+        
+        // Check if already submitted for same UTR to prevent duplicate
+        const existing = await db.ref('admin/referralBonusRequests').orderByChild('friendUTR').equalTo(friendUTR).once('value');
+        if(existing.exists()) {
+            return alert('This UTR has already been submitted. Please use a different one.');
+        }
+        
+        await db.ref('admin/referralBonusRequests').push({
+            referrerId: currentUser.uid,
+            referrerName: currentUser.displayName || currentUser.email,
+            referrerEmail: currentUser.email,
+            friendEmail: friendEmail,
+            friendUTR: friendUTR,
+            status: 'pending',
+            timestamp: Date.now()
+        });
+        
+        document.getElementById('referralStatus').innerHTML = '<span style="color:#10b981;">✅ Request submitted! Admin will verify and credit ₹100 soon.</span>';
+        document.getElementById('refFriendUTR').value = '';
+        document.getElementById('refFriendEmail').value = '';
+        setTimeout(() => {
+            document.getElementById('referralStatus').innerHTML = '';
+        }, 5000);
+    }
+    
+    // Game Functions (same as original)
+    function generateMatkaResult() {
+        const openNums = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)];
+        const openSum = openNums[0] + openNums[1] + openNums[2];
+        const openDigit = openSum % 10;
+        const closeNums = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)];
+        const closeSum = closeNums[0] + closeNums[1] + closeNums[2];
+        const closeDigit = closeSum % 10;
+        return { open: openDigit, close: closeDigit, jodi: parseInt(`${openDigit}${closeDigit}`) };
+    }
+    
+    function getPayout(betType, betValue, openDigit, closeDigit, jodi) {
+        if(betType === "single") {
+            if(betValue.type === "open" && betValue.number === openDigit) return 7;
+            if(betValue.type === "close" && betValue.number === closeDigit) return 7;
+            return 0;
+        }
+        if(betType === "jodi") {
+            if(parseInt(betValue) === jodi) return 90;
+            return 0;
+        }
+        if(betType === "patti") {
+            if(Math.random() < 0.01) return 600;
+            return 0;
+        }
+        return 0;
+    }
+    
+    function startMatkaTimer() {
+        if(gameInterval) clearInterval(gameInterval);
+        timeLeft = 60;
+        const gameTimerEl = document.getElementById('gameTimer');
+        const homeTimerEl = document.getElementById('homeTimer');
+        if(gameTimerEl) gameTimerEl.textContent = '01:00';
+        if(homeTimerEl) homeTimerEl.textContent = '01:00';
+        
+        gameInterval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            const timeStr = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            if(gameTimerEl) gameTimerEl.textContent = timeStr;
+            if(homeTimerEl) homeTimerEl.textContent = timeStr;
+            
+            if(timeLeft <= 0) {
+                clearInterval(gameInterval);
+                declareMatkaResult();
+                setTimeout(startMatkaTimer, 3000);
+            }
+        }, 1000);
+    }
+    
+    async function declareMatkaResult() {
+        const result = generateMatkaResult();
+        document.getElementById('resultOpen').textContent = result.open;
+        document.getElementById('resultClose').textContent = result.close;
+        document.getElementById('resultJodi').textContent = result.jodi.toString().padStart(2,'0');
+        document.getElementById('matkaResultDisplay').style.display = 'block';
+        document.getElementById('lastOpen').textContent = result.open;
+        document.getElementById('lastClose').textContent = result.close;
+        document.getElementById('lastJodi').textContent = result.jodi.toString().padStart(2,'0');
+        
+        if(pendingBet) {
+            let multiplier = getPayout(pendingBet.type, pendingBet.value, result.open, result.close, result.jodi);
+            
+            if(multiplier > 0) {
+                const winAmount = pendingBet.amount * multiplier;
+                userBalance += winAmount;
+                winCount++;
+                document.getElementById('matkaWinMessage').innerHTML = `<span style="color:#10b981;">🎉 YOU WON! ₹${winAmount.toLocaleString()} (${multiplier}x) 🎉</span>`;
+                addToGameHistory(currentUser?.displayName || 'Player', pendingBet.amount, winAmount, true);
+                addToTicker(currentUser?.displayName || 'Player', winAmount);
+            } else {
+                userBalance -= pendingBet.amount;
+                document.getElementById('matkaWinMessage').innerHTML = `<span style="color:#f97316;">💔 You lost ₹${pendingBet.amount.toLocaleString()}</span>`;
+                addToGameHistory(currentUser?.displayName || 'Player', pendingBet.amount, 0, false);
+            }
+            
+            totalBets++;
+            await saveUserData();
+            updateAllDisplay();
+            pendingBet = null;
+        }
+        
+        setTimeout(() => {
+            document.getElementById('matkaResultDisplay').style.display = 'none';
+            document.getElementById('matkaWinMessage').innerHTML = '';
+        }, 4000);
+    }
+    
+    function placeMatkaBet() {
+        if(!currentUser) return alert('Please login first!');
+        const amount = parseFloat(document.getElementById('matkaBetAmount').value);
+        if(isNaN(amount) || amount < 10) return alert('Minimum bet ₹10');
+        if(amount > userBalance) return alert('Insufficient balance! Current balance: ₹' + userBalance);
+        
+        let betValue = null;
+        if(currentBetType === "single") {
+            if(selectedSingleNumber === null) return alert('Select a number!');
+            if(!selectedSingleType) return alert('Select Open or Close!');
+            betValue = { type: selectedSingleType, number: selectedSingleNumber };
+        } else if(currentBetType === "jodi") {
+            if(selectedJodiNumber === null) return alert('Select a Jodi number!');
+            betValue = selectedJodiNumber;
+        } else if(currentBetType === "patti") {
+            if(!selectedPattiNumber) return alert('Select a Patti number!');
+            betValue = selectedPattiNumber;
+        }
+        
+        pendingBet = { type: currentBetType, value: betValue, amount: amount };
+        document.getElementById('matkaBetStatus').innerHTML = `<span style="color:#FFD700;">✅ Bet placed! Amount ₹${amount} will be deducted on result</span>`;
+        setTimeout(() => document.getElementById('matkaBetStatus').innerHTML = '', 2000);
+    }
+    
+    function addToGameHistory(name, betAmount, winAmount, isWin) {
+        gameHistory.unshift({ name, betAmount, winAmount, isWin, time: new Date().toLocaleTimeString() });
+        if(gameHistory.length > 15) gameHistory.pop();
+        const container = document.getElementById('matkaHistoryList');
+        if(container) {
+            container.innerHTML = gameHistory.map(h => `<div class="history-item"><span>${h.name}</span><span>Bet: ₹${h.betAmount}</span><span class="${h.isWin?'win':'loss'}">${h.isWin?'+'+h.winAmount:'-'+h.betAmount} ₹</span><span style="font-size:9px;">${h.time}</span></div>`).join('');
+        }
+    }
+    
+    function addToTicker(name, amount) {
+        const ticker = document.getElementById('tickerContent');
+        const span = document.createElement('span');
+        span.innerHTML = `<i class="fas fa-trophy"></i> ${name} won ₹${amount.toLocaleString()}! 🔥`;
+        ticker.appendChild(span);
+        if(ticker.children.length > 20) ticker.removeChild(ticker.children[0]);
+    }
+    
+    // UI Helpers
+    function generateSingleNumbers() {
+        const container = document.getElementById('singleNumbers');
+        if(!container) return;
+        container.innerHTML = '';
+        for(let i=0;i<=9;i++) {
+            const btn = document.createElement('div');
+            btn.className = 'number-option';
+            if(selectedSingleNumber === i) btn.classList.add('selected');
+            btn.textContent = i;
+            btn.onclick = () => {
+                document.querySelectorAll('#singleNumbers .number-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedSingleNumber = i;
+                updatePayoutDisplay();
+            };
+            container.appendChild(btn);
+        }
+    }
+    
+    function generateOpenCloseSelect() {
+        const container = document.getElementById('openCloseSelect');
+        if(!container) return;
+        container.innerHTML = '';
+        ['open','close'].forEach(oc => {
+            const btn = document.createElement('div');
+            btn.className = 'number-option';
+            if(selectedSingleType === oc) btn.classList.add('selected');
+            btn.textContent = oc.toUpperCase();
+            btn.onclick = () => {
+                document.querySelectorAll('#openCloseSelect .number-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedSingleType = oc;
+                updatePayoutDisplay();
+            };
+            container.appendChild(btn);
+        });
+    }
+    
+    function generateJodiNumbers() {
+        const container = document.getElementById('jodiNumbers');
+        if(!container) return;
+        container.innerHTML = '';
+        for(let i=0;i<=99;i++) {
+            const num = i.toString().padStart(2,'0');
+            const btn = document.createElement('div');
+            btn.className = 'number-option';
+            if(selectedJodiNumber === i) btn.classList.add('selected');
+            btn.textContent = num;
+            btn.onclick = () => {
+                document.querySelectorAll('#jodiNumbers .number-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedJodiNumber = i;
+                updatePayoutDisplay();
+            };
+            container.appendChild(btn);
+        }
+    }
+    
+    function generatePattiNumbers() {
+        const container = document.getElementById('pattiNumbers');
+        if(!container) return;
+        container.innerHTML = '';
+        const common = [111, 222, 333, 444, 555, 666, 777, 888, 999, 123, 456, 789, 000];
+        common.forEach(num => {
+            const btn = document.createElement('div');
+            btn.className = 'number-option';
+            if(selectedPattiNumber === num) btn.classList.add('selected');
+            btn.textContent = num.toString().padStart(3,'0');
+            btn.onclick = () => {
+                document.querySelectorAll('#pattiNumbers .number-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedPattiNumber = num;
+                updatePayoutDisplay();
+            };
+            container.appendChild(btn);
+        });
+    }
+    
+    function updatePayoutDisplay() {
+        const amount = parseFloat(document.getElementById('matkaBetAmount')?.value) || 100;
+        let multiplier = currentBetType === "single" ? 7 : currentBetType === "jodi" ? 90 : 600;
+        document.getElementById('payoutAmount').textContent = `₹${(amount * multiplier).toLocaleString()}`;
+    }
+    
+    // Live Players
+    const indianNames = ["Rajesh Kumar", "Priya Singh", "Amit Sharma", "Neha Verma", "Vikram Rathore", "Pooja Patel", "Rahul Mehta", "Anjali Nair"];
+    let fakePlayers = [];
+    
+    function initFakePlayers() {
+        for(let i=0;i<10;i++) fakePlayers.push({ name: indianNames[Math.floor(Math.random()*indianNames.length)], bet: Math.floor(Math.random()*8000)+200, result: Math.random()>0.6?'win':'loss' });
+        updateGameLivePlayers();
+        setInterval(() => {
+            fakePlayers.forEach(p => {
+                if(Math.random()>0.7) p.bet = Math.floor(Math.random()*8000)+200;
+                if(Math.random()>0.8) p.result = Math.random()>0.45?'win':'loss';
+            });
+            updateGameLivePlayers();
+        }, 5000);
+    }
+    
+    function updateGameLivePlayers() {
+        const gameContainer = document.getElementById('gameLivePlayerList');
+        if(gameContainer) {
+            gameContainer.innerHTML = fakePlayers.map(p => `<div class="player-row"><span class="player-name">${p.name}</span><span class="player-bet">₹${p.bet.toLocaleString()}</span><span class="player-result ${p.result}">${p.result==='win'?'🎉 +'+Math.floor(p.bet*1.5).toLocaleString():'💔 -'+p.bet.toLocaleString()}</span></div>`).join('');
+        }
+    }
+    
+    // Deposit Functions
+    function generateQR() {
+        const acc = upiAccounts[currentUPIIndex];
+        let upiString = `upi://pay?pa=${acc.upi}&pn=LuckyBaadshah`;
+        if(selectedAmount) upiString += `&am=${selectedAmount}`;
+        upiString += `&cu=INR`;
+        const qrDiv = document.getElementById('qrcode');
+        if(qrDiv) {
+            qrDiv.innerHTML = '';
+            try { new QRCode(qrDiv, { text: upiString, width: 180, height: 180 }); } catch(e) {}
+        }
+    }
+    
+    function updateAmountDisplay() {
+        const display = document.getElementById('amountDisplay');
+        if(display) display.innerHTML = selectedAmount ? `₹${selectedAmount.toLocaleString()}` : '₹0';
+    }
+    
+    async function addDepositRequest(amount, utr) {
+        if(!currentUser) return;
+        await db.ref('admin/depositRequests').push({
+            userId: currentUser.uid,
+            userName: currentUser.displayName || currentUser.email,
+            email: currentUser.email,
+            amount: amount,
+            bonus: amount === 1000 ? 200 : amount === 5000 ? 2000 : 0,
+            utr: utr,
+            status: 'pending',
+            timestamp: Date.now()
+        });
+        alert(`✅ Deposit request submitted!\nAmount: ₹${amount}\nUTR: ${utr}\n\nAdmin will verify and add balance.`);
+    }
+    
+    async function requestWithdraw() {
+        if(!currentUser) return;
+        const date = new Date().getDate();
+        if(date !== 15 && date !== 30) return alert('❌ Withdrawals only on 15th & 30th of every month!');
+        const amount = parseFloat(document.getElementById('withdrawAmount')?.value);
+        const accHolder = document.getElementById('accHolderName')?.value;
+        const accNumber = document.getElementById('accNumber')?.value;
+        const ifsc = document.getElementById('ifscCode')?.value;
+        if(!accHolder || !accNumber || !ifsc) return alert('Please fill all bank details!');
+        if(amount < 5000) return alert('Minimum withdrawal amount is ₹5,000!');
+        if(amount > 100000) return alert('Maximum withdrawal amount is ₹1,00,000!');
+        if(amount > userBalance) return alert('Insufficient balance!');
+        
+        await db.ref('admin/withdrawals').push({
+            userId: currentUser.uid,
+            userName: currentUser.displayName || currentUser.email,
+            email: currentUser.email,
+            amount: amount,
+            accountHolder: accHolder,
+            accountNumber: accNumber,
+            ifsc: ifsc,
+            bankName: document.getElementById('bankName')?.value || '',
+            status: 'pending',
+            timestamp: Date.now()
+        });
+        alert(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted!\n\nAdmin will process within 24-48 hours.`);
+    }
+    
+    // Navigation
+    function showHome() {
+        document.getElementById('homePage').style.display = 'block';
+        document.getElementById('gamePage').style.display = 'none';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector('.nav-item-premium[data-page="home"]').classList.add('active');
+    }
+    
+    function showGame() {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('gamePage').style.display = 'block';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector('.nav-item-premium[data-page="game"]').classList.add('active');
+        generateSingleNumbers();
+        generateOpenCloseSelect();
+        generateJodiNumbers();
+        generatePattiNumbers();
+        updatePayoutDisplay();
+    }
+    
+    function showPanel(panelId) {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('gamePage').style.display = 'none';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.getElementById(panelId).style.display = 'block';
+        const page = panelId.replace('Panel', '').toLowerCase();
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector(`.nav-item-premium[data-page="${page}"]`).classList.add('active');
+        if(panelId === 'profilePanel' && currentUser && currentUser.email === ADMIN_EMAIL) {
+            document.getElementById('adminPanelSection').style.display = 'block';
+            loadAdminRequests();
+        } else if(document.getElementById('adminPanelSection')) {
+            document.getElementById('adminPanelSection').style.display = 'none';
+        }
+    }
+    
+    // Auth & Initialization
+    auth.onAuthStateChanged(async (user) => {
+        if(user) {
+            currentUser = user;
+            await loadUserData();
+            if(!user.displayName) {
+                await user.updateProfile({ displayName: user.email.split('@')[0] });
+                currentUser = auth.currentUser;
+            }
+            updateAllDisplay();
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            startMatkaTimer();
+            initFakePlayers();
+            showHome();
+        } else {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+    });
+    
+    // Event Listeners
+    document.getElementById('googleLoginBtn').onclick = () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    document.getElementById('logoutBtn').onclick = () => auth.signOut();
+    document.getElementById('editNameBtn').onclick = async () => {
+        const newName = prompt('Enter new name:', currentUser?.displayName || 'Player');
+        if(newName && newName.trim()) {
+            await currentUser.updateProfile({ displayName: newName.trim() });
+            currentUser = auth.currentUser;
+            await saveUserData();
+            updateAllDisplay();
+        }
+    };
+    document.getElementById('submitReferralBonusBtn').onclick = submitReferralBonus;
+    document.getElementById('closeReferralModal').onclick = () => {
+        document.getElementById('referralModal').classList.remove('active');
+    };
+    document.getElementById('referralModal').addEventListener('click', (e) => {
+        if(e.target === document.getElementById('referralModal')) {
+            document.getElementById('referralModal').classList.remove('active');
+        }
+    });
+    
+    // Bet type tabs
+    document.querySelectorAll('.bet-tab').forEach(tab => {
+        tab.onclick = () => {
+            document.querySelectorAll('.bet-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentBetType = tab.getAttribute('data-type');
+            document.getElementById('singleBetArea').style.display = currentBetType === 'single' ? 'block' : 'none';
+            document.getElementById('jodiBetArea').style.display = currentBetType === 'jodi' ? 'block' : 'none';
+            document.getElementById('pattiBetArea').style.display = currentBetType === 'patti' ? 'block' : 'none';
+            updatePayoutDisplay();
+        };
+    });
+    
+    document.getElementById('multiplyMatkaBtn').onclick = () => {
+        const input = document.getElementById('matkaBetAmount');
+        let val = parseFloat(input.value);
+        if(isNaN(val)) val = 10;
+        input.value = Math.min(val * 2, userBalance);
+        updatePayoutDisplay();
+    };
+    document.getElementById('matkaBetAmount').oninput = () => updatePayoutDisplay();
+    document.getElementById('placeMatkaBetBtn').onclick = placeMatkaBet;
+    
+    // Navigation
+    document.getElementById('backHomeBtn')?.addEventListener('click', showHome);
+    document.getElementById('backFromDeposit')?.addEventListener('click', () => showHome());
+    document.getElementById('backFromWithdraw')?.addEventListener('click', () => showHome());
+    document.getElementById('backFromProfile')?.addEventListener('click', () => showHome());
+    
+    // Deposit
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedAmount = parseInt(btn.getAttribute('data-amount'));
+            updateAmountDisplay();
+            generateQR();
+        };
+    });
+    document.getElementById('payNowBtn')?.addEventListener('click', () => {
+        if(!selectedAmount) return alert('Select amount first!');
+        window.open(`upi://pay?pa=${upiAccounts[0].upi}&pn=LuckyBaadshah&am=${selectedAmount}&cu=INR`, '_blank');
+        const utrSection = document.getElementById('utrSection');
+        if(utrSection) utrSection.style.display = 'block';
+        const utrAmount = document.getElementById('utrAmount');
+        if(utrAmount) utrAmount.value = selectedAmount;
+    });
+    document.getElementById('submitUtrBtn')?.addEventListener('click', async () => {
+        const utr = document.getElementById('utrCode')?.value;
+        const amount = document.getElementById('utrAmount')?.value;
+        if(!utr) return alert('Enter UTR number');
+        if(!amount) return alert('Enter amount');
+        await addDepositRequest(parseInt(amount), utr);
+        const utrSection = document.getElementById('utrSection');
+        if(utrSection) utrSection.style.display = 'none';
+        if(document.getElementById('utrCode')) document.getElementById('utrCode').value = '';
+        if(document.getElementById('utrAmount')) document.getElementById('utrAmount').value = '';
+    });
+    
+    // Withdraw
+    document.querySelectorAll('.quick-amount').forEach(btn => {
+        btn.onclick = () => {
+            const withdrawAmount = document.getElementById('withdrawAmount');
+            if(withdrawAmount) withdrawAmount.value = btn.getAttribute('data-amount');
+        };
+    });
+    document.getElementById('requestWithdrawBtn')?.addEventListener('click', requestWithdraw);
+    
+    // Bottom Navigation
+    document.querySelectorAll('.nav-item-premium').forEach(nav => {
+        nav.onclick = () => {
+            const page = nav.getAttribute('data-page');
+            if(page === 'home') showHome();
+            else if(page === 'game') showGame();
+            else if(page === 'deposit') showPanel('depositPanel');
+            else if(page === 'withdraw') showPanel('withdrawPanel');
+            else if(page === 'profile') showPanel('profilePanel');
+        };
+    });
+    document.getElementById('avatarBtn')?.addEventListener('click', () => showPanel('profilePanel'));
+    
+    // Terms & Conditions Modal (simple alert)
+    document.getElementById('termsLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed only on 15th & 30th.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`);
+    });
+    document.getElementById('privacyLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert(`Privacy Policy\n\n1. We collect email and name for account management.\n2. All transactions are logged for security.\n3. Your data is never shared with third parties.\n4. UPI transactions are processed securely.\n5. You can request data deletion by contacting admin.\n\nWe prioritize your privacy and security.`);
+    });
+    
+    generateQR();
+</script>
+</body>
+</html>
