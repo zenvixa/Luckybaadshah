@@ -85,12 +85,6 @@
             margin-top: 8px;
             cursor: pointer;
         }
-        .active-upi-select {
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(255,193,7,0.1);
-            border-radius: 30px;
-        }
         
         /* Header styles (for user app) */
         .bc-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(5, 7, 12, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,193,7,0.25); padding: 12px 20px; }
@@ -614,17 +608,12 @@
         </div>
         <div id="tabUpi" class="admin-tab-content">
             <div style="margin-bottom:15px;">
-                <input type="text" id="newUpiName" placeholder="UPI Name (e.g., Raj Thakur)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                <input type="text" id="newUpiId" placeholder="UPI ID (e.g., raj@okhdfcbank)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="text" id="newUpiName" placeholder="UPI Name (e.g., Lucky Baadshah)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="text" id="newUpiId" placeholder="UPI ID (e.g., 9725124689-2@axl)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
                 <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
                 <button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button>
             </div>
             <div id="upiAccountsList"></div>
-            <div class="active-upi-select">
-                <label style="color:#FFD700;">Active UPI Account (shown to users):</label>
-                <select id="activeUpiSelect" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:8px; border-radius:30px; width:100%; margin-top:5px; color:white;"></select>
-                <button id="setActiveUpiBtn" style="margin-top:10px; background:#FFD700; border:none; padding:6px 12px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Set Active</button>
-            </div>
         </div>
         <div id="tabLogo" class="admin-tab-content">
             <div style="margin-bottom:15px;">
@@ -670,11 +659,10 @@
     const auth = firebase.auth();
     const db = firebase.database();
     
-    // Admin Email (for reference, but we use password login)
-    const ADMIN_EMAIL = "khantehseen083@gmail.com";
-    const ADMIN_PASSWORD_HASH = btoa("admin@123"); // simple base64, change to your own password
+    // Admin password
+    const ADMIN_PASSWORD = "admin@123";
     
-    // Game State (user)
+    // Game State
     let currentUser = null;
     let userBalance = 0;
     let totalBets = 0;
@@ -690,8 +678,38 @@
     let gameHistory = [];
     let selectedAmount = null;
     let upiAccounts = [];
-    let activeUpiIndex = 0;
+    let selectedUpiIndexForPayment = null; // store the account index when user clicks pay
     let tempPaidAmount = null;
+    
+    // Helper: get today's date string YYYY-MM-DD
+    function getTodayDate() {
+        const d = new Date();
+        return d.toISOString().slice(0,10);
+    }
+    
+    // Helper: check if an account has reached its daily limit (based on stored received and date)
+    function isAccountOverLimit(account) {
+        const today = getTodayDate();
+        if (account.lastResetDate !== today) {
+            // reset for today
+            account.received = 0;
+            account.lastResetDate = today;
+        }
+        return account.limit && account.received >= account.limit;
+    }
+    
+    // Get the first available UPI account (not over limit)
+    function getAvailableUpiAccount() {
+        // Reset dates if needed
+        for (let acc of upiAccounts) {
+            if (acc.lastResetDate !== getTodayDate()) {
+                acc.received = 0;
+                acc.lastResetDate = getTodayDate();
+            }
+        }
+        const availableIndex = upiAccounts.findIndex(acc => !isAccountOverLimit(acc));
+        return availableIndex;
+    }
     
     // Referral code generator
     function getReferralCode(uid) {
@@ -773,7 +791,7 @@
         historyDiv.innerHTML = html;
     }
     
-    // Admin Panel Functions (same as before)
+    // Admin Panel Functions
     async function loadAdminRequests() {
         if(!isAdminLoggedIn()) return;
         
@@ -799,7 +817,7 @@
                         🔢 UTR: ${req.utr}<br>
                         ⏰ ${new Date(req.timestamp).toLocaleString()}
                         <div style="margin-top:10px;">
-                            <button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}')">✅ Accept</button>
+                            <button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}', ${req.upiAccountId})">✅ Accept</button>
                             <button class="reject-btn" onclick="rejectDeposit('${req.key}')">❌ Reject</button>
                         </div>
                     </div>
@@ -855,8 +873,9 @@
         referralDiv.innerHTML = referralHtml;
     }
     
-    window.approveDeposit = async (key, amount, bonus, userId) => {
+    window.approveDeposit = async (key, amount, bonus, userId, upiAccountId) => {
         await db.ref(`admin/depositRequests/${key}`).update({ status: 'approved' });
+        // Update user balance
         const userRef = db.ref(`users/${userId}`);
         const snap = await userRef.once('value');
         const currentBalance = snap.val()?.balance || 0;
@@ -864,6 +883,17 @@
         if(currentUser && currentUser.uid === userId) {
             userBalance = currentBalance + amount + bonus;
             updateAllDisplay();
+        }
+        // Update UPI account received amount
+        if (upiAccountId !== undefined && upiAccounts[upiAccountId]) {
+            const account = upiAccounts[upiAccountId];
+            const today = getTodayDate();
+            if (account.lastResetDate !== today) {
+                account.received = 0;
+                account.lastResetDate = today;
+            }
+            account.received += (amount + bonus);
+            await db.ref('settings/upiAccounts').set(upiAccounts);
         }
         alert(`✅ Deposit approved! ₹${amount + bonus} added.`);
         if(isAdminLoggedIn()) loadAdminRequests();
@@ -923,20 +953,36 @@
         if(isAdminLoggedIn()) loadAdminRequests();
     };
     
-    // UPI Accounts Management (same as before)
+    // UPI Accounts Management
     async function loadUpiAccounts() {
         const snapshot = await db.ref('settings/upiAccounts').once('value');
         upiAccounts = snapshot.val() || [];
+        // Initialize default accounts if none
         if(upiAccounts.length === 0) {
-            upiAccounts = [{ name:"Raj Thakur", upi:"thakurraj8156@okhdfcbank", limit:10000, received:0 }];
+            upiAccounts = [
+                { name: "Lucky Baadshah", upi: "thakurraj8156@okhdfcbank", limit: 10000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "7041748558@ptsbi", limit: 10000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "7383235938@ptyes", limit: 10000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "9725124689-2@axl", limit: 10000, received: 0, lastResetDate: getTodayDate() }
+            ];
             await db.ref('settings/upiAccounts').set(upiAccounts);
         }
-        const activeSnap = await db.ref('settings/activeUpiIndex').once('value');
-        activeUpiIndex = activeSnap.val();
-        if(activeUpiIndex === null || activeUpiIndex >= upiAccounts.length) activeUpiIndex = 0;
+        // Ensure each account has lastResetDate
+        const today = getTodayDate();
+        let changed = false;
+        for (let acc of upiAccounts) {
+            if (!acc.lastResetDate || acc.lastResetDate !== today) {
+                acc.received = 0;
+                acc.lastResetDate = today;
+                changed = true;
+            }
+        }
+        if (changed) await db.ref('settings/upiAccounts').set(upiAccounts);
         renderUpiAccounts();
-        updateActiveUpiDropdown();
-        if(document.getElementById('depositPanel').style.display !== 'none') generateQR();
+        // Refresh deposit page if open
+        if(document.getElementById('depositPanel').style.display !== 'none') {
+            generateQR();
+        }
     }
     
     function renderUpiAccounts() {
@@ -946,10 +992,12 @@
             container.innerHTML = '<p style="color:#8E9AAF;">No UPI accounts added. Add one above.</p>';
             return;
         }
+        const today = getTodayDate();
         container.innerHTML = upiAccounts.map((acc, idx) => `
             <div class="upi-account-card">
                 <strong>${acc.name}</strong> (${acc.upi})<br>
                 Daily Limit: ${acc.limit ? '₹'+acc.limit : 'No limit'}<br>
+                Today's Received: ₹${acc.lastResetDate === today ? acc.received : 0}<br>
                 <button class="delete-upi-btn" data-idx="${idx}" style="background:#ef4444; border:none; padding:4px 12px; border-radius:20px; color:white; margin-top:8px; cursor:pointer;">Delete</button>
             </div>
         `).join('');
@@ -960,37 +1008,18 @@
                 if(confirm('Delete this UPI account?')) {
                     upiAccounts.splice(idx, 1);
                     await db.ref('settings/upiAccounts').set(upiAccounts);
-                    if(activeUpiIndex >= upiAccounts.length) activeUpiIndex = 0;
-                    await db.ref('settings/activeUpiIndex').set(activeUpiIndex);
                     loadUpiAccounts();
                 }
             };
         });
     }
     
-    function updateActiveUpiDropdown() {
-        const select = document.getElementById('activeUpiSelect');
-        if(select) {
-            select.innerHTML = upiAccounts.map((acc, i) => `<option value="${i}" ${i === activeUpiIndex ? 'selected' : ''}>${acc.name} - ${acc.upi}</option>`).join('');
-        }
-    }
-    
-    async function setActiveUpi() {
-        const select = document.getElementById('activeUpiSelect');
-        if(select) {
-            activeUpiIndex = parseInt(select.value);
-            await db.ref('settings/activeUpiIndex').set(activeUpiIndex);
-            alert(`Active UPI account set to: ${upiAccounts[activeUpiIndex].name}`);
-            if(document.getElementById('depositPanel').style.display !== 'none') generateQR();
-        }
-    }
-    
     async function addUpiAccount() {
-        const name = document.getElementById('newUpiName').value.trim();
+        const name = document.getElementById('newUpiName').value.trim() || "Lucky Baadshah";
         const upiId = document.getElementById('newUpiId').value.trim();
-        const limit = parseInt(document.getElementById('newUpiLimit').value) || null;
-        if(!name || !upiId) return alert('Please fill name and UPI ID');
-        upiAccounts.push({ name, upi: upiId, limit, received: 0 });
+        const limit = parseInt(document.getElementById('newUpiLimit').value) || 10000;
+        if(!upiId) return alert('Please fill UPI ID');
+        upiAccounts.push({ name, upi: upiId, limit, received: 0, lastResetDate: getTodayDate() });
         await db.ref('settings/upiAccounts').set(upiAccounts);
         document.getElementById('newUpiName').value = '';
         document.getElementById('newUpiId').value = '';
@@ -1298,12 +1327,14 @@
     
     // Deposit Functions for user
     function generateQR() {
-        if(upiAccounts.length === 0 || activeUpiIndex >= upiAccounts.length) {
-            document.getElementById('qrMessage').innerHTML = 'No active UPI account';
+        const availableIndex = getAvailableUpiAccount();
+        if (availableIndex === -1 || !upiAccounts[availableIndex]) {
+            document.getElementById('qrMessage').innerHTML = 'No UPI account available. All limits reached for today.';
+            document.getElementById('qrMessage').style.color = '#ef4444';
             return;
         }
-        const acc = upiAccounts[activeUpiIndex];
-        let upiString = `upi://pay?pa=${acc.upi}&pn=LuckyBaadshah`;
+        const acc = upiAccounts[availableIndex];
+        let upiString = `upi://pay?pa=${acc.upi}&pn=${encodeURIComponent(acc.name)}`;
         if(selectedAmount) upiString += `&am=${selectedAmount}`;
         upiString += `&cu=INR`;
         const qrDiv = document.getElementById('qrcode');
@@ -1311,7 +1342,10 @@
             qrDiv.innerHTML = '';
             try { new QRCode(qrDiv, { text: upiString, width: 180, height: 180 }); } catch(e) {}
             document.getElementById('qrMessage').innerHTML = `Scan QR to pay to ${acc.name}`;
+            document.getElementById('qrMessage').style.color = '#FFD700';
         }
+        // Store the index for this payment attempt
+        selectedUpiIndexForPayment = availableIndex;
     }
     
     function updateAmountDisplay() {
@@ -1321,8 +1355,8 @@
     
     async function addDepositRequest(amount, utr) {
         if(!currentUser) return;
-        if(upiAccounts.length === 0 || activeUpiIndex >= upiAccounts.length) {
-            alert('No active UPI account');
+        if (selectedUpiIndexForPayment === null || selectedUpiIndexForPayment === undefined) {
+            alert('Please select amount and click "DEPOSIT VIA UPI" first');
             return;
         }
         await db.ref('admin/depositRequests').push({
@@ -1332,7 +1366,7 @@
             amount: amount,
             bonus: amount === 1000 ? 200 : amount === 5000 ? 2000 : 0,
             utr: utr,
-            upiAccountId: activeUpiIndex,
+            upiAccountId: selectedUpiIndexForPayment,
             status: 'pending',
             timestamp: Date.now()
         });
@@ -1340,6 +1374,7 @@
         document.getElementById('utrSection').style.display = 'none';
         document.getElementById('utrCode').value = '';
         tempPaidAmount = null;
+        selectedUpiIndexForPayment = null;
         document.getElementById('depositStatusMsg').innerHTML = '<span style="color:#10b981;">Request submitted! Check profile for status.</span>';
         setTimeout(() => document.getElementById('depositStatusMsg').innerHTML = '', 5000);
         if(document.getElementById('profilePanel').style.display !== 'none') loadDepositHistory();
@@ -1418,6 +1453,7 @@
             document.getElementById('utrCode').value = '';
             document.getElementById('depositStatusMsg').innerHTML = '';
             tempPaidAmount = null;
+            selectedUpiIndexForPayment = null;
         }
     }
     
@@ -1430,13 +1466,10 @@
     
     function adminLogin() {
         const password = document.getElementById('adminPassword').value;
-        // Simple password check (you can change password here)
-        if (password === "admin@123") {
+        if (password === ADMIN_PASSWORD) {
             adminLoggedIn = true;
-            // Hide login page, show admin panel
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('adminPanelPage').style.display = 'block';
-            // Load admin data
             loadUpiAccounts();
             loadLogo();
             loadAdminRequests();
@@ -1472,7 +1505,6 @@
             await loadUpiAccounts();
             await loadLogo();
         } else if(!user && !adminLoggedIn) {
-            // If no user and not admin, show login page
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('adminPanelPage').style.display = 'none';
@@ -1555,11 +1587,15 @@
     });
     document.getElementById('payNowBtn')?.addEventListener('click', () => {
         if(!selectedAmount) return alert('Select amount first!');
-        if(upiAccounts.length === 0 || activeUpiIndex >= upiAccounts.length) return alert('No active UPI account');
-        tempPaidAmount = selectedAmount;
-        const acc = upiAccounts[activeUpiIndex];
-        const upiUrl = `upi://pay?pa=${acc.upi}&pn=LuckyBaadshah&am=${selectedAmount}&cu=INR`;
+        const availableIndex = getAvailableUpiAccount();
+        if (availableIndex === -1 || !upiAccounts[availableIndex]) {
+            return alert('No UPI account available today. All daily limits reached.');
+        }
+        const acc = upiAccounts[availableIndex];
+        const upiUrl = `upi://pay?pa=${acc.upi}&pn=${encodeURIComponent(acc.name)}&am=${selectedAmount}&cu=INR`;
         window.open(upiUrl, '_blank');
+        tempPaidAmount = selectedAmount;
+        selectedUpiIndexForPayment = availableIndex;
         const utrSection = document.getElementById('utrSection');
         if(utrSection) {
             utrSection.style.display = 'block';
@@ -1594,7 +1630,6 @@
     });
     document.getElementById('addUpiAccountBtn')?.addEventListener('click', addUpiAccount);
     document.getElementById('updateLogoBtn')?.addEventListener('click', updateLogo);
-    document.getElementById('setActiveUpiBtn')?.addEventListener('click', setActiveUpi);
     
     // Bottom Navigation for user
     document.querySelectorAll('.nav-item-premium').forEach(nav => {
