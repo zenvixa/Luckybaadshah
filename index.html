@@ -31,10 +31,68 @@
         .terms { margin-top: 30px; font-size: 12px; color: #6B7280; }
         .terms a { color: #FFD700; text-decoration: none; }
         
+        /* Admin Login Section */
+        .admin-login-section { margin-top: 20px; border-top: 1px solid rgba(255,193,7,0.2); padding-top: 20px; }
+        .admin-toggle-btn { background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.3); padding: 10px; border-radius: 40px; width: 100%; color: #FFD700; cursor: pointer; margin-bottom: 10px; }
+        .admin-login-form { display: none; margin-top: 15px; }
+        .admin-login-form input { background: #1A1E2C; border: 1px solid rgba(255,193,7,0.2); padding: 12px; border-radius: 50px; color: white; width: 100%; margin-bottom: 10px; }
+        .admin-login-btn { background: linear-gradient(95deg, #FFD700, #FFA500); border: none; padding: 12px; border-radius: 50px; font-weight: 800; color: #0A0C12; cursor: pointer; width: 100%; }
+        .admin-error { color: #ef4444; font-size: 12px; margin-top: 8px; }
+        
         /* Main App - Hidden until login */
         .main-app { display: none; }
         
-        /* Header */
+        /* Admin Panel Page - separate from user app */
+        .admin-panel-page { display: none; min-height: 100vh; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .admin-logout-btn { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; padding: 8px 16px; border-radius: 30px; color: #ef4444; cursor: pointer; }
+        
+        /* Reuse existing admin styles */
+        .admin-section { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 32px; border: 1px solid rgba(255,193,7,0.2); padding: 20px; }
+        .request-item { background: #1A1E2C; border-radius: 16px; padding: 15px; margin-bottom: 12px; }
+        .accept-btn { background: #10b981; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; margin-right: 8px; }
+        .reject-btn { background: #ef4444; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; }
+        .admin-tab-btn {
+            background: rgba(255,193,7,0.1);
+            border: 1px solid rgba(255,193,7,0.3);
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: #FFD700;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .admin-tab-btn.active {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0A0C12;
+            border-color: transparent;
+        }
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
+        .upi-account-card {
+            background: #1A1E2C;
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-left: 3px solid #FFD700;
+        }
+        .delete-upi-btn {
+            background: #ef4444;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: white;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        .active-upi-select {
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(255,193,7,0.1);
+            border-radius: 30px;
+        }
+        
+        /* Header styles (for user app) */
         .bc-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(5, 7, 12, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,193,7,0.25); padding: 12px 20px; }
         .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo-bc { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -48,7 +106,6 @@
         .user-avatar { width: 38px; height: 38px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .user-name { font-size: 13px; font-weight: 600; margin-left: 8px; color: #FFD700; }
         
-        /* Live Ticker */
         .live-ticker { position: fixed; top: 78px; left: 0; right: 0; background: linear-gradient(90deg, rgba(255,193,7,0.12), rgba(255,107,0,0.08)); backdrop-filter: blur(12px); padding: 10px 0; overflow: hidden; white-space: nowrap; z-index: 99; border-bottom: 1px solid rgba(255,193,7,0.3); border-top: 1px solid rgba(255,193,7,0.2); }
         .ticker-content { display: inline-block; animation: tickerScroll 50s linear infinite; font-size: 14px; font-weight: 600; }
         .ticker-content span { margin: 0 30px; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,193,7,0.12); padding: 5px 15px; border-radius: 40px; }
@@ -65,7 +122,6 @@
         .result-number { font-size: 48px; font-weight: 800; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .jodi-number { font-size: 36px; font-weight: 800; font-family: 'Orbitron', monospace; color: #FFD700; }
         
-        /* Bet Types */
         .bet-types { padding: 20px; border-top: 1px solid rgba(255,193,7,0.2); }
         .bet-type-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
         .bet-tab { flex: 1; text-align: center; padding: 10px; background: rgba(255,193,7,0.1); border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
@@ -141,49 +197,6 @@
         .nav-item-premium.active { color: #FFD700; transform: translateY(-3px); }
         .nav-item-premium i { font-size: 24px; display: block; margin-bottom: 4px; }
         .nav-item-premium span { font-size: 10px; }
-        
-        /* Admin Panel Styles */
-        .admin-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,193,7,0.2); display: none; }
-        .request-item { background: #1A1E2C; border-radius: 16px; padding: 15px; margin-bottom: 12px; }
-        .accept-btn { background: #10b981; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; margin-right: 8px; }
-        .reject-btn { background: #ef4444; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; }
-        .admin-tab-btn {
-            background: rgba(255,193,7,0.1);
-            border: 1px solid rgba(255,193,7,0.3);
-            padding: 8px 16px;
-            border-radius: 40px;
-            color: #FFD700;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        .admin-tab-btn.active {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #0A0C12;
-            border-color: transparent;
-        }
-        .admin-tab-content {
-            display: none;
-        }
-        .admin-tab-content.active {
-            display: block;
-        }
-        .upi-account-card {
-            background: #1A1E2C;
-            border-radius: 20px;
-            padding: 12px;
-            margin-bottom: 12px;
-            border-left: 3px solid #FFD700;
-        }
-        .delete-upi-btn {
-            background: #ef4444;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: white;
-            margin-top: 8px;
-            cursor: pointer;
-        }
         
         /* Referral Modal */
         .modal-premium {
@@ -303,7 +316,7 @@
 <body>
 <div class="animated-bg"></div>
 
-<!-- Login Page -->
+<!-- Login Page (User + Admin login) -->
 <div id="loginPage" class="login-container">
     <div class="login-card">
         <div class="login-logo">
@@ -320,6 +333,17 @@
         <button id="googleLoginBtn" class="google-login-btn">
             <i class="fab fa-google"></i> Continue with Google
         </button>
+        
+        <!-- Admin Login Section -->
+        <div class="admin-login-section">
+            <button id="adminToggleBtn" class="admin-toggle-btn">🔐 Admin Login</button>
+            <div id="adminLoginForm" class="admin-login-form">
+                <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+                <button id="adminLoginBtn" class="admin-login-btn">Login as Admin</button>
+                <div id="adminErrorMsg" class="admin-error"></div>
+            </div>
+        </div>
+        
         <div class="terms">
             By continuing, you agree to our 
             <a href="#" id="termsLink">Terms & Conditions</a> and 
@@ -328,9 +352,9 @@
     </div>
 </div>
 
-<!-- Main App -->
+<!-- Main App (User Game) -->
 <div id="mainApp" class="main-app">
-    <!-- Header -->
+    <!-- Header (same as before) -->
     <div class="bc-header">
         <div class="header-container">
             <div class="logo-bc">
@@ -365,7 +389,7 @@
     </div>
 
     <div class="main-container" id="mainContainer">
-        <!-- Home Page -->
+        <!-- Home Page (user) -->
         <div id="homePage">
             <div class="matka-card">
                 <div class="matka-header">
@@ -466,11 +490,10 @@
             <div class="instructions-box">
                 <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-info-circle"></i> How to Deposit:</div>
                 <div class="step-item"><div class="step-number">1</div><div>Select deposit amount below</div></div>
-                <div class="step-item"><div class="step-number">2</div><div>Select UPI account (optional, pick one)</div></div>
-                <div class="step-item"><div class="step-number">3</div><div>Scan QR code or click "DEPOSIT VIA UPI"</div></div>
-                <div class="step-item"><div class="step-number">4</div><div>Complete payment in your UPI app</div></div>
-                <div class="step-item"><div class="step-number">5</div><div>After payment, enter UTR number and click Submit</div></div>
-                <div class="step-item"><div class="step-number">6</div><div>Admin will verify and add balance to your wallet</div></div>
+                <div class="step-item"><div class="step-number">2</div><div>Click "DEPOSIT VIA UPI"</div></div>
+                <div class="step-item"><div class="step-number">3</div><div>Complete payment in your UPI app</div></div>
+                <div class="step-item"><div class="step-number">4</div><div>After payment, come back and enter UTR number</div></div>
+                <div class="step-item"><div class="step-number">5</div><div>Submit – admin will verify and add balance</div></div>
             </div>
             <div class="amount-selector" id="amountSelector">
                 <div class="amount-btn" data-amount="100">₹100</div>
@@ -478,20 +501,24 @@
                 <div class="amount-btn" data-amount="1000">₹1000 <span style="font-size:9px;">+200</span></div>
                 <div class="amount-btn" data-amount="5000">₹5000 <span style="font-size:9px;">+2000</span></div>
             </div>
-            <div style="margin:10px 0;">
-                <label style="font-size:13px;">Select UPI Account:</label>
-                <select id="upiAccountSelect" class="bet-input-premium" style="width:100%;">
-                    <option value="">Loading...</option>
-                </select>
+            <div style="text-align:center;">
+                <div class="amount-box" style="background:linear-gradient(145deg,#1A1E2C,#141724); border-radius:50px; padding:12px; margin:15px auto; width:70%;">
+                    <div class="amount-box-value" id="amountDisplay" style="font-size:28px; font-weight:800; color:#FFD700;">₹0</div>
+                </div>
             </div>
-            <div style="text-align:center;"><div class="amount-box" style="background:linear-gradient(145deg,#1A1E2C,#141724); border-radius:50px; padding:12px; margin:15px auto; width:70%;"><div class="amount-box-value" id="amountDisplay" style="font-size:28px; font-weight:800; color:#FFD700;">₹0</div></div></div>
-            <div style="text-align:center;"><div class="qr-wrapper"><div id="qrcode"></div></div><div class="qr-message" id="qrMessage" style="color:#FFD700; margin-top:10px;">Scan QR to pay</div></div>
+            <div style="text-align:center;">
+                <div class="qr-wrapper"><div id="qrcode"></div></div>
+                <div class="qr-message" id="qrMessage" style="color:#FFD700; margin-top:10px;">Scan QR to pay</div>
+            </div>
             <button id="payNowBtn" class="deposit-upi-btn"><i class="fas fa-phone-alt"></i> DEPOSIT VIA UPI</button>
-            <div class="utr-section" id="utrSection">
-                <input type="number" id="utrAmount" class="bet-input-premium" placeholder="Amount paid" style="width:100%; margin-bottom:8px;">
+            <div class="utr-section" id="utrSection" style="display:none;">
+                <div class="info-card" style="margin-top:10px;">
+                    <div class="info-row"><span>Amount Paid:</span><span id="paidAmountDisplay" style="color:#FFD700; font-weight:bold;">₹0</span></div>
+                </div>
                 <input type="text" id="utrCode" class="bet-input-premium" placeholder="Enter UTR / Transaction ID" style="width:100%; margin-bottom:8px;">
-                <button id="submitUtrBtn" class="bet-btn-premium" style="width:100%; background:linear-gradient(95deg,#10b981,#059669); border:none; padding:14px; border-radius:50px; font-weight:800; color:white;">Submit for Verification</button>
+                <button id="submitUtrBtn" class="deposit-upi-btn" style="background:linear-gradient(95deg,#10b981,#059669);">Submit for Verification</button>
             </div>
+            <div id="depositStatusMsg" style="font-size:12px; text-align:center; margin-top:10px;"></div>
         </div>
 
         <!-- Withdraw Panel -->
@@ -521,7 +548,7 @@
             <div class="info-row" style="margin-top:15px; font-size:11px; color:#8E9AAF; text-align:center;">Withdrawals processed only on 15th & 30th of each month</div>
         </div>
 
-        <!-- Profile Panel with Admin Section -->
+        <!-- Profile Panel (User) with Referral and Deposit History -->
         <div id="profilePanel" style="display:none;" class="panel-premium">
             <button id="backFromProfile" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
             <div class="profile-header"><div class="profile-avatar" id="profileAvatar"><span id="avatarInitial">P</span></div><div class="profile-name" id="profileNameDisplay">Player</div><button id="editNameBtn" style="background:rgba(255,193,7,0.2); border:1px solid rgba(255,193,7,0.3); padding:5px 12px; border-radius:30px; color:#FFD700; cursor:pointer; margin-top:8px;">Edit Name</button></div>
@@ -542,44 +569,13 @@
                 <div id="referralStatus" style="font-size:11px; margin-top:8px; color:#8E9AAF;"></div>
             </div>
 
-            <div class="action-buttons"><button id="logoutBtn" class="logout-btn">Logout</button></div>
-            
-            <!-- Admin Panel Section - Only visible to admin email -->
-            <div id="adminPanelSection" class="admin-section">
-                <h4 style="color:#FFD700; margin-bottom:15px;"><i class="fas fa-shield-alt"></i> Admin Panel</h4>
-                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
-                    <button class="admin-tab-btn active" data-tab="deposits">💰 Deposits</button>
-                    <button class="admin-tab-btn" data-tab="withdrawals">💸 Withdrawals</button>
-                    <button class="admin-tab-btn" data-tab="referrals">🎁 Referrals</button>
-                    <button class="admin-tab-btn" data-tab="upi">📱 UPI Management</button>
-                    <button class="admin-tab-btn" data-tab="logo">🖼️ Logo</button>
-                </div>
-                <div id="tabDeposits" class="admin-tab-content active">
-                    <div id="depositRequestsList"></div>
-                </div>
-                <div id="tabWithdrawals" class="admin-tab-content">
-                    <div id="withdrawalRequestsList"></div>
-                </div>
-                <div id="tabReferrals" class="admin-tab-content">
-                    <div id="referralRequestsList"></div>
-                </div>
-                <div id="tabUpi" class="admin-tab-content">
-                    <div style="margin-bottom:15px;">
-                        <input type="text" id="newUpiName" placeholder="UPI Name (e.g., Raj Thakur)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                        <input type="text" id="newUpiId" placeholder="UPI ID (e.g., raj@okhdfcbank)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                        <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                        <button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button>
-                    </div>
-                    <div id="upiAccountsList"></div>
-                </div>
-                <div id="tabLogo" class="admin-tab-content">
-                    <div style="margin-bottom:15px;">
-                        <input type="text" id="logoUrlInput" placeholder="Enter image URL (png/jpg)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                        <button id="updateLogoBtn" style="background:linear-gradient(95deg,#FFD700,#FFA500); border:none; padding:10px 20px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Update Logo</button>
-                    </div>
-                    <div id="currentLogoPreview" style="text-align:center; margin-top:10px;"></div>
-                </div>
+            <!-- Deposit History -->
+            <div class="level-container" style="margin-top:15px;">
+                <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Deposit History</div>
+                <div id="depositHistoryList"></div>
             </div>
+
+            <div class="action-buttons"><button id="logoutBtn" class="logout-btn">Logout</button></div>
         </div>
     </div>
 
@@ -593,7 +589,54 @@
     </div>
 </div>
 
-<!-- Referral Modal Popup -->
+<!-- Admin Panel Page (Separate, shown after admin login) -->
+<div id="adminPanelPage" class="admin-panel-page">
+    <div class="admin-header">
+        <h2 style="color:#FFD700;">🛡️ Admin Panel</h2>
+        <button id="adminLogoutBtn" class="admin-logout-btn">Logout</button>
+    </div>
+    <div class="admin-section">
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+            <button class="admin-tab-btn active" data-tab="deposits">💰 Deposits</button>
+            <button class="admin-tab-btn" data-tab="withdrawals">💸 Withdrawals</button>
+            <button class="admin-tab-btn" data-tab="referrals">🎁 Referrals</button>
+            <button class="admin-tab-btn" data-tab="upi">📱 UPI Management</button>
+            <button class="admin-tab-btn" data-tab="logo">🖼️ Logo</button>
+        </div>
+        <div id="tabDeposits" class="admin-tab-content active">
+            <div id="depositRequestsList"></div>
+        </div>
+        <div id="tabWithdrawals" class="admin-tab-content">
+            <div id="withdrawalRequestsList"></div>
+        </div>
+        <div id="tabReferrals" class="admin-tab-content">
+            <div id="referralRequestsList"></div>
+        </div>
+        <div id="tabUpi" class="admin-tab-content">
+            <div style="margin-bottom:15px;">
+                <input type="text" id="newUpiName" placeholder="UPI Name (e.g., Raj Thakur)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="text" id="newUpiId" placeholder="UPI ID (e.g., raj@okhdfcbank)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button>
+            </div>
+            <div id="upiAccountsList"></div>
+            <div class="active-upi-select">
+                <label style="color:#FFD700;">Active UPI Account (shown to users):</label>
+                <select id="activeUpiSelect" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:8px; border-radius:30px; width:100%; margin-top:5px; color:white;"></select>
+                <button id="setActiveUpiBtn" style="margin-top:10px; background:#FFD700; border:none; padding:6px 12px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Set Active</button>
+            </div>
+        </div>
+        <div id="tabLogo" class="admin-tab-content">
+            <div style="margin-bottom:15px;">
+                <input type="text" id="logoUrlInput" placeholder="Enter image URL (png/jpg)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <button id="updateLogoBtn" style="background:linear-gradient(95deg,#FFD700,#FFA500); border:none; padding:10px 20px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Update Logo</button>
+            </div>
+            <div id="currentLogoPreview" style="text-align:center; margin-top:10px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Referral Modal Popup (for users) -->
 <div id="referralModal" class="modal-premium">
     <div class="modal-content-premium">
         <div class="modal-close" id="closeReferralModal">&times;</div>
@@ -627,10 +670,11 @@
     const auth = firebase.auth();
     const db = firebase.database();
     
-    // Admin Email
+    // Admin Email (for reference, but we use password login)
     const ADMIN_EMAIL = "khantehseen083@gmail.com";
+    const ADMIN_PASSWORD_HASH = btoa("admin@123"); // simple base64, change to your own password
     
-    // Game State
+    // Game State (user)
     let currentUser = null;
     let userBalance = 0;
     let totalBets = 0;
@@ -646,14 +690,15 @@
     let gameHistory = [];
     let selectedAmount = null;
     let upiAccounts = [];
-    let selectedUpiIndex = 0;
+    let activeUpiIndex = 0;
+    let tempPaidAmount = null;
     
     // Referral code generator
     function getReferralCode(uid) {
         return "LB" + uid.slice(0,6).toUpperCase();
     }
     
-    // Load User Data from Firebase
+    // User data functions
     async function loadUserData() {
         if(!currentUser) return;
         const snapshot = await db.ref(`users/${currentUser.uid}`).once('value');
@@ -663,7 +708,6 @@
         winCount = data.winCount || 0;
         if(data.name) currentUser.displayName = data.name;
         updateAllDisplay();
-        // Show referral modal only once after login
         const modalShown = localStorage.getItem('referralModalShown');
         if(!modalShown) {
             setTimeout(() => {
@@ -671,9 +715,9 @@
                 localStorage.setItem('referralModalShown', 'true');
             }, 1000);
         }
-        // Update referral code in profile
         const refCode = getReferralCode(currentUser.uid);
         document.getElementById('referralCodeDisplay').innerText = refCode;
+        loadDepositHistory();
     }
     
     async function saveUserData() {
@@ -706,21 +750,193 @@
         document.getElementById('nextLevelText').innerHTML = `${progress}/100 bets to next level`;
     }
     
-    // UPI Accounts Management
+    // Deposit History for user
+    async function loadDepositHistory() {
+        if(!currentUser) return;
+        const snapshot = await db.ref('admin/depositRequests').orderByChild('userId').equalTo(currentUser.uid).once('value');
+        const historyDiv = document.getElementById('depositHistoryList');
+        if(!historyDiv) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const req = child.val();
+            const statusClass = req.status === 'approved' ? 'status-approved' : (req.status === 'rejected' ? 'status-rejected' : 'status-pending');
+            html += `
+                <div class="deposit-history-item" style="background:#1A1E2C; border-radius:16px; padding:12px; margin-bottom:10px;">
+                    <div>💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus || 0}</div>
+                    <div>🔢 UTR: ${req.utr}</div>
+                    <div>📅 ${new Date(req.timestamp).toLocaleString()}</div>
+                    <div>Status: <span class="${statusClass}">${req.status.toUpperCase()}</span></div>
+                </div>
+            `;
+        });
+        if(!html) html = '<p style="color:#8E9AAF;">No deposit requests yet.</p>';
+        historyDiv.innerHTML = html;
+    }
+    
+    // Admin Panel Functions (same as before)
+    async function loadAdminRequests() {
+        if(!isAdminLoggedIn()) return;
+        
+        const depositSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
+        const depositDiv = document.getElementById('depositRequestsList');
+        const grouped = {};
+        depositSnap.forEach(child => {
+            const req = child.val();
+            const upiId = req.upiAccountId !== undefined ? req.upiAccountId : 'unknown';
+            if(!grouped[upiId]) grouped[upiId] = [];
+            grouped[upiId].push({ key: child.key, ...req });
+        });
+        let depositHtml = '';
+        for(const [upiId, requests] of Object.entries(grouped)) {
+            let accountName = `UPI #${upiId}`;
+            if(upiId !== 'unknown' && upiAccounts[parseInt(upiId)]) accountName = upiAccounts[parseInt(upiId)].name;
+            depositHtml += `<div style="margin-bottom:20px;"><h5 style="color:#FFD700;">📱 ${accountName}</h5>`;
+            requests.forEach(req => {
+                depositHtml += `
+                    <div class="request-item">
+                        <strong>👤 ${req.userName}</strong><br>
+                        💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus || 0}<br>
+                        🔢 UTR: ${req.utr}<br>
+                        ⏰ ${new Date(req.timestamp).toLocaleString()}
+                        <div style="margin-top:10px;">
+                            <button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}')">✅ Accept</button>
+                            <button class="reject-btn" onclick="rejectDeposit('${req.key}')">❌ Reject</button>
+                        </div>
+                    </div>
+                `;
+            });
+            depositHtml += `</div>`;
+        }
+        if(depositSnap.size === 0) depositHtml = '<p style="color:#8E9AAF;">No pending deposits</p>';
+        depositDiv.innerHTML = depositHtml;
+        
+        const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
+        const withdrawDiv = document.getElementById('withdrawalRequestsList');
+        let withdrawHtml = '<h5 style="margin:10px 0;">💸 Withdrawal Requests</h5>';
+        withdrawSnap.forEach(child => {
+            const req = child.val();
+            withdrawHtml += `
+                <div class="request-item">
+                    <strong>👤 ${req.userName}</strong><br>
+                    💰 Amount: ₹${req.amount}<br>
+                    🏦 Account: ${req.accountHolder} - ${req.accountNumber}<br>
+                    ⏰ ${new Date(req.timestamp).toLocaleString()}
+                    <div style="margin-top:10px;">
+                        <button class="accept-btn" onclick="approveWithdraw('${child.key}', ${req.amount}, '${req.userId}')">✅ Accept</button>
+                        <button class="reject-btn" onclick="rejectWithdraw('${child.key}')">❌ Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+        if(withdrawSnap.size === 0) withdrawHtml += '<p style="color:#8E9AAF;">No pending withdrawals</p>';
+        withdrawDiv.innerHTML = withdrawHtml;
+        
+        const referralSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value');
+        const referralDiv = document.getElementById('referralRequestsList');
+        let referralHtml = '<h5 style="margin:10px 0;">🎁 Referral Bonus Requests</h5>';
+        referralSnap.forEach(child => {
+            const req = child.val();
+            referralHtml += `
+                <div class="request-item">
+                    <strong>👤 ${req.referrerName}</strong><br>
+                    📧 Referrer: ${req.referrerEmail}<br>
+                    🧑 Friend: ${req.friendEmail}<br>
+                    🔢 UTR: ${req.friendUTR}<br>
+                    💰 Bonus: ₹100<br>
+                    ⏰ ${new Date(req.timestamp).toLocaleString()}
+                    <div style="margin-top:10px;">
+                        <button class="accept-btn" onclick="approveReferralBonus('${child.key}', '${req.referrerId}')">✅ Accept</button>
+                        <button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">❌ Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+        if(referralSnap.size === 0) referralHtml += '<p style="color:#8E9AAF;">No pending referrals</p>';
+        referralDiv.innerHTML = referralHtml;
+    }
+    
+    window.approveDeposit = async (key, amount, bonus, userId) => {
+        await db.ref(`admin/depositRequests/${key}`).update({ status: 'approved' });
+        const userRef = db.ref(`users/${userId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        await userRef.update({ balance: currentBalance + amount + bonus });
+        if(currentUser && currentUser.uid === userId) {
+            userBalance = currentBalance + amount + bonus;
+            updateAllDisplay();
+        }
+        alert(`✅ Deposit approved! ₹${amount + bonus} added.`);
+        if(isAdminLoggedIn()) loadAdminRequests();
+        if(currentUser && currentUser.uid === userId) loadDepositHistory();
+    };
+    
+    window.rejectDeposit = async (key) => {
+        await db.ref(`admin/depositRequests/${key}`).update({ status: 'rejected' });
+        alert('❌ Deposit rejected');
+        if(isAdminLoggedIn()) loadAdminRequests();
+        const snap = await db.ref(`admin/depositRequests/${key}`).once('value');
+        const req = snap.val();
+        if(req && currentUser && req.userId === currentUser.uid) loadDepositHistory();
+    };
+    
+    window.approveWithdraw = async (key, amount, userId) => {
+        const userRef = db.ref(`users/${userId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        if(currentBalance >= amount) {
+            await userRef.update({ balance: currentBalance - amount });
+            await db.ref(`admin/withdrawals/${key}`).update({ status: 'approved' });
+            if(currentUser && currentUser.uid === userId) {
+                userBalance = currentBalance - amount;
+                updateAllDisplay();
+            }
+            alert(`✅ Withdrawal approved! ₹${amount} deducted.`);
+        } else {
+            alert('❌ Insufficient balance!');
+        }
+        if(isAdminLoggedIn()) loadAdminRequests();
+    };
+    
+    window.rejectWithdraw = async (key) => {
+        await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' });
+        alert('❌ Withdrawal rejected');
+        if(isAdminLoggedIn()) loadAdminRequests();
+    };
+    
+    window.approveReferralBonus = async (key, referrerId) => {
+        const userRef = db.ref(`users/${referrerId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        await userRef.update({ balance: currentBalance + 100 });
+        await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'approved' });
+        if(currentUser && currentUser.uid === referrerId) {
+            userBalance = currentBalance + 100;
+            updateAllDisplay();
+        }
+        alert(`✅ Referral bonus approved! ₹100 added to referrer.`);
+        if(isAdminLoggedIn()) loadAdminRequests();
+    };
+    
+    window.rejectReferralBonus = async (key) => {
+        await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'rejected' });
+        alert('❌ Referral request rejected');
+        if(isAdminLoggedIn()) loadAdminRequests();
+    };
+    
+    // UPI Accounts Management (same as before)
     async function loadUpiAccounts() {
         const snapshot = await db.ref('settings/upiAccounts').once('value');
         upiAccounts = snapshot.val() || [];
         if(upiAccounts.length === 0) {
-            // set default
             upiAccounts = [{ name:"Raj Thakur", upi:"thakurraj8156@okhdfcbank", limit:10000, received:0 }];
             await db.ref('settings/upiAccounts').set(upiAccounts);
         }
+        const activeSnap = await db.ref('settings/activeUpiIndex').once('value');
+        activeUpiIndex = activeSnap.val();
+        if(activeUpiIndex === null || activeUpiIndex >= upiAccounts.length) activeUpiIndex = 0;
         renderUpiAccounts();
-        updateUpiDropdown();
-        // Also update QR if on deposit page and selected amount is set
-        if(selectedAmount !== null && document.getElementById('depositPanel').style.display !== 'none') {
-            generateQR();
-        }
+        updateActiveUpiDropdown();
+        if(document.getElementById('depositPanel').style.display !== 'none') generateQR();
     }
     
     function renderUpiAccounts() {
@@ -744,24 +960,28 @@
                 if(confirm('Delete this UPI account?')) {
                     upiAccounts.splice(idx, 1);
                     await db.ref('settings/upiAccounts').set(upiAccounts);
+                    if(activeUpiIndex >= upiAccounts.length) activeUpiIndex = 0;
+                    await db.ref('settings/activeUpiIndex').set(activeUpiIndex);
                     loadUpiAccounts();
                 }
             };
         });
     }
     
-    function updateUpiDropdown() {
-        const dropdown = document.getElementById('upiAccountSelect');
-        if(dropdown) {
-            if(upiAccounts.length === 0) {
-                dropdown.innerHTML = '<option value="">No UPI accounts available</option>';
-                selectedUpiIndex = -1;
-            } else {
-                dropdown.innerHTML = upiAccounts.map((acc, i) => `<option value="${i}">${acc.name} - ${acc.upi}</option>`).join('');
-                dropdown.value = selectedUpiIndex;
-                if(selectedUpiIndex === undefined || selectedUpiIndex < 0) dropdown.value = 0;
-                selectedUpiIndex = parseInt(dropdown.value);
-            }
+    function updateActiveUpiDropdown() {
+        const select = document.getElementById('activeUpiSelect');
+        if(select) {
+            select.innerHTML = upiAccounts.map((acc, i) => `<option value="${i}" ${i === activeUpiIndex ? 'selected' : ''}>${acc.name} - ${acc.upi}</option>`).join('');
+        }
+    }
+    
+    async function setActiveUpi() {
+        const select = document.getElementById('activeUpiSelect');
+        if(select) {
+            activeUpiIndex = parseInt(select.value);
+            await db.ref('settings/activeUpiIndex').set(activeUpiIndex);
+            alert(`Active UPI account set to: ${upiAccounts[activeUpiIndex].name}`);
+            if(document.getElementById('depositPanel').style.display !== 'none') generateQR();
         }
     }
     
@@ -806,155 +1026,6 @@
         loadLogo();
         alert('Logo updated! Refresh page to see.');
     }
-    
-    // Admin functions
-    async function loadAdminRequests() {
-        if(!currentUser || currentUser.email !== ADMIN_EMAIL) return;
-        
-        // Deposit Requests - group by UPI account ID
-        const depositSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
-        const depositDiv = document.getElementById('depositRequestsList');
-        const grouped = {};
-        depositSnap.forEach(child => {
-            const req = child.val();
-            const upiId = req.upiAccountId !== undefined ? req.upiAccountId : 'unknown';
-            if(!grouped[upiId]) grouped[upiId] = [];
-            grouped[upiId].push({ key: child.key, ...req });
-        });
-        let depositHtml = '';
-        for(const [upiId, requests] of Object.entries(grouped)) {
-            let accountName = `UPI #${upiId}`;
-            if(upiId !== 'unknown' && upiAccounts[parseInt(upiId)]) accountName = upiAccounts[parseInt(upiId)].name;
-            depositHtml += `<div style="margin-bottom:20px;"><h5 style="color:#FFD700;">📱 ${accountName}</h5>`;
-            requests.forEach(req => {
-                depositHtml += `
-                    <div class="request-item">
-                        <strong>👤 ${req.userName}</strong><br>
-                        💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus || 0}<br>
-                        🔢 UTR: ${req.utr}<br>
-                        ⏰ ${new Date(req.timestamp).toLocaleString()}
-                        <div style="margin-top:10px;">
-                            <button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}')">✅ Accept</button>
-                            <button class="reject-btn" onclick="rejectDeposit('${req.key}')">❌ Reject</button>
-                        </div>
-                    </div>
-                `;
-            });
-            depositHtml += `</div>`;
-        }
-        if(depositSnap.size === 0) depositHtml = '<p style="color:#8E9AAF;">No pending deposits</p>';
-        depositDiv.innerHTML = depositHtml;
-        
-        // Withdrawal Requests
-        const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
-        const withdrawDiv = document.getElementById('withdrawalRequestsList');
-        let withdrawHtml = '<h5 style="margin:10px 0;">💸 Withdrawal Requests</h5>';
-        withdrawSnap.forEach(child => {
-            const req = child.val();
-            withdrawHtml += `
-                <div class="request-item">
-                    <strong>👤 ${req.userName}</strong><br>
-                    💰 Amount: ₹${req.amount}<br>
-                    🏦 Account: ${req.accountHolder} - ${req.accountNumber}<br>
-                    ⏰ ${new Date(req.timestamp).toLocaleString()}
-                    <div style="margin-top:10px;">
-                        <button class="accept-btn" onclick="approveWithdraw('${child.key}', ${req.amount}, '${req.userId}')">✅ Accept</button>
-                        <button class="reject-btn" onclick="rejectWithdraw('${child.key}')">❌ Reject</button>
-                    </div>
-                </div>
-            `;
-        });
-        if(withdrawSnap.size === 0) withdrawHtml += '<p style="color:#8E9AAF;">No pending withdrawals</p>';
-        withdrawDiv.innerHTML = withdrawHtml;
-        
-        // Referral Requests
-        const referralSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value');
-        const referralDiv = document.getElementById('referralRequestsList');
-        let referralHtml = '<h5 style="margin:10px 0;">🎁 Referral Bonus Requests</h5>';
-        referralSnap.forEach(child => {
-            const req = child.val();
-            referralHtml += `
-                <div class="request-item">
-                    <strong>👤 ${req.referrerName}</strong><br>
-                    📧 Referrer: ${req.referrerEmail}<br>
-                    🧑 Friend: ${req.friendEmail}<br>
-                    🔢 UTR: ${req.friendUTR}<br>
-                    💰 Bonus: ₹100<br>
-                    ⏰ ${new Date(req.timestamp).toLocaleString()}
-                    <div style="margin-top:10px;">
-                        <button class="accept-btn" onclick="approveReferralBonus('${child.key}', '${req.referrerId}')">✅ Accept</button>
-                        <button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">❌ Reject</button>
-                    </div>
-                </div>
-            `;
-        });
-        if(referralSnap.size === 0) referralHtml += '<p style="color:#8E9AAF;">No pending referrals</p>';
-        referralDiv.innerHTML = referralHtml;
-    }
-    
-    window.approveDeposit = async (key, amount, bonus, userId) => {
-        await db.ref(`admin/depositRequests/${key}`).update({ status: 'approved' });
-        const userRef = db.ref(`users/${userId}`);
-        const snap = await userRef.once('value');
-        const currentBalance = snap.val()?.balance || 0;
-        await userRef.update({ balance: currentBalance + amount + bonus });
-        if(currentUser && currentUser.uid === userId) {
-            userBalance = currentBalance + amount + bonus;
-            updateAllDisplay();
-        }
-        alert(`✅ Deposit approved! ₹${amount + bonus} added.`);
-        loadAdminRequests();
-    };
-    
-    window.rejectDeposit = async (key) => {
-        await db.ref(`admin/depositRequests/${key}`).update({ status: 'rejected' });
-        alert('❌ Deposit rejected');
-        loadAdminRequests();
-    };
-    
-    window.approveWithdraw = async (key, amount, userId) => {
-        const userRef = db.ref(`users/${userId}`);
-        const snap = await userRef.once('value');
-        const currentBalance = snap.val()?.balance || 0;
-        if(currentBalance >= amount) {
-            await userRef.update({ balance: currentBalance - amount });
-            await db.ref(`admin/withdrawals/${key}`).update({ status: 'approved' });
-            if(currentUser && currentUser.uid === userId) {
-                userBalance = currentBalance - amount;
-                updateAllDisplay();
-            }
-            alert(`✅ Withdrawal approved! ₹${amount} deducted.`);
-        } else {
-            alert('❌ Insufficient balance!');
-        }
-        loadAdminRequests();
-    };
-    
-    window.rejectWithdraw = async (key) => {
-        await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' });
-        alert('❌ Withdrawal rejected');
-        loadAdminRequests();
-    };
-    
-    window.approveReferralBonus = async (key, referrerId) => {
-        const userRef = db.ref(`users/${referrerId}`);
-        const snap = await userRef.once('value');
-        const currentBalance = snap.val()?.balance || 0;
-        await userRef.update({ balance: currentBalance + 100 });
-        await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'approved' });
-        if(currentUser && currentUser.uid === referrerId) {
-            userBalance = currentBalance + 100;
-            updateAllDisplay();
-        }
-        alert(`✅ Referral bonus approved! ₹100 added to referrer.`);
-        loadAdminRequests();
-    };
-    
-    window.rejectReferralBonus = async (key) => {
-        await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'rejected' });
-        alert('❌ Referral request rejected');
-        loadAdminRequests();
-    };
     
     // Referral Bonus Request by User
     async function submitReferralBonus() {
@@ -1117,7 +1188,7 @@
         if(ticker.children.length > 20) ticker.removeChild(ticker.children[0]);
     }
     
-    // UI Helpers
+    // UI Helpers for game
     function generateSingleNumbers() {
         const container = document.getElementById('singleNumbers');
         if(!container) return;
@@ -1225,13 +1296,13 @@
         }
     }
     
-    // Deposit Functions
+    // Deposit Functions for user
     function generateQR() {
-        if(selectedUpiIndex === undefined || selectedUpiIndex < 0 || !upiAccounts[selectedUpiIndex]) {
-            document.getElementById('qrMessage').innerHTML = 'Select a UPI account first';
+        if(upiAccounts.length === 0 || activeUpiIndex >= upiAccounts.length) {
+            document.getElementById('qrMessage').innerHTML = 'No active UPI account';
             return;
         }
-        const acc = upiAccounts[selectedUpiIndex];
+        const acc = upiAccounts[activeUpiIndex];
         let upiString = `upi://pay?pa=${acc.upi}&pn=LuckyBaadshah`;
         if(selectedAmount) upiString += `&am=${selectedAmount}`;
         upiString += `&cu=INR`;
@@ -1239,7 +1310,7 @@
         if(qrDiv) {
             qrDiv.innerHTML = '';
             try { new QRCode(qrDiv, { text: upiString, width: 180, height: 180 }); } catch(e) {}
-            document.getElementById('qrMessage').innerHTML = 'Scan QR to pay';
+            document.getElementById('qrMessage').innerHTML = `Scan QR to pay to ${acc.name}`;
         }
     }
     
@@ -1250,8 +1321,8 @@
     
     async function addDepositRequest(amount, utr) {
         if(!currentUser) return;
-        if(selectedUpiIndex === undefined || selectedUpiIndex < 0 || !upiAccounts[selectedUpiIndex]) {
-            alert('Please select a UPI account');
+        if(upiAccounts.length === 0 || activeUpiIndex >= upiAccounts.length) {
+            alert('No active UPI account');
             return;
         }
         await db.ref('admin/depositRequests').push({
@@ -1261,11 +1332,17 @@
             amount: amount,
             bonus: amount === 1000 ? 200 : amount === 5000 ? 2000 : 0,
             utr: utr,
-            upiAccountId: selectedUpiIndex,
+            upiAccountId: activeUpiIndex,
             status: 'pending',
             timestamp: Date.now()
         });
         alert(`✅ Deposit request submitted!\nAmount: ₹${amount}\nUTR: ${utr}\n\nAdmin will verify and add balance.`);
+        document.getElementById('utrSection').style.display = 'none';
+        document.getElementById('utrCode').value = '';
+        tempPaidAmount = null;
+        document.getElementById('depositStatusMsg').innerHTML = '<span style="color:#10b981;">Request submitted! Check profile for status.</span>';
+        setTimeout(() => document.getElementById('depositStatusMsg').innerHTML = '', 5000);
+        if(document.getElementById('profilePanel').style.display !== 'none') loadDepositHistory();
     }
     
     async function requestWithdraw() {
@@ -1296,7 +1373,7 @@
         alert(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted!\n\nAdmin will process within 24-48 hours.`);
     }
     
-    // Navigation
+    // Navigation for user app
     function showHome() {
         document.getElementById('homePage').style.display = 'block';
         document.getElementById('gamePage').style.display = 'none';
@@ -1332,22 +1409,54 @@
         const page = panelId.replace('Panel', '').toLowerCase();
         document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
         document.querySelector(`.nav-item-premium[data-page="${page}"]`).classList.add('active');
-        if(panelId === 'profilePanel' && currentUser && currentUser.email === ADMIN_EMAIL) {
-            document.getElementById('adminPanelSection').style.display = 'block';
-            loadAdminRequests();
-        } else if(document.getElementById('adminPanelSection')) {
-            document.getElementById('adminPanelSection').style.display = 'none';
+        if(panelId === 'profilePanel') {
+            loadDepositHistory();
         }
         if(panelId === 'depositPanel') {
-            // Ensure UPI dropdown is up to date
-            updateUpiDropdown();
-            if(selectedAmount) generateQR();
+            generateQR();
+            document.getElementById('utrSection').style.display = 'none';
+            document.getElementById('utrCode').value = '';
+            document.getElementById('depositStatusMsg').innerHTML = '';
+            tempPaidAmount = null;
         }
     }
     
-    // Auth & Initialization
+    // Admin login and logout
+    let adminLoggedIn = false;
+    
+    function isAdminLoggedIn() {
+        return adminLoggedIn;
+    }
+    
+    function adminLogin() {
+        const password = document.getElementById('adminPassword').value;
+        // Simple password check (you can change password here)
+        if (password === "admin@123") {
+            adminLoggedIn = true;
+            // Hide login page, show admin panel
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPanelPage').style.display = 'block';
+            // Load admin data
+            loadUpiAccounts();
+            loadLogo();
+            loadAdminRequests();
+            document.getElementById('adminErrorMsg').innerHTML = '';
+        } else {
+            document.getElementById('adminErrorMsg').innerHTML = 'Incorrect password!';
+        }
+    }
+    
+    function adminLogout() {
+        adminLoggedIn = false;
+        document.getElementById('adminPanelPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminErrorMsg').innerHTML = '';
+    }
+    
+    // User login via Google
     auth.onAuthStateChanged(async (user) => {
-        if(user) {
+        if(user && !adminLoggedIn) {
             currentUser = user;
             await loadUserData();
             if(!user.displayName) {
@@ -1362,9 +1471,11 @@
             showHome();
             await loadUpiAccounts();
             await loadLogo();
-        } else {
+        } else if(!user && !adminLoggedIn) {
+            // If no user and not admin, show login page
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('adminPanelPage').style.display = 'none';
         }
     });
     
@@ -1389,6 +1500,19 @@
             document.getElementById('referralModal').classList.remove('active');
         }
     });
+    
+    // Admin toggle
+    const adminToggleBtn = document.getElementById('adminToggleBtn');
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    adminToggleBtn.onclick = () => {
+        if(adminLoginForm.style.display === 'none' || adminLoginForm.style.display === '') {
+            adminLoginForm.style.display = 'block';
+        } else {
+            adminLoginForm.style.display = 'none';
+        }
+    };
+    document.getElementById('adminLoginBtn').onclick = adminLogin;
+    document.getElementById('adminLogoutBtn').onclick = adminLogout;
     
     // Bet type tabs
     document.querySelectorAll('.bet-tab').forEach(tab => {
@@ -1429,29 +1553,24 @@
             generateQR();
         };
     });
-    document.getElementById('upiAccountSelect')?.addEventListener('change', (e) => {
-        selectedUpiIndex = parseInt(e.target.value);
-        generateQR();
-    });
     document.getElementById('payNowBtn')?.addEventListener('click', () => {
         if(!selectedAmount) return alert('Select amount first!');
-        if(selectedUpiIndex === undefined || selectedUpiIndex < 0 || !upiAccounts[selectedUpiIndex]) return alert('Select a UPI account');
-        window.open(`upi://pay?pa=${upiAccounts[selectedUpiIndex].upi}&pn=LuckyBaadshah&am=${selectedAmount}&cu=INR`, '_blank');
+        if(upiAccounts.length === 0 || activeUpiIndex >= upiAccounts.length) return alert('No active UPI account');
+        tempPaidAmount = selectedAmount;
+        const acc = upiAccounts[activeUpiIndex];
+        const upiUrl = `upi://pay?pa=${acc.upi}&pn=LuckyBaadshah&am=${selectedAmount}&cu=INR`;
+        window.open(upiUrl, '_blank');
         const utrSection = document.getElementById('utrSection');
-        if(utrSection) utrSection.style.display = 'block';
-        const utrAmount = document.getElementById('utrAmount');
-        if(utrAmount) utrAmount.value = selectedAmount;
+        if(utrSection) {
+            utrSection.style.display = 'block';
+            document.getElementById('paidAmountDisplay').innerText = `₹${selectedAmount.toLocaleString()}`;
+        }
     });
     document.getElementById('submitUtrBtn')?.addEventListener('click', async () => {
-        const utr = document.getElementById('utrCode')?.value;
-        const amount = document.getElementById('utrAmount')?.value;
+        const utr = document.getElementById('utrCode')?.value.trim();
         if(!utr) return alert('Enter UTR number');
-        if(!amount) return alert('Enter amount');
-        await addDepositRequest(parseInt(amount), utr);
-        const utrSection = document.getElementById('utrSection');
-        if(utrSection) utrSection.style.display = 'none';
-        if(document.getElementById('utrCode')) document.getElementById('utrCode').value = '';
-        if(document.getElementById('utrAmount')) document.getElementById('utrAmount').value = '';
+        if(!tempPaidAmount) return alert('Please select amount and click "DEPOSIT VIA UPI" first');
+        await addDepositRequest(tempPaidAmount, utr);
     });
     
     // Withdraw
@@ -1475,8 +1594,9 @@
     });
     document.getElementById('addUpiAccountBtn')?.addEventListener('click', addUpiAccount);
     document.getElementById('updateLogoBtn')?.addEventListener('click', updateLogo);
+    document.getElementById('setActiveUpiBtn')?.addEventListener('click', setActiveUpi);
     
-    // Bottom Navigation
+    // Bottom Navigation for user
     document.querySelectorAll('.nav-item-premium').forEach(nav => {
         nav.onclick = () => {
             const page = nav.getAttribute('data-page');
@@ -1489,7 +1609,7 @@
     });
     document.getElementById('avatarBtn')?.addEventListener('click', () => showPanel('profilePanel'));
     
-    // Terms & Conditions Modal (simple alert)
+    // Terms & Conditions
     document.getElementById('termsLink')?.addEventListener('click', (e) => {
         e.preventDefault();
         alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed only on 15th & 30th.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`);
