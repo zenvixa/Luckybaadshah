@@ -43,7 +43,7 @@
         .main-app { display: none; }
         
         /* Admin Panel Page - separate from user app */
-        .admin-panel-page { display: none; min-height: 100vh; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .admin-panel-page { display: none; min-height: 100vh; padding: 20px; max-width: 1000px; margin: 0 auto; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .admin-logout-btn { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; padding: 8px 16px; border-radius: 30px; color: #ef4444; cursor: pointer; }
         
@@ -84,6 +84,79 @@
             color: white;
             margin-top: 8px;
             cursor: pointer;
+        }
+        
+        /* Deposit requests table styling */
+        .upi-deposit-card {
+            background: #1A1E2C;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(255,193,7,0.2);
+        }
+        .upi-deposit-header {
+            background: rgba(255,193,7,0.1);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,193,7,0.2);
+        }
+        .upi-deposit-header h3 {
+            color: #FFD700;
+            font-size: 18px;
+        }
+        .upi-deposit-header span {
+            font-size: 13px;
+            color: #8E9AAF;
+        }
+        .request-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .request-table th, .request-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 13px;
+        }
+        .request-table th {
+            color: #FFD700;
+            font-weight: 600;
+            background: rgba(0,0,0,0.2);
+        }
+        .no-requests {
+            padding: 20px;
+            text-align: center;
+            color: #8E9AAF;
+        }
+        .action-buttons-cell {
+            white-space: nowrap;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(8px);
+            border-left: 4px solid #10b981;
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: white;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+        .toast.error { border-left-color: #ef4444; }
+        .toast.warning { border-left-color: #f59e0b; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         /* Header styles (for user app) */
@@ -154,6 +227,29 @@
         .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
         .feature-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 24px; padding: 18px; text-align: center; border: 1px solid rgba(255,193,7,0.1); }
         .feature-icon { font-size: 28px; margin-bottom: 8px; color: #FFD700; }
+        
+        /* Hot Numbers */
+        .hot-numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .hot-number-item {
+            background: rgba(255,193,7,0.1);
+            border-radius: 20px;
+            padding: 8px;
+            text-align: center;
+        }
+        .hot-number-digit {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        .hot-number-count {
+            font-size: 11px;
+            color: #8E9AAF;
+        }
         
         .panel-premium { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 32px; border: 1px solid rgba(255,193,7,0.2); padding: 22px; }
         .amount-selector { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0; }
@@ -304,6 +400,10 @@
             .matka-timer { font-size: 36px; }
             .result-number { font-size: 36px; }
             .login-card { padding: 40px 25px; }
+            .request-table th, .request-table td { padding: 8px 6px; font-size: 11px; }
+            .action-buttons-cell { white-space: normal; }
+            .accept-btn, .reject-btn { padding: 4px 10px; font-size: 11px; }
+            .hot-numbers-grid { grid-template-columns: repeat(5, 1fr); }
         }
     </style>
 </head>
@@ -383,7 +483,7 @@
     </div>
 
     <div class="main-container" id="mainContainer">
-        <!-- Home Page (user) -->
+        <!-- Home Page -->
         <div id="homePage">
             <div class="matka-card">
                 <div class="matka-header">
@@ -397,6 +497,29 @@
                         <div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="lastClose">-</div></div>
                     </div>
                     <div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="lastJodi">--</div></div>
+                </div>
+            </div>
+            
+            <!-- Hot Numbers Card -->
+            <div class="rules-card">
+                <div class="rules-title"><i class="fas fa-chart-line"></i> 🔥 Hot Numbers (Last 20 Rounds)</div>
+                <div style="display: flex; gap: 20px; justify-content: space-between;">
+                    <div style="flex:1">
+                        <div style="font-size:12px; color:#FFD700; margin-bottom:5px;">OPEN DIGITS</div>
+                        <div id="hotOpenContainer" class="hot-numbers-grid"></div>
+                    </div>
+                    <div style="flex:1">
+                        <div style="font-size:12px; color:#FFD700; margin-bottom:5px;">CLOSE DIGITS</div>
+                        <div id="hotCloseContainer" class="hot-numbers-grid"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Leaderboard Card -->
+            <div class="rules-card">
+                <div class="rules-title"><i class="fas fa-trophy"></i> 🏆 Top Players (by Total Bets)</div>
+                <div id="leaderboardList" style="max-height:200px; overflow-y:auto;">
+                    <p style="color:#8E9AAF;">Loading...</p>
                 </div>
             </div>
             
@@ -542,7 +665,7 @@
             <div class="info-row" style="margin-top:15px; font-size:11px; color:#8E9AAF; text-align:center;">Withdrawals processed only on 15th & 30th of each month</div>
         </div>
 
-        <!-- Profile Panel (User) with Referral and Deposit History -->
+        <!-- Profile Panel (User) with Bet History and Referral Leaderboard -->
         <div id="profilePanel" style="display:none;" class="panel-premium">
             <button id="backFromProfile" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
             <div class="profile-header"><div class="profile-avatar" id="profileAvatar"><span id="avatarInitial">P</span></div><div class="profile-name" id="profileNameDisplay">Player</div><button id="editNameBtn" style="background:rgba(255,193,7,0.2); border:1px solid rgba(255,193,7,0.3); padding:5px 12px; border-radius:30px; color:#FFD700; cursor:pointer; margin-top:8px;">Edit Name</button></div>
@@ -561,6 +684,18 @@
                 <input type="text" id="refFriendEmail" class="referral-input" placeholder="Friend's Email / Name">
                 <button id="submitReferralBonusBtn" class="referral-submit">Submit Referral Bonus Request</button>
                 <div id="referralStatus" style="font-size:11px; margin-top:8px; color:#8E9AAF;"></div>
+            </div>
+
+            <!-- Top Referrers Leaderboard -->
+            <div class="level-container" style="margin-top:15px;">
+                <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-chart-line"></i> 🏅 Top Referrers</div>
+                <div id="topReferrersList"></div>
+            </div>
+
+            <!-- Bet History -->
+            <div class="level-container" style="margin-top:15px;">
+                <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Bet History</div>
+                <div id="betHistoryList" style="max-height:250px; overflow-y:auto;"></div>
             </div>
 
             <!-- Deposit History -->
@@ -594,6 +729,7 @@
             <button class="admin-tab-btn active" data-tab="deposits">💰 Deposits</button>
             <button class="admin-tab-btn" data-tab="withdrawals">💸 Withdrawals</button>
             <button class="admin-tab-btn" data-tab="referrals">🎁 Referrals</button>
+            <button class="admin-tab-btn" data-tab="analytics">📊 Analytics</button>
             <button class="admin-tab-btn" data-tab="upi">📱 UPI Management</button>
             <button class="admin-tab-btn" data-tab="logo">🖼️ Logo</button>
         </div>
@@ -606,11 +742,21 @@
         <div id="tabReferrals" class="admin-tab-content">
             <div id="referralRequestsList"></div>
         </div>
+        <div id="tabAnalytics" class="admin-tab-content">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 15px;">
+                <div class="info-card"><div class="info-row"><span>Total Users</span><span id="analyticsTotalUsers">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Total Deposits</span><span id="analyticsTotalDeposits">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Total Withdrawals</span><span id="analyticsTotalWithdrawals">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Today's Revenue</span><span id="analyticsTodayRevenue">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Pending Deposits</span><span id="analyticsPendingDeposits">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Pending Withdrawals</span><span id="analyticsPendingWithdrawals">-</span></div></div>
+            </div>
+        </div>
         <div id="tabUpi" class="admin-tab-content">
             <div style="margin-bottom:15px;">
                 <input type="text" id="newUpiName" placeholder="UPI Name (e.g., Lucky Baadshah)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
                 <input type="text" id="newUpiId" placeholder="UPI ID (e.g., 9725124689-2@axl)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" value="10000" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
                 <button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button>
             </div>
             <div id="upiAccountsList"></div>
@@ -678,8 +824,9 @@
     let gameHistory = [];
     let selectedAmount = null;
     let upiAccounts = [];
-    let selectedUpiIndexForPayment = null; // store the account index when user clicks pay
+    let selectedUpiIndexForPayment = null;
     let tempPaidAmount = null;
+    let resultsHistory = []; // store last 20 results {open, close}
     
     // Helper: get today's date string YYYY-MM-DD
     function getTodayDate() {
@@ -691,7 +838,6 @@
     function isAccountOverLimit(account) {
         const today = getTodayDate();
         if (account.lastResetDate !== today) {
-            // reset for today
             account.received = 0;
             account.lastResetDate = today;
         }
@@ -700,20 +846,173 @@
     
     // Get the first available UPI account (not over limit)
     function getAvailableUpiAccount() {
-        // Reset dates if needed
-        for (let acc of upiAccounts) {
-            if (acc.lastResetDate !== getTodayDate()) {
-                acc.received = 0;
-                acc.lastResetDate = getTodayDate();
+        for (let i = 0; i < upiAccounts.length; i++) {
+            if (!isAccountOverLimit(upiAccounts[i])) {
+                return i;
             }
         }
-        const availableIndex = upiAccounts.findIndex(acc => !isAccountOverLimit(acc));
-        return availableIndex;
+        return -1;
+    }
+    
+    // Toast notification
+    function showToast(message, type = "success") {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
     }
     
     // Referral code generator
     function getReferralCode(uid) {
         return "LB" + uid.slice(0,6).toUpperCase();
+    }
+    
+    // Save bet to history
+    async function saveBetToHistory(betAmount, betType, betValue, result, winAmount) {
+        if (!currentUser) return;
+        const betRecord = {
+            amount: betAmount,
+            type: betType,
+            value: JSON.stringify(betValue),
+            result: result,
+            winAmount: winAmount,
+            timestamp: Date.now(),
+            date: new Date().toISOString()
+        };
+        await db.ref(`users/${currentUser.uid}/bets`).push(betRecord);
+        // Keep only last 50 bets
+        const betsRef = db.ref(`users/${currentUser.uid}/bets`);
+        const snapshot = await betsRef.orderByChild('timestamp').once('value');
+        let count = 0;
+        snapshot.forEach(child => {
+            count++;
+            if (count > 50) child.ref.remove();
+        });
+        // Update leaderboard (total bets count for user)
+        const userRef = db.ref(`users/${currentUser.uid}`);
+        await userRef.update({ totalBets: totalBets }); // already updated in declareMatkaResult
+    }
+    
+    // Load bet history for user
+    async function loadBetHistory() {
+        if (!currentUser) return;
+        const snapshot = await db.ref(`users/${currentUser.uid}/bets`).orderByChild('timestamp').limitToLast(20).once('value');
+        const container = document.getElementById('betHistoryList');
+        if (!container) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const bet = child.val();
+            const winLossClass = bet.winAmount > 0 ? 'win' : 'loss';
+            const winLossText = bet.winAmount > 0 ? `+₹${bet.winAmount}` : `-₹${bet.amount}`;
+            html += `<div class="history-item"><span>${new Date(bet.timestamp).toLocaleString()}</span><span>${bet.type}</span><span>₹${bet.amount}</span><span class="${winLossClass}">${winLossText}</span></div>`;
+        });
+        if (!html) html = '<p style="color:#8E9AAF;">No bets yet.</p>';
+        container.innerHTML = html;
+    }
+    
+    // Load leaderboard (top 5 by totalBets)
+    async function loadLeaderboard() {
+        const usersRef = db.ref('users');
+        const snapshot = await usersRef.orderByChild('totalBets').limitToLast(5).once('value');
+        const users = [];
+        snapshot.forEach(child => {
+            users.push({ name: child.val().name || child.val().email.split('@')[0], totalBets: child.val().totalBets || 0 });
+        });
+        users.reverse();
+        const container = document.getElementById('leaderboardList');
+        if (!container) return;
+        if (users.length === 0) {
+            container.innerHTML = '<p style="color:#8E9AAF;">No data yet.</p>';
+            return;
+        }
+        container.innerHTML = users.map((u, i) => `<div class="player-row"><span class="player-name">${i+1}. ${u.name}</span><span class="player-bet">${u.totalBets} bets</span></div>`).join('');
+    }
+    
+    // Load top referrers (based on number of approved referral bonuses)
+    async function loadTopReferrers() {
+        const bonusSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('approved').once('value');
+        const referrerCount = {};
+        bonusSnap.forEach(child => {
+            const req = child.val();
+            referrerCount[req.referrerId] = (referrerCount[req.referrerId] || 0) + 1;
+        });
+        const sorted = Object.entries(referrerCount).sort((a,b) => b[1] - a[1]).slice(0,5);
+        const container = document.getElementById('topReferrersList');
+        if (!container) return;
+        if (sorted.length === 0) {
+            container.innerHTML = '<p style="color:#8E9AAF;">No referrals yet.</p>';
+            return;
+        }
+        let html = '';
+        for (const [uid, count] of sorted) {
+            const userSnap = await db.ref(`users/${uid}`).once('value');
+            const name = userSnap.val()?.name || 'Anonymous';
+            html += `<div class="player-row"><span class="player-name">${name}</span><span class="player-bet">${count} referrals</span></div>`;
+        }
+        container.innerHTML = html;
+    }
+    
+    // Update hot numbers based on resultsHistory
+    function updateHotNumbers() {
+        if (resultsHistory.length === 0) return;
+        const openCount = Array(10).fill(0);
+        const closeCount = Array(10).fill(0);
+        resultsHistory.forEach(res => {
+            openCount[res.open]++;
+            closeCount[res.close]++;
+        });
+        const openContainer = document.getElementById('hotOpenContainer');
+        const closeContainer = document.getElementById('hotCloseContainer');
+        if (!openContainer || !closeContainer) return;
+        openContainer.innerHTML = '';
+        closeContainer.innerHTML = '';
+        for (let i=0;i<=9;i++) {
+            openContainer.innerHTML += `<div class="hot-number-item"><div class="hot-number-digit">${i}</div><div class="hot-number-count">${openCount[i]}</div></div>`;
+            closeContainer.innerHTML += `<div class="hot-number-item"><div class="hot-number-digit">${i}</div><div class="hot-number-count">${closeCount[i]}</div></div>`;
+        }
+    }
+    
+    // Load admin analytics
+    async function loadAdminAnalytics() {
+        if (!isAdminLoggedIn()) return;
+        // Total users
+        const usersSnap = await db.ref('users').once('value');
+        const totalUsers = usersSnap.numChildren();
+        document.getElementById('analyticsTotalUsers').innerText = totalUsers;
+        
+        // All deposit requests (approved)
+        const depositsSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('approved').once('value');
+        let totalDeposits = 0;
+        depositsSnap.forEach(child => { totalDeposits += child.val().amount; });
+        document.getElementById('analyticsTotalDeposits').innerText = '₹' + totalDeposits.toLocaleString();
+        
+        // All withdrawal requests (approved)
+        const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('approved').once('value');
+        let totalWithdrawals = 0;
+        withdrawSnap.forEach(child => { totalWithdrawals += child.val().amount; });
+        document.getElementById('analyticsTotalWithdrawals').innerText = '₹' + totalWithdrawals.toLocaleString();
+        
+        // Today's revenue (approved deposits today minus approved withdrawals today)
+        const today = getTodayDate();
+        const todayStart = new Date(today).getTime();
+        const todayEnd = todayStart + 86400000;
+        let todayDeposits = 0, todayWithdrawals = 0;
+        depositsSnap.forEach(child => {
+            const req = child.val();
+            if (req.timestamp >= todayStart && req.timestamp < todayEnd) todayDeposits += req.amount;
+        });
+        withdrawSnap.forEach(child => {
+            const req = child.val();
+            if (req.timestamp >= todayStart && req.timestamp < todayEnd) todayWithdrawals += req.amount;
+        });
+        document.getElementById('analyticsTodayRevenue').innerText = '₹' + (todayDeposits - todayWithdrawals).toLocaleString();
+        
+        // Pending counts
+        const pendingDeposits = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
+        document.getElementById('analyticsPendingDeposits').innerText = pendingDeposits.numChildren();
+        const pendingWithdrawals = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
+        document.getElementById('analyticsPendingWithdrawals').innerText = pendingWithdrawals.numChildren();
     }
     
     // User data functions
@@ -736,6 +1035,7 @@
         const refCode = getReferralCode(currentUser.uid);
         document.getElementById('referralCodeDisplay').innerText = refCode;
         loadDepositHistory();
+        loadBetHistory();
     }
     
     async function saveUserData() {
@@ -791,91 +1091,120 @@
         historyDiv.innerHTML = html;
     }
     
-    // Admin Panel Functions
+    // Admin Panel Functions (simplified, same as before)
     async function loadAdminRequests() {
         if(!isAdminLoggedIn()) return;
         
+        // Deposit Requests - fetch all pending, then group by upiAccountId
         const depositSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
-        const depositDiv = document.getElementById('depositRequestsList');
-        const grouped = {};
+        const depositRequests = {};
         depositSnap.forEach(child => {
             const req = child.val();
             const upiId = req.upiAccountId !== undefined ? req.upiAccountId : 'unknown';
-            if(!grouped[upiId]) grouped[upiId] = [];
-            grouped[upiId].push({ key: child.key, ...req });
+            if (!depositRequests[upiId]) depositRequests[upiId] = [];
+            depositRequests[upiId].push({ key: child.key, ...req });
         });
-        let depositHtml = '';
-        for(const [upiId, requests] of Object.entries(grouped)) {
-            let accountName = `UPI #${upiId}`;
-            if(upiId !== 'unknown' && upiAccounts[parseInt(upiId)]) accountName = upiAccounts[parseInt(upiId)].name;
-            depositHtml += `<div style="margin-bottom:20px;"><h5 style="color:#FFD700;">📱 ${accountName}</h5>`;
-            requests.forEach(req => {
-                depositHtml += `
-                    <div class="request-item">
-                        <strong>👤 ${req.userName}</strong><br>
-                        💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus || 0}<br>
-                        🔢 UTR: ${req.utr}<br>
-                        ⏰ ${new Date(req.timestamp).toLocaleString()}
-                        <div style="margin-top:10px;">
-                            <button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}', ${req.upiAccountId})">✅ Accept</button>
-                            <button class="reject-btn" onclick="rejectDeposit('${req.key}')">❌ Reject</button>
-                        </div>
-                    </div>
-                `;
-            });
-            depositHtml += `</div>`;
-        }
-        if(depositSnap.size === 0) depositHtml = '<p style="color:#8E9AAF;">No pending deposits</p>';
-        depositDiv.innerHTML = depositHtml;
         
+        let depositHtml = '';
+        const today = getTodayDate();
+        for (let i = 0; i < upiAccounts.length; i++) {
+            const account = upiAccounts[i];
+            const accountId = i;
+            const accountName = `${account.name}`;
+            const upiDisplay = account.upi;
+            const receivedToday = account.lastResetDate === today ? account.received : 0;
+            const limit = account.limit;
+            const requests = depositRequests[accountId] || [];
+            
+            depositHtml += `
+                <div class="upi-deposit-card">
+                    <div class="upi-deposit-header">
+                        <h3>📱 ${accountName} (${upiDisplay})</h3>
+                        <span>Daily: ₹${receivedToday}/${limit}</span>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="request-table">
+                            <thead><tr><th>User</th><th>Amount + Bonus</th><th>UTR</th><th>Time</th><th>Actions</th></tr></thead>
+                            <tbody>
+            `;
+            if (requests.length === 0) {
+                depositHtml += `<tr><td colspan="5" class="no-requests">No pending deposits for this account.</td></tr>`;
+            } else {
+                requests.forEach(req => {
+                    depositHtml += `
+                        <tr>
+                            <td><strong>${req.userName}</strong><br><small>${req.email || ''}</small></td>
+                            <td>₹${req.amount} + ₹${req.bonus || 0}</td>
+                            <td>${req.utr}</td>
+                            <td>${new Date(req.timestamp).toLocaleString()}</td>
+                            <td class="action-buttons-cell">
+                                <button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}', ${req.upiAccountId})">Accept</button>
+                                <button class="reject-btn" onclick="rejectDeposit('${req.key}')">Reject</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            depositHtml += `</tbody></table></div></div>`;
+        }
+        if (upiAccounts.length === 0) depositHtml = '<p style="color:#8E9AAF;">No UPI accounts configured.</p>';
+        document.getElementById('depositRequestsList').innerHTML = depositHtml;
+        
+        // Withdrawal Requests
         const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
         const withdrawDiv = document.getElementById('withdrawalRequestsList');
-        let withdrawHtml = '<h5 style="margin:10px 0;">💸 Withdrawal Requests</h5>';
-        withdrawSnap.forEach(child => {
-            const req = child.val();
-            withdrawHtml += `
-                <div class="request-item">
-                    <strong>👤 ${req.userName}</strong><br>
-                    💰 Amount: ₹${req.amount}<br>
-                    🏦 Account: ${req.accountHolder} - ${req.accountNumber}<br>
-                    ⏰ ${new Date(req.timestamp).toLocaleString()}
-                    <div style="margin-top:10px;">
-                        <button class="accept-btn" onclick="approveWithdraw('${child.key}', ${req.amount}, '${req.userId}')">✅ Accept</button>
-                        <button class="reject-btn" onclick="rejectWithdraw('${child.key}')">❌ Reject</button>
-                    </div>
-                </div>
-            `;
-        });
-        if(withdrawSnap.size === 0) withdrawHtml += '<p style="color:#8E9AAF;">No pending withdrawals</p>';
+        let withdrawHtml = '<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>💸 Withdrawal Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>User</th><th>Amount</th><th>Account Details</th><th>Time</th><th>Actions</th></tr></thead><tbody>';
+        if (withdrawSnap.size === 0) withdrawHtml += '<tr><td colspan="5" class="no-requests">No pending withdrawals.</td></tr>';
+        else {
+            withdrawSnap.forEach(child => {
+                const req = child.val();
+                withdrawHtml += `
+                    <tr>
+                        <td><strong>${req.userName}</strong><br><small>${req.email || ''}</small></td>
+                        <td>₹${req.amount}</td>
+                        <td>${req.accountHolder}<br>${req.accountNumber}<br>${req.ifsc}</td>
+                        <td>${new Date(req.timestamp).toLocaleString()}</td>
+                        <td class="action-buttons-cell">
+                            <button class="accept-btn" onclick="approveWithdraw('${child.key}', ${req.amount}, '${req.userId}')">Accept</button>
+                            <button class="reject-btn" onclick="rejectWithdraw('${child.key}')">Reject</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        withdrawHtml += `</tbody></table></div></div>`;
         withdrawDiv.innerHTML = withdrawHtml;
         
+        // Referral Requests
         const referralSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value');
         const referralDiv = document.getElementById('referralRequestsList');
-        let referralHtml = '<h5 style="margin:10px 0;">🎁 Referral Bonus Requests</h5>';
-        referralSnap.forEach(child => {
-            const req = child.val();
-            referralHtml += `
-                <div class="request-item">
-                    <strong>👤 ${req.referrerName}</strong><br>
-                    📧 Referrer: ${req.referrerEmail}<br>
-                    🧑 Friend: ${req.friendEmail}<br>
-                    🔢 UTR: ${req.friendUTR}<br>
-                    💰 Bonus: ₹100<br>
-                    ⏰ ${new Date(req.timestamp).toLocaleString()}
-                    <div style="margin-top:10px;">
-                        <button class="accept-btn" onclick="approveReferralBonus('${child.key}', '${req.referrerId}')">✅ Accept</button>
-                        <button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">❌ Reject</button>
-                    </div>
-                </div>
-            `;
-        });
-        if(referralSnap.size === 0) referralHtml += '<p style="color:#8E9AAF;">No pending referrals</p>';
+        let referralHtml = '<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>🎁 Referral Bonus Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>Referrer</th><th>Friend Email</th><th>UTR</th><th>Time</th><th>Actions</th></tr></thead><tbody>';
+        if (referralSnap.size === 0) referralHtml += '<tr><td colspan="5" class="no-requests">No pending referrals.</td></tr>';
+        else {
+            referralSnap.forEach(child => {
+                const req = child.val();
+                referralHtml += `
+                    <tr>
+                        <td><strong>${req.referrerName}</strong><br><small>${req.referrerEmail}</small></td>
+                        <td>${req.friendEmail}</td>
+                        <td>${req.friendUTR}</td>
+                        <td>${new Date(req.timestamp).toLocaleString()}</td>
+                        <td class="action-buttons-cell">
+                            <button class="accept-btn" onclick="approveReferralBonus('${child.key}', '${req.referrerId}')">Accept</button>
+                            <button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">Reject</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        referralHtml += `</tbody></table></div></div>`;
         referralDiv.innerHTML = referralHtml;
+        
+        loadAdminAnalytics();
     }
     
     window.approveDeposit = async (key, amount, bonus, userId, upiAccountId) => {
         await db.ref(`admin/depositRequests/${key}`).update({ status: 'approved' });
-        // Update user balance
         const userRef = db.ref(`users/${userId}`);
         const snap = await userRef.once('value');
         const currentBalance = snap.val()?.balance || 0;
@@ -883,6 +1212,9 @@
         if(currentUser && currentUser.uid === userId) {
             userBalance = currentBalance + amount + bonus;
             updateAllDisplay();
+            showToast(`✅ Deposit approved! ₹${amount + bonus} added to your wallet.`);
+        } else if(isAdminLoggedIn()) {
+            showToast(`✅ Deposit approved! ₹${amount + bonus} added to ${snap.val()?.name || 'user'}.`);
         }
         // Update UPI account received amount
         if (upiAccountId !== undefined && upiAccounts[upiAccountId]) {
@@ -895,14 +1227,13 @@
             account.received += (amount + bonus);
             await db.ref('settings/upiAccounts').set(upiAccounts);
         }
-        alert(`✅ Deposit approved! ₹${amount + bonus} added.`);
         if(isAdminLoggedIn()) loadAdminRequests();
         if(currentUser && currentUser.uid === userId) loadDepositHistory();
     };
     
     window.rejectDeposit = async (key) => {
         await db.ref(`admin/depositRequests/${key}`).update({ status: 'rejected' });
-        alert('❌ Deposit rejected');
+        showToast(`❌ Deposit rejected.`, 'error');
         if(isAdminLoggedIn()) loadAdminRequests();
         const snap = await db.ref(`admin/depositRequests/${key}`).once('value');
         const req = snap.val();
@@ -919,17 +1250,19 @@
             if(currentUser && currentUser.uid === userId) {
                 userBalance = currentBalance - amount;
                 updateAllDisplay();
+                showToast(`✅ Withdrawal approved! ₹${amount} deducted.`);
+            } else if(isAdminLoggedIn()) {
+                showToast(`✅ Withdrawal approved! ₹${amount} deducted from ${snap.val()?.name || 'user'}.`);
             }
-            alert(`✅ Withdrawal approved! ₹${amount} deducted.`);
         } else {
-            alert('❌ Insufficient balance!');
+            showToast(`❌ Insufficient balance!`, 'error');
         }
         if(isAdminLoggedIn()) loadAdminRequests();
     };
     
     window.rejectWithdraw = async (key) => {
         await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' });
-        alert('❌ Withdrawal rejected');
+        showToast(`❌ Withdrawal rejected.`, 'error');
         if(isAdminLoggedIn()) loadAdminRequests();
     };
     
@@ -942,66 +1275,65 @@
         if(currentUser && currentUser.uid === referrerId) {
             userBalance = currentBalance + 100;
             updateAllDisplay();
+            showToast(`🎉 Referral bonus credited! ₹100 added to your wallet.`);
+        } else if(isAdminLoggedIn()) {
+            showToast(`✅ Referral bonus approved! ₹100 added to ${snap.val()?.name || 'user'}.`);
         }
-        alert(`✅ Referral bonus approved! ₹100 added to referrer.`);
         if(isAdminLoggedIn()) loadAdminRequests();
+        loadTopReferrers();
     };
     
     window.rejectReferralBonus = async (key) => {
         await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'rejected' });
-        alert('❌ Referral request rejected');
+        showToast(`❌ Referral request rejected.`, 'error');
         if(isAdminLoggedIn()) loadAdminRequests();
     };
     
     // UPI Accounts Management
     async function loadUpiAccounts() {
         const snapshot = await db.ref('settings/upiAccounts').once('value');
-        upiAccounts = snapshot.val() || [];
-        // Initialize default accounts if none
-        if(upiAccounts.length === 0) {
-            upiAccounts = [
+        let accounts = snapshot.val();
+        if (!accounts || accounts.length === 0) {
+            accounts = [
                 { name: "Lucky Baadshah", upi: "thakurraj8156@okhdfcbank", limit: 10000, received: 0, lastResetDate: getTodayDate() },
                 { name: "Lucky Baadshah", upi: "7041748558@ptsbi", limit: 10000, received: 0, lastResetDate: getTodayDate() },
                 { name: "Lucky Baadshah", upi: "7383235938@ptyes", limit: 10000, received: 0, lastResetDate: getTodayDate() },
                 { name: "Lucky Baadshah", upi: "9725124689-2@axl", limit: 10000, received: 0, lastResetDate: getTodayDate() }
             ];
-            await db.ref('settings/upiAccounts').set(upiAccounts);
-        }
-        // Ensure each account has lastResetDate
-        const today = getTodayDate();
-        let changed = false;
-        for (let acc of upiAccounts) {
-            if (!acc.lastResetDate || acc.lastResetDate !== today) {
-                acc.received = 0;
-                acc.lastResetDate = today;
-                changed = true;
+            await db.ref('settings/upiAccounts').set(accounts);
+        } else {
+            let changed = false;
+            for (let acc of accounts) {
+                if (!acc.limit) { acc.limit = 10000; changed = true; }
+                if (!acc.name) { acc.name = "Lucky Baadshah"; changed = true; }
+                const today = getTodayDate();
+                if (!acc.lastResetDate || acc.lastResetDate !== today) {
+                    acc.received = 0;
+                    acc.lastResetDate = today;
+                    changed = true;
+                }
             }
+            if (changed) await db.ref('settings/upiAccounts').set(accounts);
         }
-        if (changed) await db.ref('settings/upiAccounts').set(upiAccounts);
+        upiAccounts = accounts;
         renderUpiAccounts();
-        // Refresh deposit page if open
-        if(document.getElementById('depositPanel').style.display !== 'none') {
-            generateQR();
-        }
+        if (isAdminLoggedIn() && document.getElementById('tabDeposits').classList.contains('active')) loadAdminRequests();
+        if(document.getElementById('depositPanel').style.display !== 'none') generateQR();
     }
     
     function renderUpiAccounts() {
         const container = document.getElementById('upiAccountsList');
         if(!container) return;
-        if(upiAccounts.length === 0) {
-            container.innerHTML = '<p style="color:#8E9AAF;">No UPI accounts added. Add one above.</p>';
-            return;
-        }
+        if(upiAccounts.length === 0) { container.innerHTML = '<p style="color:#8E9AAF;">No UPI accounts added.</p>'; return; }
         const today = getTodayDate();
         container.innerHTML = upiAccounts.map((acc, idx) => `
             <div class="upi-account-card">
                 <strong>${acc.name}</strong> (${acc.upi})<br>
-                Daily Limit: ${acc.limit ? '₹'+acc.limit : 'No limit'}<br>
+                Daily Limit: ₹${acc.limit}<br>
                 Today's Received: ₹${acc.lastResetDate === today ? acc.received : 0}<br>
                 <button class="delete-upi-btn" data-idx="${idx}" style="background:#ef4444; border:none; padding:4px 12px; border-radius:20px; color:white; margin-top:8px; cursor:pointer;">Delete</button>
             </div>
         `).join('');
-        
         document.querySelectorAll('.delete-upi-btn').forEach(btn => {
             btn.onclick = async (e) => {
                 const idx = parseInt(btn.getAttribute('data-idx'));
@@ -1023,7 +1355,7 @@
         await db.ref('settings/upiAccounts').set(upiAccounts);
         document.getElementById('newUpiName').value = '';
         document.getElementById('newUpiId').value = '';
-        document.getElementById('newUpiLimit').value = '';
+        document.getElementById('newUpiLimit').value = '10000';
         loadUpiAccounts();
     }
     
@@ -1064,9 +1396,7 @@
         if(!friendUTR || !friendEmail) return alert('Please enter both UTR and friend email/name.');
         
         const existing = await db.ref('admin/referralBonusRequests').orderByChild('friendUTR').equalTo(friendUTR).once('value');
-        if(existing.exists()) {
-            return alert('This UTR has already been submitted. Please use a different one.');
-        }
+        if(existing.exists()) return alert('This UTR has already been submitted.');
         
         await db.ref('admin/referralBonusRequests').push({
             referrerId: currentUser.uid,
@@ -1081,12 +1411,11 @@
         document.getElementById('referralStatus').innerHTML = '<span style="color:#10b981;">✅ Request submitted! Admin will verify and credit ₹100 soon.</span>';
         document.getElementById('refFriendUTR').value = '';
         document.getElementById('refFriendEmail').value = '';
-        setTimeout(() => {
-            document.getElementById('referralStatus').innerHTML = '';
-        }, 5000);
+        setTimeout(() => document.getElementById('referralStatus').innerHTML = '', 5000);
+        showToast('Referral request submitted!', 'success');
     }
     
-    // Game Functions (same as original)
+    // Game Functions (modified to store bet history)
     function generateMatkaResult() {
         const openNums = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)];
         const openSum = openNums[0] + openNums[1] + openNums[2];
@@ -1148,23 +1477,32 @@
         document.getElementById('lastClose').textContent = result.close;
         document.getElementById('lastJodi').textContent = result.jodi.toString().padStart(2,'0');
         
+        // Store in results history for hot numbers
+        resultsHistory.unshift({ open: result.open, close: result.close });
+        if (resultsHistory.length > 20) resultsHistory.pop();
+        updateHotNumbers();
+        
         if(pendingBet) {
             let multiplier = getPayout(pendingBet.type, pendingBet.value, result.open, result.close, result.jodi);
-            
+            let winAmount = 0;
             if(multiplier > 0) {
-                const winAmount = pendingBet.amount * multiplier;
+                winAmount = pendingBet.amount * multiplier;
                 userBalance += winAmount;
                 winCount++;
                 document.getElementById('matkaWinMessage').innerHTML = `<span style="color:#10b981;">🎉 YOU WON! ₹${winAmount.toLocaleString()} (${multiplier}x) 🎉</span>`;
                 addToGameHistory(currentUser?.displayName || 'Player', pendingBet.amount, winAmount, true);
                 addToTicker(currentUser?.displayName || 'Player', winAmount);
+                showToast(`🎉 You won ₹${winAmount.toLocaleString()}!`, 'success');
             } else {
                 userBalance -= pendingBet.amount;
                 document.getElementById('matkaWinMessage').innerHTML = `<span style="color:#f97316;">💔 You lost ₹${pendingBet.amount.toLocaleString()}</span>`;
                 addToGameHistory(currentUser?.displayName || 'Player', pendingBet.amount, 0, false);
+                showToast(`💔 You lost ₹${pendingBet.amount.toLocaleString()}`, 'error');
             }
             
             totalBets++;
+            // Save bet to history
+            await saveBetToHistory(pendingBet.amount, pendingBet.type, pendingBet.value, multiplier > 0 ? 'win' : 'loss', winAmount);
             await saveUserData();
             updateAllDisplay();
             pendingBet = null;
@@ -1198,6 +1536,7 @@
         pendingBet = { type: currentBetType, value: betValue, amount: amount };
         document.getElementById('matkaBetStatus').innerHTML = `<span style="color:#FFD700;">✅ Bet placed! Amount ₹${amount} will be deducted on result</span>`;
         setTimeout(() => document.getElementById('matkaBetStatus').innerHTML = '', 2000);
+        showToast(`Bet placed! ₹${amount} on ${currentBetType}`, 'success');
     }
     
     function addToGameHistory(name, betAmount, winAmount, isWin) {
@@ -1344,7 +1683,6 @@
             document.getElementById('qrMessage').innerHTML = `Scan QR to pay to ${acc.name}`;
             document.getElementById('qrMessage').style.color = '#FFD700';
         }
-        // Store the index for this payment attempt
         selectedUpiIndexForPayment = availableIndex;
     }
     
@@ -1370,7 +1708,7 @@
             status: 'pending',
             timestamp: Date.now()
         });
-        alert(`✅ Deposit request submitted!\nAmount: ₹${amount}\nUTR: ${utr}\n\nAdmin will verify and add balance.`);
+        showToast(`✅ Deposit request submitted! Amount: ₹${amount}, UTR: ${utr}`, 'success');
         document.getElementById('utrSection').style.display = 'none';
         document.getElementById('utrCode').value = '';
         tempPaidAmount = null;
@@ -1405,7 +1743,7 @@
             status: 'pending',
             timestamp: Date.now()
         });
-        alert(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted!\n\nAdmin will process within 24-48 hours.`);
+        showToast(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted!`, 'success');
     }
     
     // Navigation for user app
@@ -1446,6 +1784,8 @@
         document.querySelector(`.nav-item-premium[data-page="${page}"]`).classList.add('active');
         if(panelId === 'profilePanel') {
             loadDepositHistory();
+            loadBetHistory();
+            loadTopReferrers();
         }
         if(panelId === 'depositPanel') {
             generateQR();
@@ -1504,12 +1844,34 @@
             showHome();
             await loadUpiAccounts();
             await loadLogo();
+            loadLeaderboard();
+            loadTopReferrers();
+            // Load initial hot numbers (maybe from last results)
+            const lastResults = await db.ref('game/lastResults').once('value');
+            if (lastResults.exists()) {
+                resultsHistory = lastResults.val() || [];
+                updateHotNumbers();
+            }
         } else if(!user && !adminLoggedIn) {
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('adminPanelPage').style.display = 'none';
         }
     });
+    
+    // Save results history to Firebase after each round
+    async function saveResultsHistory() {
+        if (resultsHistory.length > 0) {
+            await db.ref('game/lastResults').set(resultsHistory);
+        }
+    }
+    
+    // Override declareMatkaResult to also save history
+    const originalDeclare = declareMatkaResult;
+    declareMatkaResult = async function() {
+        await originalDeclare();
+        saveResultsHistory();
+    };
     
     // Event Listeners
     document.getElementById('googleLoginBtn').onclick = () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -1521,6 +1883,7 @@
             currentUser = auth.currentUser;
             await saveUserData();
             updateAllDisplay();
+            loadLeaderboard();
         }
     };
     document.getElementById('submitReferralBonusBtn').onclick = submitReferralBonus;
@@ -1626,6 +1989,7 @@
             const tab = btn.getAttribute('data-tab');
             document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
+            if (tab === 'analytics') loadAdminAnalytics();
         };
     });
     document.getElementById('addUpiAccountBtn')?.addEventListener('click', addUpiAccount);
