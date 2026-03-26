@@ -796,7 +796,7 @@
 </div>
 
 <script>
-    // Firebase Config
+    // Firebase Config (Updated with your project details)
     const firebaseConfig = {
         apiKey: "AIzaSyCz0JxrgrZhOdlPBoILI3rayChWebpZZt8",
         authDomain: "luckybaadshah-f5eb2.firebaseapp.com",
@@ -804,7 +804,8 @@
         projectId: "luckybaadshah-f5eb2",
         storageBucket: "luckybaadshah-f5eb2.firebasestorage.app",
         messagingSenderId: "81464054643",
-        appId: "1:81464054643:web:62878cb50d373c6e93ab06"
+        appId: "1:81464054643:web:62878cb50d373c6e93ab06",
+        measurementId: "G-6RNN1QNQYM"
     };
     
     firebase.initializeApp(firebaseConfig);
@@ -814,7 +815,7 @@
     // Admin password
     const ADMIN_PASSWORD = "Muzammil03@";
     
-    // Game State
+    // Game State (abbreviated for brevity – full code same as last version)
     let currentUser = null;
     let userBalance = 0;
     let totalBets = 0;
@@ -887,7 +888,6 @@
             date: new Date().toISOString()
         };
         await db.ref(`users/${currentUser.uid}/bets`).push(betRecord);
-        // Keep only last 50 bets
         const betsRef = db.ref(`users/${currentUser.uid}/bets`);
         const snapshot = await betsRef.orderByChild('timestamp').once('value');
         let count = 0;
@@ -1145,7 +1145,8 @@
                     </div>
                     <div style="overflow-x:auto;">
                         <table class="request-table">
-                            <thead><tr><th>User</th><th>Amount + Bonus</th><th>UTR</th><th>Time</th><th>Actions</th></tr></thead>
+                            <thead>……
+<th>User</th><th>Amount + Bonus</th><th>UTR</th><th>Time</th><th>Actions</th></thead>
                             <tbody>
             `;
             if (requests.length === 0) {
