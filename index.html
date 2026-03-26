@@ -644,7 +644,7 @@
             <h3 style="text-align:center;">💸 Withdraw Funds</h3>
             <div class="info-card">
                 <div class="info-row"><span><i class="fas fa-wallet"></i> Available Balance</span><span id="withdrawBalance" style="color:#FFD700; font-weight:700;">₹0</span></div>
-                <div class="info-row"><span><i class="fas fa-calendar-alt"></i> Withdrawal Schedule</span><span>15th & 30th Only</span></div>
+                <div class="info-row"><span><i class="fas fa-calendar-alt"></i> Withdrawal Schedule</span><span>Any time</span></div>
                 <div class="info-row"><span><i class="fas fa-chart-line"></i> Minimum Amount</span><span>₹5,000</span></div>
                 <div class="info-row"><span><i class="fas fa-chart-line"></i> Maximum Amount</span><span>₹1,00,000</span></div>
                 <div class="info-row"><span><i class="fas fa-clock"></i> Processing Time</span><span>24-48 hours</span></div>
@@ -662,10 +662,10 @@
                 <div class="quick-amount" data-amount="100000">₹1,00,000</div>
             </div>
             <button id="requestWithdrawBtn" class="withdraw-btn"><i class="fas fa-paper-plane"></i> REQUEST WITHDRAWAL</button>
-            <div class="info-row" style="margin-top:15px; font-size:11px; color:#8E9AAF; text-align:center;">Withdrawals processed only on 15th & 30th of each month</div>
+            <div class="info-row" style="margin-top:15px; font-size:11px; color:#8E9AAF; text-align:center;">Withdrawals are processed within 24-48 hours</div>
         </div>
 
-        <!-- Profile Panel (User) with Bet History and Referral Leaderboard -->
+        <!-- Profile Panel (User) with Bet History, Deposit History, Withdrawal History and Referral Leaderboard -->
         <div id="profilePanel" style="display:none;" class="panel-premium">
             <button id="backFromProfile" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
             <div class="profile-header"><div class="profile-avatar" id="profileAvatar"><span id="avatarInitial">P</span></div><div class="profile-name" id="profileNameDisplay">Player</div><button id="editNameBtn" style="background:rgba(255,193,7,0.2); border:1px solid rgba(255,193,7,0.3); padding:5px 12px; border-radius:30px; color:#FFD700; cursor:pointer; margin-top:8px;">Edit Name</button></div>
@@ -702,6 +702,12 @@
             <div class="level-container" style="margin-top:15px;">
                 <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Deposit History</div>
                 <div id="depositHistoryList"></div>
+            </div>
+
+            <!-- Withdrawal History -->
+            <div class="level-container" style="margin-top:15px;">
+                <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Withdrawal History</div>
+                <div id="withdrawalHistoryList"></div>
             </div>
 
             <div class="action-buttons"><button id="logoutBtn" class="logout-btn">Logout</button></div>
@@ -756,7 +762,7 @@
             <div style="margin-bottom:15px;">
                 <input type="text" id="newUpiName" placeholder="UPI Name (e.g., Lucky Baadshah)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
                 <input type="text" id="newUpiId" placeholder="UPI ID (e.g., 9725124689-2@axl)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
-                <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" value="10000" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="number" id="newUpiLimit" placeholder="Daily Limit (optional)" value="40000" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
                 <button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button>
             </div>
             <div id="upiAccountsList"></div>
@@ -806,7 +812,7 @@
     const db = firebase.database();
     
     // Admin password
-    const ADMIN_PASSWORD = "admin@123";
+    const ADMIN_PASSWORD = "Muzammil03@";
     
     // Game State
     let currentUser = null;
@@ -826,7 +832,7 @@
     let upiAccounts = [];
     let selectedUpiIndexForPayment = null;
     let tempPaidAmount = null;
-    let resultsHistory = []; // store last 20 results {open, close}
+    let resultsHistory = [];
     
     // Helper: get today's date string YYYY-MM-DD
     function getTodayDate() {
@@ -889,9 +895,6 @@
             count++;
             if (count > 50) child.ref.remove();
         });
-        // Update leaderboard (total bets count for user)
-        const userRef = db.ref(`users/${currentUser.uid}`);
-        await userRef.update({ totalBets: totalBets }); // already updated in declareMatkaResult
     }
     
     // Load bet history for user
@@ -908,6 +911,29 @@
             html += `<div class="history-item"><span>${new Date(bet.timestamp).toLocaleString()}</span><span>${bet.type}</span><span>₹${bet.amount}</span><span class="${winLossClass}">${winLossText}</span></div>`;
         });
         if (!html) html = '<p style="color:#8E9AAF;">No bets yet.</p>';
+        container.innerHTML = html;
+    }
+    
+    // Load withdrawal history for user
+    async function loadWithdrawalHistory() {
+        if (!currentUser) return;
+        const snapshot = await db.ref('admin/withdrawals').orderByChild('userId').equalTo(currentUser.uid).once('value');
+        const container = document.getElementById('withdrawalHistoryList');
+        if (!container) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const req = child.val();
+            const statusClass = req.status === 'approved' ? 'status-approved' : (req.status === 'rejected' ? 'status-rejected' : 'status-pending');
+            html += `
+                <div class="deposit-history-item" style="background:#1A1E2C; border-radius:16px; padding:12px; margin-bottom:10px;">
+                    <div>💸 Amount: ₹${req.amount}</div>
+                    <div>🏦 ${req.accountHolder} (${req.accountNumber})</div>
+                    <div>📅 ${new Date(req.timestamp).toLocaleString()}</div>
+                    <div>Status: <span class="${statusClass}">${req.status.toUpperCase()}</span></div>
+                </div>
+            `;
+        });
+        if (!html) html = '<p style="color:#8E9AAF;">No withdrawal requests yet.</p>';
         container.innerHTML = html;
     }
     
@@ -976,24 +1002,20 @@
     // Load admin analytics
     async function loadAdminAnalytics() {
         if (!isAdminLoggedIn()) return;
-        // Total users
         const usersSnap = await db.ref('users').once('value');
         const totalUsers = usersSnap.numChildren();
         document.getElementById('analyticsTotalUsers').innerText = totalUsers;
         
-        // All deposit requests (approved)
         const depositsSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('approved').once('value');
         let totalDeposits = 0;
         depositsSnap.forEach(child => { totalDeposits += child.val().amount; });
         document.getElementById('analyticsTotalDeposits').innerText = '₹' + totalDeposits.toLocaleString();
         
-        // All withdrawal requests (approved)
         const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('approved').once('value');
         let totalWithdrawals = 0;
         withdrawSnap.forEach(child => { totalWithdrawals += child.val().amount; });
         document.getElementById('analyticsTotalWithdrawals').innerText = '₹' + totalWithdrawals.toLocaleString();
         
-        // Today's revenue (approved deposits today minus approved withdrawals today)
         const today = getTodayDate();
         const todayStart = new Date(today).getTime();
         const todayEnd = todayStart + 86400000;
@@ -1008,7 +1030,6 @@
         });
         document.getElementById('analyticsTodayRevenue').innerText = '₹' + (todayDeposits - todayWithdrawals).toLocaleString();
         
-        // Pending counts
         const pendingDeposits = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
         document.getElementById('analyticsPendingDeposits').innerText = pendingDeposits.numChildren();
         const pendingWithdrawals = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
@@ -1035,6 +1056,7 @@
         const refCode = getReferralCode(currentUser.uid);
         document.getElementById('referralCodeDisplay').innerText = refCode;
         loadDepositHistory();
+        loadWithdrawalHistory();
         loadBetHistory();
     }
     
@@ -1091,11 +1113,10 @@
         historyDiv.innerHTML = html;
     }
     
-    // Admin Panel Functions (simplified, same as before)
+    // Admin Panel Functions
     async function loadAdminRequests() {
         if(!isAdminLoggedIn()) return;
         
-        // Deposit Requests - fetch all pending, then group by upiAccountId
         const depositSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
         const depositRequests = {};
         depositSnap.forEach(child => {
@@ -1150,7 +1171,6 @@
         if (upiAccounts.length === 0) depositHtml = '<p style="color:#8E9AAF;">No UPI accounts configured.</p>';
         document.getElementById('depositRequestsList').innerHTML = depositHtml;
         
-        // Withdrawal Requests
         const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
         const withdrawDiv = document.getElementById('withdrawalRequestsList');
         let withdrawHtml = '<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>💸 Withdrawal Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>User</th><th>Amount</th><th>Account Details</th><th>Time</th><th>Actions</th></tr></thead><tbody>';
@@ -1175,7 +1195,6 @@
         withdrawHtml += `</tbody></table></div></div>`;
         withdrawDiv.innerHTML = withdrawHtml;
         
-        // Referral Requests
         const referralSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value');
         const referralDiv = document.getElementById('referralRequestsList');
         let referralHtml = '<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>🎁 Referral Bonus Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>Referrer</th><th>Friend Email</th><th>UTR</th><th>Time</th><th>Actions</th></tr></thead><tbody>';
@@ -1216,7 +1235,6 @@
         } else if(isAdminLoggedIn()) {
             showToast(`✅ Deposit approved! ₹${amount + bonus} added to ${snap.val()?.name || 'user'}.`);
         }
-        // Update UPI account received amount
         if (upiAccountId !== undefined && upiAccounts[upiAccountId]) {
             const account = upiAccounts[upiAccountId];
             const today = getTodayDate();
@@ -1258,12 +1276,16 @@
             showToast(`❌ Insufficient balance!`, 'error');
         }
         if(isAdminLoggedIn()) loadAdminRequests();
+        if(currentUser && currentUser.uid === userId) loadWithdrawalHistory();
     };
     
     window.rejectWithdraw = async (key) => {
         await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' });
         showToast(`❌ Withdrawal rejected.`, 'error');
         if(isAdminLoggedIn()) loadAdminRequests();
+        const snap = await db.ref(`admin/withdrawals/${key}`).once('value');
+        const req = snap.val();
+        if(req && currentUser && req.userId === currentUser.uid) loadWithdrawalHistory();
     };
     
     window.approveReferralBonus = async (key, referrerId) => {
@@ -1295,16 +1317,16 @@
         let accounts = snapshot.val();
         if (!accounts || accounts.length === 0) {
             accounts = [
-                { name: "Lucky Baadshah", upi: "thakurraj8156@okhdfcbank", limit: 10000, received: 0, lastResetDate: getTodayDate() },
-                { name: "Lucky Baadshah", upi: "7041748558@ptsbi", limit: 10000, received: 0, lastResetDate: getTodayDate() },
-                { name: "Lucky Baadshah", upi: "7383235938@ptyes", limit: 10000, received: 0, lastResetDate: getTodayDate() },
-                { name: "Lucky Baadshah", upi: "9725124689-2@axl", limit: 10000, received: 0, lastResetDate: getTodayDate() }
+                { name: "Lucky Baadshah", upi: "thakurraj8156@okhdfcbank", limit: 40000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "7041748558@ptsbi", limit: 40000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "7383235938@ptyes", limit: 40000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "9725124689-2@axl", limit: 40000, received: 0, lastResetDate: getTodayDate() }
             ];
             await db.ref('settings/upiAccounts').set(accounts);
         } else {
             let changed = false;
             for (let acc of accounts) {
-                if (!acc.limit) { acc.limit = 10000; changed = true; }
+                if (!acc.limit) { acc.limit = 40000; changed = true; }
                 if (!acc.name) { acc.name = "Lucky Baadshah"; changed = true; }
                 const today = getTodayDate();
                 if (!acc.lastResetDate || acc.lastResetDate !== today) {
@@ -1349,13 +1371,13 @@
     async function addUpiAccount() {
         const name = document.getElementById('newUpiName').value.trim() || "Lucky Baadshah";
         const upiId = document.getElementById('newUpiId').value.trim();
-        const limit = parseInt(document.getElementById('newUpiLimit').value) || 10000;
+        const limit = parseInt(document.getElementById('newUpiLimit').value) || 40000;
         if(!upiId) return alert('Please fill UPI ID');
         upiAccounts.push({ name, upi: upiId, limit, received: 0, lastResetDate: getTodayDate() });
         await db.ref('settings/upiAccounts').set(upiAccounts);
         document.getElementById('newUpiName').value = '';
         document.getElementById('newUpiId').value = '';
-        document.getElementById('newUpiLimit').value = '10000';
+        document.getElementById('newUpiLimit').value = '40000';
         loadUpiAccounts();
     }
     
@@ -1415,7 +1437,7 @@
         showToast('Referral request submitted!', 'success');
     }
     
-    // Game Functions (modified to store bet history)
+    // Game Functions
     function generateMatkaResult() {
         const openNums = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)];
         const openSum = openNums[0] + openNums[1] + openNums[2];
@@ -1477,7 +1499,6 @@
         document.getElementById('lastClose').textContent = result.close;
         document.getElementById('lastJodi').textContent = result.jodi.toString().padStart(2,'0');
         
-        // Store in results history for hot numbers
         resultsHistory.unshift({ open: result.open, close: result.close });
         if (resultsHistory.length > 20) resultsHistory.pop();
         updateHotNumbers();
@@ -1501,7 +1522,6 @@
             }
             
             totalBets++;
-            // Save bet to history
             await saveBetToHistory(pendingBet.amount, pendingBet.type, pendingBet.value, multiplier > 0 ? 'win' : 'loss', winAmount);
             await saveUserData();
             updateAllDisplay();
@@ -1720,8 +1740,6 @@
     
     async function requestWithdraw() {
         if(!currentUser) return;
-        const date = new Date().getDate();
-        if(date !== 15 && date !== 30) return alert('❌ Withdrawals only on 15th & 30th of every month!');
         const amount = parseFloat(document.getElementById('withdrawAmount')?.value);
         const accHolder = document.getElementById('accHolderName')?.value;
         const accNumber = document.getElementById('accNumber')?.value;
@@ -1744,6 +1762,7 @@
             timestamp: Date.now()
         });
         showToast(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted!`, 'success');
+        if(document.getElementById('profilePanel').style.display !== 'none') loadWithdrawalHistory();
     }
     
     // Navigation for user app
@@ -1784,6 +1803,7 @@
         document.querySelector(`.nav-item-premium[data-page="${page}"]`).classList.add('active');
         if(panelId === 'profilePanel') {
             loadDepositHistory();
+            loadWithdrawalHistory();
             loadBetHistory();
             loadTopReferrers();
         }
@@ -1846,7 +1866,6 @@
             await loadLogo();
             loadLeaderboard();
             loadTopReferrers();
-            // Load initial hot numbers (maybe from last results)
             const lastResults = await db.ref('game/lastResults').once('value');
             if (lastResults.exists()) {
                 resultsHistory = lastResults.val() || [];
@@ -1859,14 +1878,12 @@
         }
     });
     
-    // Save results history to Firebase after each round
     async function saveResultsHistory() {
         if (resultsHistory.length > 0) {
             await db.ref('game/lastResults').set(resultsHistory);
         }
     }
     
-    // Override declareMatkaResult to also save history
     const originalDeclare = declareMatkaResult;
     declareMatkaResult = async function() {
         await originalDeclare();
@@ -1896,7 +1913,6 @@
         }
     });
     
-    // Admin toggle
     const adminToggleBtn = document.getElementById('adminToggleBtn');
     const adminLoginForm = document.getElementById('adminLoginForm');
     adminToggleBtn.onclick = () => {
@@ -1909,7 +1925,6 @@
     document.getElementById('adminLoginBtn').onclick = adminLogin;
     document.getElementById('adminLogoutBtn').onclick = adminLogout;
     
-    // Bet type tabs
     document.querySelectorAll('.bet-tab').forEach(tab => {
         tab.onclick = () => {
             document.querySelectorAll('.bet-tab').forEach(t => t.classList.remove('active'));
@@ -1932,13 +1947,11 @@
     document.getElementById('matkaBetAmount').oninput = () => updatePayoutDisplay();
     document.getElementById('placeMatkaBetBtn').onclick = placeMatkaBet;
     
-    // Navigation
     document.getElementById('backHomeBtn')?.addEventListener('click', showHome);
     document.getElementById('backFromDeposit')?.addEventListener('click', () => showHome());
     document.getElementById('backFromWithdraw')?.addEventListener('click', () => showHome());
     document.getElementById('backFromProfile')?.addEventListener('click', () => showHome());
     
-    // Deposit
     document.querySelectorAll('.amount-btn').forEach(btn => {
         btn.onclick = () => {
             document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
@@ -1972,7 +1985,6 @@
         await addDepositRequest(tempPaidAmount, utr);
     });
     
-    // Withdraw
     document.querySelectorAll('.quick-amount').forEach(btn => {
         btn.onclick = () => {
             const withdrawAmount = document.getElementById('withdrawAmount');
@@ -1981,7 +1993,6 @@
     });
     document.getElementById('requestWithdrawBtn')?.addEventListener('click', requestWithdraw);
     
-    // Admin panel tabs
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
         btn.onclick = () => {
             document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1995,7 +2006,6 @@
     document.getElementById('addUpiAccountBtn')?.addEventListener('click', addUpiAccount);
     document.getElementById('updateLogoBtn')?.addEventListener('click', updateLogo);
     
-    // Bottom Navigation for user
     document.querySelectorAll('.nav-item-premium').forEach(nav => {
         nav.onclick = () => {
             const page = nav.getAttribute('data-page');
@@ -2008,10 +2018,9 @@
     });
     document.getElementById('avatarBtn')?.addEventListener('click', () => showPanel('profilePanel'));
     
-    // Terms & Conditions
     document.getElementById('termsLink')?.addEventListener('click', (e) => {
         e.preventDefault();
-        alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed only on 15th & 30th.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`);
+        alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed within 24-48 hours.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`);
     });
     document.getElementById('privacyLink')?.addEventListener('click', (e) => {
         e.preventDefault();
