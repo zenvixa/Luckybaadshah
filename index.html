@@ -14,6 +14,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; background: #05070C; color: #fff; overflow-x: hidden; }
         .animated-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 30%, rgba(255,193,7,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255,107,0,0.05) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+        
+        /* Login Page Styles */
         .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; z-index: 1; }
         .login-card { background: linear-gradient(145deg, rgba(18,21,31,0.95), rgba(14,16,24,0.95)); backdrop-filter: blur(20px); border-radius: 48px; padding: 50px 40px; text-align: center; max-width: 450px; width: 100%; border: 1px solid rgba(255,193,7,0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.5); animation: slideUp 0.5s ease-out; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -28,16 +30,23 @@
         .google-login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(16,185,129,0.3); }
         .terms { margin-top: 30px; font-size: 12px; color: #6B7280; }
         .terms a { color: #FFD700; text-decoration: none; }
+        
+        /* Admin Login Section */
         .admin-login-section { margin-top: 20px; border-top: 1px solid rgba(255,193,7,0.2); padding-top: 20px; }
         .admin-toggle-btn { background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.3); padding: 10px; border-radius: 40px; width: 100%; color: #FFD700; cursor: pointer; margin-bottom: 10px; }
         .admin-login-form { display: none; margin-top: 15px; }
         .admin-login-form input { background: #1A1E2C; border: 1px solid rgba(255,193,7,0.2); padding: 12px; border-radius: 50px; color: white; width: 100%; margin-bottom: 10px; }
         .admin-login-btn { background: linear-gradient(95deg, #FFD700, #FFA500); border: none; padding: 12px; border-radius: 50px; font-weight: 800; color: #0A0C12; cursor: pointer; width: 100%; }
         .admin-error { color: #ef4444; font-size: 12px; margin-top: 8px; }
+        
+        /* Main App - Hidden until login */
         .main-app { display: none; }
+        
+        /* Admin Panel Page - separate from user app */
         .admin-panel-page { display: none; min-height: 100vh; padding: 20px; max-width: 1000px; margin: 0 auto; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .admin-logout-btn { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; padding: 8px 16px; border-radius: 30px; color: #ef4444; cursor: pointer; }
+        
         .admin-section { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 32px; border: 1px solid rgba(255,193,7,0.2); padding: 20px; }
         .request-item { background: #1A1E2C; border-radius: 16px; padding: 15px; margin-bottom: 12px; }
         .accept-btn { background: #10b981; border: none; padding: 6px 16px; border-radius: 25px; color: white; cursor: pointer; margin-right: 8px; }
@@ -75,6 +84,7 @@
             margin-top: 8px;
             cursor: pointer;
         }
+        
         .upi-deposit-card {
             background: #1A1E2C;
             border-radius: 20px;
@@ -97,6 +107,7 @@
         .request-table th { color: #FFD700; font-weight: 600; background: rgba(0,0,0,0.2); }
         .no-requests { padding: 20px; text-align: center; color: #8E9AAF; }
         .action-buttons-cell { white-space: nowrap; }
+        
         .toast {
             position: fixed;
             bottom: 80px;
@@ -117,6 +128,7 @@
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
         .bc-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(5, 7, 12, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,193,7,0.25); padding: 12px 20px; }
         .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo-bc { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -129,11 +141,14 @@
         .balance-amount { color: #FFD700; font-family: 'Orbitron', monospace; }
         .user-avatar { width: 38px; height: 38px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .user-name { font-size: 13px; font-weight: 600; margin-left: 8px; color: #FFD700; }
+        
         .live-ticker { position: fixed; top: 78px; left: 0; right: 0; background: linear-gradient(90deg, rgba(255,193,7,0.12), rgba(255,107,0,0.08)); backdrop-filter: blur(12px); padding: 10px 0; overflow: hidden; white-space: nowrap; z-index: 99; border-bottom: 1px solid rgba(255,193,7,0.3); border-top: 1px solid rgba(255,193,7,0.2); }
         .ticker-content { display: inline-block; animation: tickerScroll 50s linear infinite; font-size: 14px; font-weight: 600; }
         .ticker-content span { margin: 0 30px; display: inline-flex; align-items: center; gap: 8px; background: rgba(255,193,7,0.12); padding: 5px 15px; border-radius: 40px; }
         @keyframes tickerScroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+        
         .main-container { padding-top: 140px; padding-bottom: 85px; max-width: 550px; margin: 0 auto; padding-left: 16px; padding-right: 16px; position: relative; z-index: 1; }
+        
         .matka-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 40px; border: 1px solid rgba(255,193,7,0.3); overflow: hidden; margin-bottom: 20px; }
         .matka-header { background: linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,165,0,0.08)); padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,193,7,0.2); }
         .matka-timer { font-size: 48px; font-weight: 800; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 4px; }
@@ -141,6 +156,7 @@
         .matka-result { display: flex; justify-content: center; gap: 40px; margin: 15px 0; }
         .result-number { font-size: 48px; font-weight: 800; font-family: 'Orbitron', monospace; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .jodi-number { font-size: 36px; font-weight: 800; font-family: 'Orbitron', monospace; color: #FFD700; }
+        
         .bet-types { padding: 20px; border-top: 1px solid rgba(255,193,7,0.2); }
         .bet-type-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
         .bet-tab { flex: 1; text-align: center; padding: 10px; background: rgba(255,193,7,0.1); border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
@@ -153,6 +169,7 @@
         .multiply-btn { background: linear-gradient(95deg, #FFD700, #FFA500); border: none; padding: 14px 22px; border-radius: 50px; font-weight: 800; font-size: 18px; color: #0A0C12; cursor: pointer; }
         .payout-info { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 12px; margin-top: 10px; font-size: 12px; text-align: center; }
         .place-matka-btn { background: linear-gradient(95deg, #10b981, #059669); border: none; padding: 14px; border-radius: 60px; font-weight: 800; font-size: 16px; color: white; cursor: pointer; width: 100%; margin-top: 10px; }
+        
         .live-stats-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 28px; padding: 18px; border: 1px solid rgba(255,193,7,0.2); margin-top: 15px; }
         .stats-header { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,193,7,0.2); }
         .stats-header h3 { font-size: 15px; color: #FFD700; }
@@ -164,9 +181,11 @@
         .player-result { flex: 1; text-align: right; font-weight: 700; }
         .player-result.win { color: #10b981; }
         .player-result.loss { color: #ef4444; }
+        
         .history-list { max-height: 200px; overflow-y: auto; }
         .history-item { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
         .back-home-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,193,7,0.3); padding: 10px 20px; border-radius: 50px; color: #FFD700; cursor: pointer; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+        
         .rules-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 28px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,193,7,0.2); }
         .rules-title { color: #FFD700; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         .rule-item { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; line-height: 1.4; }
@@ -176,6 +195,7 @@
         .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
         .feature-card { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 24px; padding: 18px; text-align: center; border: 1px solid rgba(255,193,7,0.1); }
         .feature-icon { font-size: 28px; margin-bottom: 8px; color: #FFD700; }
+        
         .hot-numbers-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -197,6 +217,7 @@
             font-size: 11px;
             color: #8E9AAF;
         }
+        
         .panel-premium { background: linear-gradient(145deg, #12151F, #0E1018); border-radius: 32px; border: 1px solid rgba(255,193,7,0.2); padding: 22px; }
         .amount-selector { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0; }
         .amount-btn { background: linear-gradient(145deg, #1A1E2C, #141724); padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; border: 1px solid rgba(255,193,7,0.2); }
@@ -208,12 +229,14 @@
         .step-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 12px; }
         .step-number { background: rgba(255,193,7,0.2); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #FFD700; }
         .utr-section { margin-top: 15px; display: none; }
+        
         .withdraw-input { background: #1A1E2C; border: 1px solid rgba(255,193,7,0.2); padding: 14px; border-radius: 50px; color: white; width: 100%; margin-bottom: 12px; }
         .quick-amounts { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
         .quick-amount { background: rgba(255,193,7,0.1); padding: 8px 16px; border-radius: 40px; font-weight: 600; cursor: pointer; font-size: 12px; }
         .withdraw-btn { background: linear-gradient(95deg, #ef4444, #dc2626); border: none; padding: 14px; border-radius: 60px; font-weight: 800; color: white; cursor: pointer; width: 100%; }
         .info-card { background: rgba(255,193,7,0.05); border-radius: 20px; padding: 15px; margin-bottom: 20px; }
         .info-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; }
+        
         .profile-header { text-align: center; margin-bottom: 20px; }
         .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 36px; font-weight: 800; color: #0A0C12; }
         .profile-name { font-size: 22px; font-weight: 700; color: #FFD700; }
@@ -225,11 +248,13 @@
         .progress-bar { background: linear-gradient(90deg, #FFD700, #FFA500); height: 8px; border-radius: 20px; }
         .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
         .logout-btn { flex: 1; padding: 12px; border-radius: 50px; font-weight: 700; cursor: pointer; text-align: center; background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
+        
         .nav-premium { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(5, 7, 12, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,193,7,0.25); display: flex; justify-content: space-around; padding: 10px 20px 22px; z-index: 100; }
         .nav-item-premium { text-align: center; cursor: pointer; transition: all 0.2s; color: #8E9AAF; }
         .nav-item-premium.active { color: #FFD700; transform: translateY(-3px); }
         .nav-item-premium i { font-size: 24px; display: block; margin-bottom: 4px; }
         .nav-item-premium span { font-size: 10px; }
+        
         .modal-premium {
             position: fixed;
             top: 0;
@@ -336,6 +361,8 @@
             margin-top: 10px;
             cursor: pointer;
         }
+        
+        /* IPL specific styles */
         .ipl-match-card {
             background: linear-gradient(145deg, #12151F, #0E1018);
             border-radius: 28px;
@@ -414,6 +441,7 @@
             max-height: 150px;
             object-fit: cover;
         }
+        
         @media (max-width: 480px) {
             .matka-timer { font-size: 36px; }
             .result-number { font-size: 36px; }
@@ -428,12 +456,25 @@
 <body>
 <div class="animated-bg"></div>
 
+<!-- Login Page (User + Admin login) -->
 <div id="loginPage" class="login-container">
     <div class="login-card">
-        <div class="login-logo"><div class="login-logo-img">LB</div><h1>LUCKY BAADSHAH</h1></div>
-        <div class="powered-by"><i class="fas fa-bolt"></i><span>POWERED BY</span><strong>BC.GAME</strong><i class="fas fa-crown"></i></div>
+        <div class="login-logo">
+            <div class="login-logo-img">LB</div>
+            <h1>LUCKY BAADSHAH</h1>
+        </div>
+        <div class="powered-by">
+            <i class="fas fa-bolt"></i>
+            <span>POWERED BY</span>
+            <strong>BC.GAME</strong>
+            <i class="fas fa-crown"></i>
+        </div>
         <div class="welcome-text">Welcome to Lucky Baadshah</div>
-        <button id="googleLoginBtn" class="google-login-btn"><i class="fab fa-google"></i> Continue with Google</button>
+        <button id="googleLoginBtn" class="google-login-btn">
+            <i class="fab fa-google"></i> Continue with Google
+        </button>
+        
+        <!-- Admin Login Section -->
         <div class="admin-login-section">
             <button id="adminToggleBtn" class="admin-toggle-btn">🔐 Admin Login</button>
             <div id="adminLoginForm" class="admin-login-form">
@@ -442,74 +483,253 @@
                 <div id="adminErrorMsg" class="admin-error"></div>
             </div>
         </div>
-        <div class="terms">By continuing, you agree to our <a href="#" id="termsLink">Terms & Conditions</a> and <a href="#" id="privacyLink">Privacy Policy</a></div>
+        
+        <div class="terms">
+            By continuing, you agree to our 
+            <a href="#" id="termsLink">Terms & Conditions</a> and 
+            <a href="#" id="privacyLink">Privacy Policy</a>
+        </div>
     </div>
 </div>
 
+<!-- Main App (User Game) -->
 <div id="mainApp" class="main-app">
+    <!-- Header -->
     <div class="bc-header">
         <div class="header-container">
-            <div class="logo-bc"><div class="logo-img" id="headerLogo">LB</div><div class="logo-text"><h1>LUCKY BAADSHAH</h1><p>MATKA GAME</p></div></div>
-            <div class="user-stats"><div class="balance-premium"><i class="fas fa-coins"></i><span class="balance-amount" id="walletBalance">0</span><span>₹</span></div><div class="user-avatar" id="avatarBtn"><i class="fas fa-user"></i></div><span class="user-name" id="userName">Player</span></div>
+            <div class="logo-bc">
+                <div class="logo-img" id="headerLogo">LB</div>
+                <div class="logo-text">
+                    <h1>LUCKY BAADSHAH</h1>
+                    <p>MATKA GAME</p>
+                </div>
+            </div>
+            <div class="user-stats">
+                <div class="balance-premium">
+                    <i class="fas fa-coins"></i>
+                    <span class="balance-amount" id="walletBalance">0</span>
+                    <span>₹</span>
+                </div>
+                <div class="user-avatar" id="avatarBtn">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span class="user-name" id="userName">Player</span>
+            </div>
         </div>
     </div>
-    <div class="live-ticker"><div class="ticker-content" id="tickerContent"><span><i class="fas fa-trophy"></i> Rajesh Kumar won ₹7,000 on Single</span><span><i class="fas fa-trophy"></i> Priya Singh won ₹45,000 on Jodi</span><span><i class="fas fa-money-bill-wave"></i> Amit Sharma withdrew ₹28,000</span><span><i class="fas fa-trophy"></i> Neha Verma won ₹12,500 on Single</span></div></div>
-    <div class="main-container" id="mainContainer">
-        <div id="homePage">
-            <div class="matka-card"><div class="matka-header"><div class="matka-timer" id="homeTimer">01:00</div><div style="font-size:12px; color:#8E9AAF;">NEXT RESULT</div></div><div class="result-board"><h4>🎲 LAST RESULT 🎲</h4><div class="matka-result"><div class="result-box"><div class="result-label">OPEN</div><div class="result-number" id="lastOpen">-</div></div><div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="lastClose">-</div></div></div><div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="lastJodi">--</div></div></div></div>
-            <div class="rules-card"><div class="rules-title"><i class="fas fa-chart-line"></i> 🔥 Hot Numbers (Last 20 Rounds)</div><div style="display:flex; gap:20px; justify-content:space-between;"><div style="flex:1"><div style="font-size:12px; color:#FFD700; margin-bottom:5px;">OPEN DIGITS</div><div id="hotOpenContainer" class="hot-numbers-grid"></div></div><div style="flex:1"><div style="font-size:12px; color:#FFD700; margin-bottom:5px;">CLOSE DIGITS</div><div id="hotCloseContainer" class="hot-numbers-grid"></div></div></div></div>
-            <div class="rules-card"><div class="rules-title"><i class="fas fa-trophy"></i> 🏆 Top Players (by Total Bets)</div><div id="leaderboardList" style="max-height:200px; overflow-y:auto;"><p style="color:#8E9AAF;">Loading...</p></div></div>
-            <div class="rules-card"><div class="rules-title"><i class="fas fa-book-open"></i> How to Play Matka</div><div class="rule-item"><div class="rule-number">1</div><div class="rule-text">Every round runs for <strong>60 seconds</strong> - place your bets before timer ends</div></div><div class="rule-item"><div class="rule-number">2</div><div class="rule-text"><strong>Open</strong> and <strong>Close</strong> numbers are drawn from 0-9 (sum of 3 random numbers ka last digit)</div></div><div class="rule-item"><div class="rule-number">3</div><div class="rule-text"><strong>Jodi</strong> = Open + Close digits combined (00 to 99)</div></div><div class="rule-item"><div class="rule-number">4</div><div class="rule-text"><strong>Patti</strong> = 3-digit number (like 111, 222, 123, etc.)</div></div><div class="payout-table"><div class="payout-row"><span>🎯 Single (Open or Close)</span><span style="color:#FFD700;">7x payout</span></div><div class="payout-row"><span>🔗 Jodi (Both digits match)</span><span style="color:#FFD700;">90x payout</span></div><div class="payout-row"><span>👑 Patti (3-digit match)</span><span style="color:#FFD700;">600x payout</span></div></div></div>
-            <div class="features-grid"><div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><div class="feature-title">Single: 7x</div><div class="feature-desc">Match Open or Close digit</div></div><div class="feature-card"><div class="feature-icon"><i class="fas fa-link"></i></div><div class="feature-title">Jodi: 90x</div><div class="feature-desc">Match both digits</div></div><div class="feature-card"><div class="feature-icon"><i class="fas fa-crown"></i></div><div class="feature-title">Patti: 600x</div><div class="feature-desc">Match 3-digit Patti</div></div><div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><div class="feature-title">1 Min Rounds</div><div class="feature-desc">Fast-paced action</div></div></div>
+
+    <!-- Live Ticker -->
+    <div class="live-ticker">
+        <div class="ticker-content" id="tickerContent">
+            <span><i class="fas fa-trophy"></i> Rajesh Kumar won ₹7,000 on Single</span>
+            <span><i class="fas fa-trophy"></i> Priya Singh won ₹45,000 on Jodi</span>
+            <span><i class="fas fa-money-bill-wave"></i> Amit Sharma withdrew ₹28,000</span>
+            <span><i class="fas fa-trophy"></i> Neha Verma won ₹12,500 on Single</span>
         </div>
+    </div>
+
+    <div class="main-container" id="mainContainer">
+        <!-- Home Page -->
+        <div id="homePage">
+            <div class="matka-card">
+                <div class="matka-header">
+                    <div class="matka-timer" id="homeTimer">01:00</div>
+                    <div style="font-size: 12px; color: #8E9AAF;">NEXT RESULT</div>
+                </div>
+                <div class="result-board">
+                    <h4>🎲 LAST RESULT 🎲</h4>
+                    <div class="matka-result">
+                        <div class="result-box"><div class="result-label">OPEN</div><div class="result-number" id="lastOpen">-</div></div>
+                        <div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="lastClose">-</div></div>
+                    </div>
+                    <div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="lastJodi">--</div></div>
+                </div>
+            </div>
+            
+            <!-- Hot Numbers Card -->
+            <div class="rules-card">
+                <div class="rules-title"><i class="fas fa-chart-line"></i> 🔥 Hot Numbers (Last 20 Rounds)</div>
+                <div style="display: flex; gap: 20px; justify-content: space-between;">
+                    <div style="flex:1"><div style="font-size:12px; color:#FFD700; margin-bottom:5px;">OPEN DIGITS</div><div id="hotOpenContainer" class="hot-numbers-grid"></div></div>
+                    <div style="flex:1"><div style="font-size:12px; color:#FFD700; margin-bottom:5px;">CLOSE DIGITS</div><div id="hotCloseContainer" class="hot-numbers-grid"></div></div>
+                </div>
+            </div>
+            
+            <!-- Leaderboard Card -->
+            <div class="rules-card">
+                <div class="rules-title"><i class="fas fa-trophy"></i> 🏆 Top Players (by Total Bets)</div>
+                <div id="leaderboardList" style="max-height:200px; overflow-y:auto;"><p style="color:#8E9AAF;">Loading...</p></div>
+            </div>
+            
+            <div class="rules-card">
+                <div class="rules-title"><i class="fas fa-book-open"></i> How to Play Matka</div>
+                <div class="rule-item"><div class="rule-number">1</div><div class="rule-text">Every round runs for <strong>60 seconds</strong> - place your bets before timer ends</div></div>
+                <div class="rule-item"><div class="rule-number">2</div><div class="rule-text"><strong>Open</strong> and <strong>Close</strong> numbers are drawn from 0-9 (sum of 3 random numbers ka last digit)</div></div>
+                <div class="rule-item"><div class="rule-number">3</div><div class="rule-text"><strong>Jodi</strong> = Open + Close digits combined (00 to 99)</div></div>
+                <div class="rule-item"><div class="rule-number">4</div><div class="rule-text"><strong>Patti</strong> = 3-digit number (like 111, 222, 123, etc.)</div></div>
+                <div class="payout-table">
+                    <div class="payout-row"><span>🎯 Single (Open or Close)</span><span style="color:#FFD700;">7x payout</span></div>
+                    <div class="payout-row"><span>🔗 Jodi (Both digits match)</span><span style="color:#FFD700;">90x payout</span></div>
+                    <div class="payout-row"><span>👑 Patti (3-digit match)</span><span style="color:#FFD700;">600x payout</span></div>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><div class="feature-title">Single: 7x</div><div class="feature-desc">Match Open or Close digit</div></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-link"></i></div><div class="feature-title">Jodi: 90x</div><div class="feature-desc">Match both digits</div></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-crown"></i></div><div class="feature-title">Patti: 600x</div><div class="feature-desc">Match 3-digit Patti</div></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><div class="feature-title">1 Min Rounds</div><div class="feature-desc">Fast-paced action</div></div>
+            </div>
+        </div>
+
+        <!-- Game Panel (Matka) -->
         <div id="gamePage" class="game-panel" style="display:none;">
             <button id="backHomeBtn" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back to Home</button>
-            <div class="matka-card"><div class="matka-header"><div class="matka-timer" id="gameTimer">01:00</div><div style="font-size:12px; color:#8E9AAF;">BETS CLOSE IN</div></div><div class="bet-types"><div class="bet-type-tabs"><div class="bet-tab active" data-type="single">🎯 Single (7x)</div><div class="bet-tab" data-type="jodi">🔗 Jodi (90x)</div><div class="bet-tab" data-type="patti">👑 Patti (600x)</div></div><div id="singleBetArea"><div style="font-size:13px; color:#8E9AAF; margin-bottom:8px;">Select Open or Close:</div><div class="number-selector" id="openCloseSelect"></div><div style="font-size:13px; color:#8E9AAF; margin:12px 0 8px;">Select Number (0-9):</div><div class="number-selector" id="singleNumbers"></div></div><div id="jodiBetArea" style="display:none;"><div style="font-size:13px; color:#8E9AAF; margin-bottom:8px;">Select Jodi (00-99):</div><div class="number-selector" id="jodiNumbers"></div></div><div id="pattiBetArea" style="display:none;"><div style="font-size:13px; color:#8E9AAF; margin-bottom:8px;">Select Patti (3-digit):</div><div class="number-selector" id="pattiNumbers"></div></div><div class="bet-amount-section"><input type="number" id="matkaBetAmount" class="bet-input-premium" placeholder="Bet Amount" value="100" min="10"><button id="multiplyMatkaBtn" class="multiply-btn">2x</button></div><div class="payout-info">💰 Win: <span id="payoutAmount">₹700</span> on ₹100 bet</div><button id="placeMatkaBetBtn" class="place-matka-btn">🎲 PLACE MATKA BET</button><div id="matkaBetStatus" style="font-size:12px; text-align:center; margin-top:12px;"></div></div><div id="matkaResultDisplay" style="display:none;" class="result-board"><h4>🎲 RESULT 🎲</h4><div class="matka-result"><div class="result-box"><div class="result-label">OPEN</div><div class="result-number" id="resultOpen">-</div></div><div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="resultClose">-</div></div></div><div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="resultJodi">--</div></div><div id="matkaWinMessage" style="margin-top:15px; font-weight:700;"></div></div></div>
-            <div class="live-stats-card"><div class="stats-header"><h3><i class="fas fa-users"></i> Live Players <span class="live-dot"></span></h3><span>🔥 1,284 active</span></div><div id="gameLivePlayerList"></div></div>
-            <div class="live-stats-card" style="margin-top:15px;"><div class="stats-header"><h3><i class="fas fa-history"></i> Recent Activity</h3><span>Live updates</span></div><div class="history-list" id="matkaHistoryList"></div></div>
+            <div class="matka-card">
+                <div class="matka-header">
+                    <div class="matka-timer" id="gameTimer">01:00</div>
+                    <div style="font-size: 12px; color: #8E9AAF;">BETS CLOSE IN</div>
+                </div>
+                <div class="bet-types">
+                    <div class="bet-type-tabs">
+                        <div class="bet-tab active" data-type="single">🎯 Single (7x)</div>
+                        <div class="bet-tab" data-type="jodi">🔗 Jodi (90x)</div>
+                        <div class="bet-tab" data-type="patti">👑 Patti (600x)</div>
+                    </div>
+                    <div id="singleBetArea">
+                        <div style="font-size: 13px; color: #8E9AAF; margin-bottom: 8px;">Select Open or Close:</div>
+                        <div class="number-selector" id="openCloseSelect"></div>
+                        <div style="font-size: 13px; color: #8E9AAF; margin: 12px 0 8px;">Select Number (0-9):</div>
+                        <div class="number-selector" id="singleNumbers"></div>
+                    </div>
+                    <div id="jodiBetArea" style="display:none;">
+                        <div style="font-size: 13px; color: #8E9AAF; margin-bottom: 8px;">Select Jodi (00-99):</div>
+                        <div class="number-selector" id="jodiNumbers"></div>
+                    </div>
+                    <div id="pattiBetArea" style="display:none;">
+                        <div style="font-size: 13px; color: #8E9AAF; margin-bottom: 8px;">Select Patti (3-digit):</div>
+                        <div class="number-selector" id="pattiNumbers"></div>
+                    </div>
+                    <div class="bet-amount-section">
+                        <input type="number" id="matkaBetAmount" class="bet-input-premium" placeholder="Bet Amount" value="100" min="10">
+                        <button id="multiplyMatkaBtn" class="multiply-btn">2x</button>
+                    </div>
+                    <div class="payout-info">💰 Win: <span id="payoutAmount">₹700</span> on ₹100 bet</div>
+                    <button id="placeMatkaBetBtn" class="place-matka-btn">🎲 PLACE MATKA BET</button>
+                    <div id="matkaBetStatus" style="font-size:12px; text-align:center; margin-top:12px;"></div>
+                </div>
+                <div id="matkaResultDisplay" style="display:none;" class="result-board">
+                    <h4>🎲 RESULT 🎲</h4>
+                    <div class="matka-result"><div class="result-box"><div class="result-label">OPEN</div><div class="result-number" id="resultOpen">-</div></div><div class="result-box"><div class="result-label">CLOSE</div><div class="result-number" id="resultClose">-</div></div></div>
+                    <div class="jodi-display"><div class="result-label">JODI</div><div class="jodi-number" id="resultJodi">--</div></div>
+                    <div id="matkaWinMessage" style="margin-top:15px; font-weight:700;"></div>
+                </div>
+            </div>
+            <div class="live-stats-card">
+                <div class="stats-header"><h3><i class="fas fa-users"></i> Live Players <span class="live-dot"></span></h3><span>🔥 1,284 active</span></div>
+                <div id="gameLivePlayerList"></div>
+            </div>
+            <div class="live-stats-card" style="margin-top:15px;">
+                <div class="stats-header"><h3><i class="fas fa-history"></i> Recent Activity</h3><span>Live updates</span></div>
+                <div class="history-list" id="matkaHistoryList"></div>
+            </div>
         </div>
+
+        <!-- Deposit Panel (₹100 removed) -->
         <div id="depositPanel" style="display:none;" class="panel-premium">
             <button id="backFromDeposit" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
             <h3 style="text-align:center;">💰 Deposit via UPI</h3>
-            <div class="instructions-box"><div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-info-circle"></i> How to Deposit:</div><div class="step-item"><div class="step-number">1</div><div>Select deposit amount below</div></div><div class="step-item"><div class="step-number">2</div><div>Click "DEPOSIT VIA UPI"</div></div><div class="step-item"><div class="step-number">3</div><div>Complete payment in your UPI app</div></div><div class="step-item"><div class="step-number">4</div><div>After payment, come back and enter UTR number</div></div><div class="step-item"><div class="step-number">5</div><div>Submit – admin will verify and add balance</div></div></div>
-            <div class="amount-selector" id="amountSelector"><div class="amount-btn" data-amount="500">₹500</div><div class="amount-btn" data-amount="1000">₹1000 <span style="font-size:9px;">+200</span></div><div class="amount-btn" data-amount="5000">₹5000 <span style="font-size:9px;">+2000</span></div></div>
+            <div class="instructions-box">
+                <div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-info-circle"></i> How to Deposit:</div>
+                <div class="step-item"><div class="step-number">1</div><div>Select deposit amount below</div></div>
+                <div class="step-item"><div class="step-number">2</div><div>Click "DEPOSIT VIA UPI"</div></div>
+                <div class="step-item"><div class="step-number">3</div><div>Complete payment in your UPI app</div></div>
+                <div class="step-item"><div class="step-number">4</div><div>After payment, come back and enter UTR number</div></div>
+                <div class="step-item"><div class="step-number">5</div><div>Submit – admin will verify and add balance</div></div>
+            </div>
+            <div class="amount-selector" id="amountSelector">
+                <div class="amount-btn" data-amount="500">₹500</div>
+                <div class="amount-btn" data-amount="1000">₹1000 <span style="font-size:9px;">+200</span></div>
+                <div class="amount-btn" data-amount="5000">₹5000 <span style="font-size:9px;">+2000</span></div>
+            </div>
             <div style="text-align:center;"><div class="amount-box" style="background:linear-gradient(145deg,#1A1E2C,#141724); border-radius:50px; padding:12px; margin:15px auto; width:70%;"><div class="amount-box-value" id="amountDisplay" style="font-size:28px; font-weight:800; color:#FFD700;">₹0</div></div></div>
             <div style="text-align:center;"><div class="qr-wrapper"><div id="qrcode"></div></div><div class="qr-message" id="qrMessage" style="color:#FFD700; margin-top:10px;">Scan QR to pay</div></div>
             <button id="payNowBtn" class="deposit-upi-btn"><i class="fas fa-phone-alt"></i> DEPOSIT VIA UPI</button>
-            <div class="utr-section" id="utrSection" style="display:none;"><div class="info-card" style="margin-top:10px;"><div class="info-row"><span>Amount Paid:</span><span id="paidAmountDisplay" style="color:#FFD700; font-weight:bold;">₹0</span></div></div><input type="text" id="utrCode" class="bet-input-premium" placeholder="Enter UTR / Transaction ID" style="width:100%; margin-bottom:8px;"><button id="submitUtrBtn" class="deposit-upi-btn" style="background:linear-gradient(95deg,#10b981,#059669);">Submit for Verification</button></div>
+            <div class="utr-section" id="utrSection" style="display:none;">
+                <div class="info-card" style="margin-top:10px;"><div class="info-row"><span>Amount Paid:</span><span id="paidAmountDisplay" style="color:#FFD700; font-weight:bold;">₹0</span></div></div>
+                <input type="text" id="utrCode" class="bet-input-premium" placeholder="Enter UTR / Transaction ID" style="width:100%; margin-bottom:8px;">
+                <button id="submitUtrBtn" class="deposit-upi-btn" style="background:linear-gradient(95deg,#10b981,#059669);">Submit for Verification</button>
+            </div>
             <div id="depositStatusMsg" style="font-size:12px; text-align:center; margin-top:10px;"></div>
         </div>
+
+        <!-- Withdraw Panel -->
         <div id="withdrawPanel" style="display:none;" class="panel-premium">
             <button id="backFromWithdraw" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
             <h3 style="text-align:center;">💸 Withdraw Funds</h3>
-            <div class="info-card"><div class="info-row"><span><i class="fas fa-wallet"></i> Available Balance</span><span id="withdrawBalance" style="color:#FFD700; font-weight:700;">₹0</span></div><div class="info-row"><span><i class="fas fa-calendar-alt"></i> Withdrawal Schedule</span><span>Any time</span></div><div class="info-row"><span><i class="fas fa-chart-line"></i> Minimum Amount</span><span>₹5,000</span></div><div class="info-row"><span><i class="fas fa-chart-line"></i> Maximum Amount</span><span>₹1,00,000</span></div><div class="info-row"><span><i class="fas fa-clock"></i> Processing Time</span><span>24-48 hours</span></div></div>
-            <input type="text" id="accHolderName" class="withdraw-input" placeholder="Account Holder Name *"><input type="text" id="accNumber" class="withdraw-input" placeholder="Account Number *"><input type="text" id="ifscCode" class="withdraw-input" placeholder="IFSC Code *"><input type="text" id="bankName" class="withdraw-input" placeholder="Bank Name (Optional)">
+            <div class="info-card">
+                <div class="info-row"><span><i class="fas fa-wallet"></i> Available Balance</span><span id="withdrawBalance" style="color:#FFD700; font-weight:700;">₹0</span></div>
+                <div class="info-row"><span><i class="fas fa-calendar-alt"></i> Withdrawal Schedule</span><span>Any time</span></div>
+                <div class="info-row"><span><i class="fas fa-chart-line"></i> Minimum Amount</span><span>₹5,000</span></div>
+                <div class="info-row"><span><i class="fas fa-chart-line"></i> Maximum Amount</span><span>₹1,00,000</span></div>
+                <div class="info-row"><span><i class="fas fa-clock"></i> Processing Time</span><span>24-48 hours</span></div>
+            </div>
+            <input type="text" id="accHolderName" class="withdraw-input" placeholder="Account Holder Name *">
+            <input type="text" id="accNumber" class="withdraw-input" placeholder="Account Number *">
+            <input type="text" id="ifscCode" class="withdraw-input" placeholder="IFSC Code *">
+            <input type="text" id="bankName" class="withdraw-input" placeholder="Bank Name (Optional)">
             <input type="number" id="withdrawAmount" class="withdraw-input" placeholder="Withdrawal Amount *" min="5000" max="100000">
-            <div class="quick-amounts"><div class="quick-amount" data-amount="5000">₹5,000</div><div class="quick-amount" data-amount="10000">₹10,000</div><div class="quick-amount" data-amount="25000">₹25,000</div><div class="quick-amount" data-amount="50000">₹50,000</div><div class="quick-amount" data-amount="100000">₹1,00,000</div></div>
+            <div class="quick-amounts">
+                <div class="quick-amount" data-amount="5000">₹5,000</div>
+                <div class="quick-amount" data-amount="10000">₹10,000</div>
+                <div class="quick-amount" data-amount="25000">₹25,000</div>
+                <div class="quick-amount" data-amount="50000">₹50,000</div>
+                <div class="quick-amount" data-amount="100000">₹1,00,000</div>
+            </div>
             <button id="requestWithdrawBtn" class="withdraw-btn"><i class="fas fa-paper-plane"></i> REQUEST WITHDRAWAL</button>
             <div class="info-row" style="margin-top:15px; font-size:11px; color:#8E9AAF; text-align:center;">Amount will be deducted instantly upon request</div>
         </div>
+
+        <!-- IPL Betting Panel -->
         <div id="iplPanel" style="display:none;" class="panel-premium">
             <button id="backFromIpl" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back to Home</button>
             <h3 style="text-align:center;">🏏 IPL 2026 Betting</h3>
             <div id="iplBannerContainer" style="text-align:center; margin-bottom:15px;"></div>
-            <div class="instructions-box"><div>Bet on which team will win. Each team has different odds (1x to 35x). Max bet per match: ₹10,000.</div><div>Bet counts update in real time (fake increments up to 30,000).</div></div>
+            <div class="instructions-box">
+                <div>Bet on which team will win. Each team has different odds (1x to 35x). Max bet per match: ₹10,000.</div>
+                <div>Bet counts update in real time (fake increments up to 30,000).</div>
+            </div>
             <div id="iplMatchesList"></div>
         </div>
+
+        <!-- Profile Panel -->
         <div id="profilePanel" style="display:none;" class="panel-premium">
             <button id="backFromProfile" class="back-home-btn"><i class="fas fa-arrow-left"></i> Back</button>
             <div class="profile-header"><div class="profile-avatar" id="profileAvatar"><span id="avatarInitial">P</span></div><div class="profile-name" id="profileNameDisplay">Player</div><button id="editNameBtn" style="background:rgba(255,193,7,0.2); border:1px solid rgba(255,193,7,0.3); padding:5px 12px; border-radius:30px; color:#FFD700; cursor:pointer; margin-top:8px;">Edit Name</button></div>
             <div class="profile-stats"><div class="stat-card"><div class="stat-value" id="profileBalance">₹0</div><div class="stat-label">Balance</div></div><div class="stat-card"><div class="stat-value" id="profileTotalBets">0</div><div class="stat-label">Total Bets</div></div><div class="stat-card"><div class="stat-value" id="profileWinRate">0%</div><div class="stat-label">Win Rate</div></div><div class="stat-card"><div class="stat-value" id="profileLevel">1</div><div class="stat-label">Level</div></div></div>
             <div class="level-container"><div class="level-info" style="display:flex; justify-content:space-between;"><span>Level Progress</span><span id="levelBadge" style="background:linear-gradient(135deg,#FFD700,#FFA500); padding:2px 10px; border-radius:20px;">Level 1</span></div><div class="level-progress"><div class="progress-bar" id="profileLevelProgress" style="width:0%"></div></div><div id="nextLevelText" style="font-size:10px; color:#8E9AAF; margin-top:8px;">0/100 bets to next level</div></div>
-            <div class="level-container" style="margin-top:15px;"><div style="display:flex; justify-content:space-between; align-items:center;"><span style="color:#FFD700;"><i class="fas fa-user-friends"></i> Refer & Earn</span><span style="font-size:12px; background:rgba(255,193,7,0.2); padding:2px 8px; border-radius:20px;">Get ₹100 per referral</span></div><div class="referral-code-box" id="referralCodeDisplay">LB-XXXXXX</div><div style="font-size:12px; margin-top:10px; text-align:center;">Share this code with your friends. When they deposit ₹100 or more, submit their UTR below to claim ₹100 bonus!</div><input type="text" id="refFriendUTR" class="referral-input" placeholder="Friend's UTR Number"><input type="text" id="refFriendEmail" class="referral-input" placeholder="Friend's Email / Name"><button id="submitReferralBonusBtn" class="referral-submit">Submit Referral Bonus Request</button><div id="referralStatus" style="font-size:11px; margin-top:8px; color:#8E9AAF;"></div></div>
+            
+            <div class="level-container" style="margin-top:15px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;"><span style="color:#FFD700;"><i class="fas fa-user-friends"></i> Refer & Earn</span><span style="font-size:12px; background:rgba(255,193,7,0.2); padding:2px 8px; border-radius:20px;">Get ₹100 per referral</span></div>
+                <div class="referral-code-box" id="referralCodeDisplay">LB-XXXXXX</div>
+                <div style="font-size:12px; margin-top:10px; text-align:center;">Share this code with your friends. When they deposit ₹100 or more, submit their UTR below to claim ₹100 bonus!</div>
+                <input type="text" id="refFriendUTR" class="referral-input" placeholder="Friend's UTR Number">
+                <input type="text" id="refFriendEmail" class="referral-input" placeholder="Friend's Email / Name">
+                <button id="submitReferralBonusBtn" class="referral-submit">Submit Referral Bonus Request</button>
+                <div id="referralStatus" style="font-size:11px; margin-top:8px; color:#8E9AAF;"></div>
+            </div>
+
             <div class="level-container" style="margin-top:15px;"><div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-chart-line"></i> 🏅 Top Referrers</div><div id="topReferrersList"></div></div>
             <div class="level-container" style="margin-top:15px;"><div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Bet History (Matka)</div><div id="betHistoryList" style="max-height:250px; overflow-y:auto;"></div></div>
             <div class="level-container" style="margin-top:15px;"><div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> IPL Bet History</div><div id="iplBetHistoryList" style="max-height:250px; overflow-y:auto;"></div></div>
             <div class="level-container" style="margin-top:15px;"><div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Deposit History</div><div id="depositHistoryList"></div></div>
             <div class="level-container" style="margin-top:15px;"><div style="color:#FFD700; margin-bottom:10px;"><i class="fas fa-history"></i> Withdrawal History</div><div id="withdrawalHistoryList"></div></div>
+
             <div class="action-buttons"><button id="logoutBtn" class="logout-btn">Logout</button></div>
         </div>
     </div>
+
+    <!-- Bottom Navigation -->
     <div class="nav-premium">
         <div class="nav-item-premium" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
         <div class="nav-item-premium" data-page="game"><i class="fas fa-dice-d6"></i><span>Game</span></div>
@@ -520,6 +740,7 @@
     </div>
 </div>
 
+<!-- Admin Panel Page -->
 <div id="adminPanelPage" class="admin-panel-page">
     <div class="admin-header"><h2 style="color:#FFD700;">🛡️ Admin Panel</h2><button id="adminLogoutBtn" class="admin-logout-btn">Logout</button></div>
     <div class="admin-section">
@@ -537,21 +758,70 @@
         <div id="tabWithdrawals" class="admin-tab-content"><div id="withdrawalRequestsList"></div></div>
         <div id="tabReferrals" class="admin-tab-content"><div id="referralRequestsList"></div></div>
         <div id="tabIpl" class="admin-tab-content">
-            <div style="margin-bottom:15px;"><input type="text" id="newMatchTeamA" placeholder="Team A (e.g., CSK)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:45%; margin-right:10px; color:white;"><input type="number" id="newMatchOddsA" placeholder="Odds (1-35)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:20%; color:white;" min="1" max="35"><input type="text" id="newMatchTeamB" placeholder="Team B (e.g., MI)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:45%; margin-right:10px; color:white;"><input type="number" id="newMatchOddsB" placeholder="Odds (1-35)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:20%; color:white;" min="1" max="35"><input type="datetime-local" id="newMatchDateTime" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-top:8px; color:white;"><button id="addIplMatchBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer; margin-top:8px;">+ Add IPL Match</button></div>
+            <div style="margin-bottom:15px;">
+                <input type="text" id="newMatchTeamA" placeholder="Team A (e.g., CSK)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:45%; margin-right:10px; color:white;">
+                <input type="number" id="newMatchOddsA" placeholder="Odds (1-35)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:20%; color:white;" min="1" max="35">
+                <input type="text" id="newMatchTeamB" placeholder="Team B (e.g., MI)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:45%; margin-right:10px; color:white;">
+                <input type="number" id="newMatchOddsB" placeholder="Odds (1-35)" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:20%; color:white;" min="1" max="35">
+                <input type="datetime-local" id="newMatchDateTime" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-top:8px; color:white;">
+                <button id="addIplMatchBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer; margin-top:8px;">+ Add IPL Match</button>
+            </div>
             <div id="iplMatchesAdminList"></div>
         </div>
-        <div id="tabIplBanner" class="admin-tab-content"><div style="margin-bottom:15px;"><input type="file" id="iplBannerFileInput" accept="image/*" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;"><button id="uploadIplBannerBtn" style="background:linear-gradient(95deg,#FFD700,#FFA500); border:none; padding:10px 20px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Upload Today's Banner</button></div><div id="currentIplBannerPreview" style="text-align:center; margin-top:10px;"></div></div>
-        <div id="tabAnalytics" class="admin-tab-content"><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 15px;"><div class="info-card"><div class="info-row"><span>Total Users</span><span id="analyticsTotalUsers">-</span></div></div><div class="info-card"><div class="info-row"><span>Total Deposits</span><span id="analyticsTotalDeposits">-</span></div></div><div class="info-card"><div class="info-row"><span>Total Withdrawals</span><span id="analyticsTotalWithdrawals">-</span></div></div><div class="info-card"><div class="info-row"><span>Today's Revenue</span><span id="analyticsTodayRevenue">-</span></div></div><div class="info-card"><div class="info-row"><span>Pending Deposits</span><span id="analyticsPendingDeposits">-</span></div></div><div class="info-card"><div class="info-row"><span>Pending Withdrawals</span><span id="analyticsPendingWithdrawals">-</span></div></div></div></div>
-        <div id="tabUpi" class="admin-tab-content"><div style="margin-bottom:15px;"><input type="text" id="newUpiName" placeholder="UPI Name" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;"><input type="text" id="newUpiId" placeholder="UPI ID" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;"><input type="number" id="newUpiLimit" placeholder="Daily Limit" value="40000" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;"><button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button></div><div id="upiAccountsList"></div></div>
-        <div id="tabLogo" class="admin-tab-content"><div style="margin-bottom:15px;"><input type="file" id="logoFileInput" accept="image/*" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;"><button id="uploadLogoBtn" style="background:linear-gradient(95deg,#FFD700,#FFA500); border:none; padding:10px 20px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Upload Logo</button></div><div id="currentLogoPreview" style="text-align:center; margin-top:10px;"></div></div>
+        <div id="tabIplBanner" class="admin-tab-content">
+            <div style="margin-bottom:15px;">
+                <input type="file" id="iplBannerFileInput" accept="image/*" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <button id="uploadIplBannerBtn" style="background:linear-gradient(95deg,#FFD700,#FFA500); border:none; padding:10px 20px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Upload Today's Banner</button>
+            </div>
+            <div id="currentIplBannerPreview" style="text-align:center; margin-top:10px;"></div>
+        </div>
+        <div id="tabAnalytics" class="admin-tab-content">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 15px;">
+                <div class="info-card"><div class="info-row"><span>Total Users</span><span id="analyticsTotalUsers">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Total Deposits</span><span id="analyticsTotalDeposits">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Total Withdrawals</span><span id="analyticsTotalWithdrawals">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Today's Revenue</span><span id="analyticsTodayRevenue">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Pending Deposits</span><span id="analyticsPendingDeposits">-</span></div></div>
+                <div class="info-card"><div class="info-row"><span>Pending Withdrawals</span><span id="analyticsPendingWithdrawals">-</span></div></div>
+            </div>
+        </div>
+        <div id="tabUpi" class="admin-tab-content">
+            <div style="margin-bottom:15px;">
+                <input type="text" id="newUpiName" placeholder="UPI Name" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="text" id="newUpiId" placeholder="UPI ID" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <input type="number" id="newUpiLimit" placeholder="Daily Limit" value="40000" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <button id="addUpiAccountBtn" style="background:linear-gradient(95deg,#10b981,#059669); border:none; padding:10px 20px; border-radius:30px; color:white; cursor:pointer;">+ Add UPI Account</button>
+            </div>
+            <div id="upiAccountsList"></div>
+        </div>
+        <div id="tabLogo" class="admin-tab-content">
+            <div style="margin-bottom:15px;">
+                <input type="file" id="logoFileInput" accept="image/*" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:10px; border-radius:30px; width:100%; margin-bottom:8px; color:white;">
+                <button id="uploadLogoBtn" style="background:linear-gradient(95deg,#FFD700,#FFA500); border:none; padding:10px 20px; border-radius:30px; color:#0A0C12; font-weight:bold; cursor:pointer;">Upload Logo</button>
+            </div>
+            <div id="currentLogoPreview" style="text-align:center; margin-top:10px;"></div>
+        </div>
     </div>
 </div>
 
+<!-- Referral Modal Popup -->
 <div id="referralModal" class="modal-premium">
-    <div class="modal-content-premium"><div class="modal-close" id="closeReferralModal">&times;</div><div class="modal-title">🎁 Refer & Earn ₹100</div><ul class="referral-steps"><li><div class="step-num">1</div><div>Share your <strong>unique referral code</strong> (shown in Profile) with your friend.</div></li><li><div class="step-num">2</div><div>Your friend registers and makes a deposit of at least ₹100 via UPI.</div></li><li><div class="step-num">3</div><div>Ask your friend to share the UTR number with you.</div></li><li><div class="step-num">4</div><div>Go to Profile → Refer & Earn section, enter friend's UTR and email, submit.</div></li><li><div class="step-num">5</div><div>Admin verifies and adds ₹100 bonus to your wallet within 24 hours.</div></li></ul><div style="background: rgba(255,193,7,0.1); border-radius: 20px; padding: 12px; margin-top: 10px;"><i class="fas fa-gift" style="color:#FFD700;"></i> <strong>Refer as many friends as you want! Each valid referral gives you ₹100.</strong></div></div>
+    <div class="modal-content-premium">
+        <div class="modal-close" id="closeReferralModal">&times;</div>
+        <div class="modal-title">🎁 Refer & Earn ₹100</div>
+        <ul class="referral-steps">
+            <li><div class="step-num">1</div><div>Share your <strong>unique referral code</strong> (shown in Profile) with your friend.</div></li>
+            <li><div class="step-num">2</div><div>Your friend registers and makes a deposit of at least ₹100 via UPI.</div></li>
+            <li><div class="step-num">3</div><div>Ask your friend to share the UTR number with you.</div></li>
+            <li><div class="step-num">4</div><div>Go to Profile → Refer & Earn section, enter friend's UTR and email, submit.</div></li>
+            <li><div class="step-num">5</div><div>Admin verifies and adds ₹100 bonus to your wallet within 24 hours.</div></li>
+        </ul>
+        <div style="background: rgba(255,193,7,0.1); border-radius: 20px; padding: 12px; margin-top: 10px;"><i class="fas fa-gift" style="color:#FFD700;"></i> <strong>Refer as many friends as you want! Each valid referral gives you ₹100.</strong></div>
+    </div>
 </div>
 
 <script>
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyCz0JxrgrZhOdlPBoILI3rayChWebpZZt8",
         authDomain: "luckybaadshah-f5eb2.firebaseapp.com",
@@ -562,83 +832,965 @@
         appId: "1:81464054643:web:62878cb50d373c6e93ab06",
         measurementId: "G-6RNN1QNQYM"
     };
+    
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
+    
     const ADMIN_PASSWORD = "Muzammil03@";
     
-    let currentUser = null, userBalance = 0, totalBets = 0, winCount = 0;
-    let currentBetType = "single", selectedSingleNumber = null, selectedSingleType = "open", selectedJodiNumber = null, selectedPattiNumber = null;
-    let gameInterval = null, timeLeft = 60, pendingBet = null, gameHistory = [], selectedAmount = null, upiAccounts = [], selectedUpiIndexForPayment = null, tempPaidAmount = null, resultsHistory = [], iplFakeInterval = null;
+    let currentUser = null;
+    let userBalance = 0;
+    let totalBets = 0;
+    let winCount = 0;
+    let currentBetType = "single";
+    let selectedSingleNumber = null;
+    let selectedSingleType = "open";
+    let selectedJodiNumber = null;
+    let selectedPattiNumber = null;
+    let gameInterval = null;
+    let timeLeft = 60;
+    let pendingBet = null;
+    let gameHistory = [];
+    let selectedAmount = null;
+    let upiAccounts = [];
+    let selectedUpiIndexForPayment = null;
+    let tempPaidAmount = null;
+    let resultsHistory = [];
+    let iplFakeInterval = null;
     
+    // Helper functions
     function getTodayDate() { const d = new Date(); return d.toISOString().slice(0,10); }
-    function isAccountOverLimit(acc) { const today = getTodayDate(); if (acc.lastResetDate !== today) { acc.received = 0; acc.lastResetDate = today; } return acc.limit && acc.received >= acc.limit; }
-    function getAvailableUpiAccount() { for (let i=0;i<upiAccounts.length;i++) if (!isAccountOverLimit(upiAccounts[i])) return i; return -1; }
-    function showToast(msg, type="success") { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':'fa-exclamation-circle'}"></i> ${msg}`; document.body.appendChild(toast); setTimeout(()=>toast.remove(),3000); }
+    function isAccountOverLimit(account) {
+        const today = getTodayDate();
+        if (account.lastResetDate !== today) { account.received = 0; account.lastResetDate = today; }
+        return account.limit && account.received >= account.limit;
+    }
+    function getAvailableUpiAccount() {
+        for (let i = 0; i < upiAccounts.length; i++) if (!isAccountOverLimit(upiAccounts[i])) return i;
+        return -1;
+    }
+    function showToast(message, type = "success") {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle')}"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
     function getReferralCode(uid) { return "LB" + uid.slice(0,6).toUpperCase(); }
     
-    async function saveBetToHistory(amt, type, val, res, winAmt) { if(!currentUser) return; await db.ref(`users/${currentUser.uid}/bets`).push({ amount:amt, type:type, value:JSON.stringify(val), result:res, winAmount:winAmt, timestamp:Date.now() }); const betsRef = db.ref(`users/${currentUser.uid}/bets`); const snap = await betsRef.orderByChild('timestamp').once('value'); let c=0; snap.forEach(ch=>{c++; if(c>50) ch.ref.remove();}); }
-    async function loadBetHistory() { if(!currentUser) return; const snap = await db.ref(`users/${currentUser.uid}/bets`).orderByChild('timestamp').limitToLast(20).once('value'); const cont=document.getElementById('betHistoryList'); if(!cont) return; let html=''; snap.forEach(ch=>{ const b=ch.val(); const cls=b.winAmount>0?'win':'loss'; const txt=b.winAmount>0?`+₹${b.winAmount}`:`-₹${b.amount}`; html+=`<div class="history-item"><span>${new Date(b.timestamp).toLocaleString()}</span><span>${b.type}</span><span>₹${b.amount}</span><span class="${cls}">${txt}</span></div>`; }); if(!html) html='<p style="color:#8E9AAF;">No bets yet.</p>'; cont.innerHTML=html; }
-    async function loadIplBetHistory() { if(!currentUser) return; const snap = await db.ref(`users/${currentUser.uid}/iplBets`).orderByChild('timestamp').limitToLast(20).once('value'); const cont=document.getElementById('iplBetHistoryList'); if(!cont) return; let html=''; snap.forEach(ch=>{ const b=ch.val(); const cls=b.status==='won'?'win':(b.status==='lost'?'loss':'pending'); const txt=b.status==='won'?`+₹${b.winAmount}`:(b.status==='lost'?`-₹${b.amount}`:`Pending`); html+=`<div class="history-item"><span>${new Date(b.timestamp).toLocaleString()}</span><span>${b.matchName}</span><span>${b.team}</span><span>₹${b.amount}</span><span class="${cls}">${txt}</span></div>`; }); if(!html) html='<p style="color:#8E9AAF;">No IPL bets yet.</p>'; cont.innerHTML=html; }
-    async function loadWithdrawalHistory() { if(!currentUser) return; const snap = await db.ref('admin/withdrawals').orderByChild('userId').equalTo(currentUser.uid).once('value'); const cont=document.getElementById('withdrawalHistoryList'); if(!cont) return; let html=''; snap.forEach(ch=>{ const req=ch.val(); const cls=req.status==='approved'?'status-approved':(req.status==='rejected'?'status-rejected':'status-pending'); html+=`<div class="deposit-history-item" style="background:#1A1E2C; border-radius:16px; padding:12px; margin-bottom:10px;"><div>💸 Amount: ₹${req.amount}</div><div>🏦 ${req.accountHolder} (${req.accountNumber})</div><div>📅 ${new Date(req.timestamp).toLocaleString()}</div><div>Status: <span class="${cls}">${req.status.toUpperCase()}</span></div></div>`; }); if(!html) html='<p style="color:#8E9AAF;">No withdrawal requests yet.</p>'; cont.innerHTML=html; }
-    async function loadLeaderboard() { const usersRef=db.ref('users'); const snap=await usersRef.orderByChild('totalBets').limitToLast(5).once('value'); const users=[]; snap.forEach(ch=>{ users.push({ name:ch.val().name||ch.val().email.split('@')[0], totalBets:ch.val().totalBets||0 }); }); users.reverse(); const cont=document.getElementById('leaderboardList'); if(!cont) return; if(users.length===0) cont.innerHTML='<p style="color:#8E9AAF;">No data yet.</p>'; else cont.innerHTML=users.map((u,i)=>`<div class="player-row"><span class="player-name">${i+1}. ${u.name}</span><span class="player-bet">${u.totalBets} bets</span></div>`).join(''); }
-    async function loadTopReferrers() { const bonusSnap=await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('approved').once('value'); const count={}; bonusSnap.forEach(ch=>{ const req=ch.val(); count[req.referrerId]=(count[req.referrerId]||0)+1; }); const sorted=Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,5); const cont=document.getElementById('topReferrersList'); if(!cont) return; if(sorted.length===0) cont.innerHTML='<p style="color:#8E9AAF;">No referrals yet.</p>'; else { let html=''; for(const [uid,c] of sorted){ const userSnap=await db.ref(`users/${uid}`).once('value'); const name=userSnap.val()?.name||'Anonymous'; html+=`<div class="player-row"><span class="player-name">${name}</span><span class="player-bet">${c} referrals</span></div>`; } cont.innerHTML=html; } }
-    function updateHotNumbers() { if(resultsHistory.length===0) return; const openCount=Array(10).fill(0), closeCount=Array(10).fill(0); resultsHistory.forEach(r=>{ openCount[r.open]++; closeCount[r.close]++; }); const openCont=document.getElementById('hotOpenContainer'), closeCont=document.getElementById('hotCloseContainer'); if(!openCont||!closeCont) return; openCont.innerHTML=''; closeCont.innerHTML=''; for(let i=0;i<=9;i++){ openCont.innerHTML+=`<div class="hot-number-item"><div class="hot-number-digit">${i}</div><div class="hot-number-count">${openCount[i]}</div></div>`; closeCont.innerHTML+=`<div class="hot-number-item"><div class="hot-number-digit">${i}</div><div class="hot-number-count">${closeCount[i]}</div></div>`; } }
-    async function loadAdminAnalytics() { if(!isAdminLoggedIn()) return; const usersSnap=await db.ref('users').once('value'); document.getElementById('analyticsTotalUsers').innerText=usersSnap.numChildren(); const depositsSnap=await db.ref('admin/depositRequests').orderByChild('status').equalTo('approved').once('value'); let totalDeposits=0; depositsSnap.forEach(ch=>totalDeposits+=ch.val().amount); document.getElementById('analyticsTotalDeposits').innerText='₹'+totalDeposits.toLocaleString(); const withdrawSnap=await db.ref('admin/withdrawals').orderByChild('status').equalTo('approved').once('value'); let totalWithdrawals=0; withdrawSnap.forEach(ch=>totalWithdrawals+=ch.val().amount); document.getElementById('analyticsTotalWithdrawals').innerText='₹'+totalWithdrawals.toLocaleString(); const today=getTodayDate(), todayStart=new Date(today).getTime(), todayEnd=todayStart+86400000; let todayDeposits=0, todayWithdrawals=0; depositsSnap.forEach(ch=>{ const req=ch.val(); if(req.timestamp>=todayStart && req.timestamp<todayEnd) todayDeposits+=req.amount; }); withdrawSnap.forEach(ch=>{ const req=ch.val(); if(req.timestamp>=todayStart && req.timestamp<todayEnd) todayWithdrawals+=req.amount; }); document.getElementById('analyticsTodayRevenue').innerText='₹'+(todayDeposits-todayWithdrawals).toLocaleString(); const pendingDeposits=await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value'); document.getElementById('analyticsPendingDeposits').innerText=pendingDeposits.numChildren(); const pendingWithdrawals=await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value'); document.getElementById('analyticsPendingWithdrawals').innerText=pendingWithdrawals.numChildren(); }
-    async function loadUserData() { if(!currentUser) return; const snap=await db.ref(`users/${currentUser.uid}`).once('value'); const data=snap.val()||{}; userBalance=data.balance||0; totalBets=data.totalBets||0; winCount=data.winCount||0; if(data.name) currentUser.displayName=data.name; updateAllDisplay(); const modalShown=localStorage.getItem('referralModalShown'); if(!modalShown){ setTimeout(()=>{ document.getElementById('referralModal').classList.add('active'); localStorage.setItem('referralModalShown','true'); },1000); } document.getElementById('referralCodeDisplay').innerText=getReferralCode(currentUser.uid); loadDepositHistory(); loadWithdrawalHistory(); loadBetHistory(); loadIplBetHistory(); }
-    async function saveUserData() { if(!currentUser) return; await db.ref(`users/${currentUser.uid}`).update({ balance:userBalance, totalBets:totalBets, winCount:winCount, name:currentUser.displayName, email:currentUser.email, lastUpdated:Date.now() }); }
-    function updateAllDisplay() { document.getElementById('walletBalance').textContent=Math.floor(userBalance).toLocaleString(); document.getElementById('withdrawBalance').textContent=`₹${Math.floor(userBalance).toLocaleString()}`; document.getElementById('profileBalance').textContent=`₹${Math.floor(userBalance).toLocaleString()}`; document.getElementById('userName').textContent=currentUser?.displayName?.split(' ')[0]||'Player'; document.getElementById('profileNameDisplay').textContent=currentUser?.displayName||'Player'; document.getElementById('avatarInitial').textContent=(currentUser?.displayName?.charAt(0)||'P').toUpperCase(); document.getElementById('profileTotalBets').textContent=totalBets; const winRate=totalBets>0?Math.floor((winCount/totalBets)*100):0; document.getElementById('profileWinRate').textContent=`${winRate}%`; const level=Math.floor(totalBets/100)+1; document.getElementById('profileLevel').textContent=level; document.getElementById('levelBadge').innerHTML=`Level ${level}`; const progress=totalBets%100; document.getElementById('profileLevelProgress').style.width=`${progress}%`; document.getElementById('nextLevelText').innerHTML=`${progress}/100 bets to next level`; }
-    async function loadDepositHistory() { if(!currentUser) return; const snap=await db.ref('admin/depositRequests').orderByChild('userId').equalTo(currentUser.uid).once('value'); const histDiv=document.getElementById('depositHistoryList'); if(!histDiv) return; let html=''; snap.forEach(ch=>{ const req=ch.val(); const cls=req.status==='approved'?'status-approved':(req.status==='rejected'?'status-rejected':'status-pending'); html+=`<div class="deposit-history-item" style="background:#1A1E2C; border-radius:16px; padding:12px; margin-bottom:10px;"><div>💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus||0}</div><div>🔢 UTR: ${req.utr}</div><div>📅 ${new Date(req.timestamp).toLocaleString()}</div><div>Status: <span class="${cls}">${req.status.toUpperCase()}</span></div></div>`; }); if(!html) html='<p style="color:#8E9AAF;">No deposit requests yet.</p>'; histDiv.innerHTML=html; }
-    async function loadAdminRequests() { if(!isAdminLoggedIn()) return; const depositSnap=await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value'); const depositReqs={}; depositSnap.forEach(ch=>{ const req=ch.val(); const upiId=req.upiAccountId!==undefined?req.upiAccountId:'unknown'; if(!depositReqs[upiId]) depositReqs[upiId]=[]; depositReqs[upiId].push({ key:ch.key, ...req }); }); let depositHtml=''; const today=getTodayDate(); for(let i=0;i<upiAccounts.length;i++){ const acc=upiAccounts[i], accountName=acc.name, upiDisplay=acc.upi, receivedToday=acc.lastResetDate===today?acc.received:0, limit=acc.limit, requests=depositReqs[i]||[]; depositHtml+=`<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>📱 ${accountName} (${upiDisplay})</h3><span>Daily: ₹${receivedToday}/${limit}</span></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>User</th><th>Amount + Bonus</th><th>UTR</th><th>Time</th><th>Actions</th></tr></thead><tbody>`; if(requests.length===0) depositHtml+=`<tr><td colspan="5" class="no-requests">No pending deposits for this account.</td></tr>`; else requests.forEach(req=>{ depositHtml+=`<tr><td><strong>${req.userName}</strong><br><small>${req.email||''}</small></td><td>₹${req.amount} + ₹${req.bonus||0}</td><td>${req.utr}</td><td>${new Date(req.timestamp).toLocaleString()}</td><td class="action-buttons-cell"><button class="accept-btn" onclick="approveDeposit('${req.key}',${req.amount},${req.bonus||0},'${req.userId}',${req.upiAccountId})">Accept</button><button class="reject-btn" onclick="rejectDeposit('${req.key}')">Reject</button></td></tr>`; }); depositHtml+=`</tbody></table></div></div>`; } if(upiAccounts.length===0) depositHtml='<p style="color:#8E9AAF;">No UPI accounts configured.</p>'; document.getElementById('depositRequestsList').innerHTML=depositHtml; const withdrawSnap=await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value'); let withdrawHtml='<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>💸 Withdrawal Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>User</th><th>Amount</th><th>Account Details</th><th>Time</th><th>Actions</th></tr></thead><tbody>'; if(withdrawSnap.size===0) withdrawHtml+='<tr><td colspan="5" class="no-requests">No pending withdrawals.</td></tr>'; else withdrawSnap.forEach(child=>{ const req=child.val(); withdrawHtml+=`<tr><td><strong>${req.userName}</strong><br><small>${req.email||''}</small></td><td>₹${req.amount}</td><td>${req.accountHolder}<br>${req.accountNumber}<br>${req.ifsc}</td><td>${new Date(req.timestamp).toLocaleString()}</td><td class="action-buttons-cell"><button class="accept-btn" onclick="approveWithdraw('${child.key}',${req.amount},'${req.userId}')">Accept</button><button class="reject-btn" onclick="rejectWithdraw('${child.key}')">Reject</button></td></tr>`; }); withdrawHtml+=`</tbody></table></div></div>`; document.getElementById('withdrawalRequestsList').innerHTML=withdrawHtml; const referralSnap=await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value'); let referralHtml='<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>🎁 Referral Bonus Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead><tr><th>Referrer</th><th>Friend Email</th><th>UTR</th><th>Time</th><th>Actions</th></tr></thead><tbody>'; if(referralSnap.size===0) referralHtml+='<tr><td colspan="5" class="no-requests">No pending referrals.</td></tr>'; else referralSnap.forEach(child=>{ const req=child.val(); referralHtml+=`<tr><td><strong>${req.referrerName}</strong><br><small>${req.referrerEmail}</small></td><td>${req.friendEmail}</td><td>${req.friendUTR}</td><td>${new Date(req.timestamp).toLocaleString()}</td><td class="action-buttons-cell"><button class="accept-btn" onclick="approveReferralBonus('${child.key}','${req.referrerId}')">Accept</button><button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">Reject</button></td></tr>`; }); referralHtml+=`</tbody></table></div></div>`; document.getElementById('referralRequestsList').innerHTML=referralHtml; loadAdminAnalytics(); }
-    window.approveDeposit=async(key,amt,bonus,uid,upiId)=>{ await db.ref(`admin/depositRequests/${key}`).update({status:'approved'}); const userRef=db.ref(`users/${uid}`); const snap=await userRef.once('value'); const curBal=snap.val()?.balance||0; await userRef.update({balance:curBal+amt+bonus}); if(currentUser && currentUser.uid===uid){ userBalance=curBal+amt+bonus; updateAllDisplay(); showToast(`✅ Deposit approved! ₹${amt+bonus} added.`); } else if(isAdminLoggedIn()) showToast(`✅ Deposit approved! ₹${amt+bonus} added.`); if(upiId!==undefined && upiAccounts[upiId]){ const acc=upiAccounts[upiId]; const today=getTodayDate(); if(acc.lastResetDate!==today){ acc.received=0; acc.lastResetDate=today; } acc.received+=amt+bonus; await db.ref('settings/upiAccounts').set(upiAccounts); } if(isAdminLoggedIn()) loadAdminRequests(); if(currentUser && currentUser.uid===uid) loadDepositHistory(); };
-    window.rejectDeposit=async(key)=>{ await db.ref(`admin/depositRequests/${key}`).update({status:'rejected'}); showToast('❌ Deposit rejected.','error'); if(isAdminLoggedIn()) loadAdminRequests(); const snap=await db.ref(`admin/depositRequests/${key}`).once('value'); const req=snap.val(); if(req && currentUser && req.userId===currentUser.uid) loadDepositHistory(); };
-    window.approveWithdraw=async(key,amt,uid)=>{ await db.ref(`admin/withdrawals/${key}`).update({status:'approved'}); if(isAdminLoggedIn()) showToast('✅ Withdrawal approved.'); if(isAdminLoggedIn()) loadAdminRequests(); };
-    window.rejectWithdraw=async(key)=>{ const snap=await db.ref(`admin/withdrawals/${key}`).once('value'); const req=snap.val(); if(req){ const userRef=db.ref(`users/${req.userId}`); const userSnap=await userRef.once('value'); const curBal=userSnap.val()?.balance||0; await userRef.update({balance:curBal+req.amount}); await db.ref(`admin/withdrawals/${key}`).update({status:'rejected'}); if(currentUser && currentUser.uid===req.userId){ userBalance=curBal+req.amount; updateAllDisplay(); showToast(`❌ Withdrawal rejected. ₹${req.amount} refunded.`,'error'); } else if(isAdminLoggedIn()) showToast(`❌ Withdrawal rejected. ₹${req.amount} refunded.`,'error'); } else { await db.ref(`admin/withdrawals/${key}`).update({status:'rejected'}); showToast('❌ Withdrawal rejected.','error'); } if(isAdminLoggedIn()) loadAdminRequests(); if(currentUser && currentUser.uid===req?.userId) loadWithdrawalHistory(); };
-    window.approveReferralBonus=async(key,refId)=>{ const userRef=db.ref(`users/${refId}`); const snap=await userRef.once('value'); const curBal=snap.val()?.balance||0; await userRef.update({balance:curBal+100}); await db.ref(`admin/referralBonusRequests/${key}`).update({status:'approved'}); if(currentUser && currentUser.uid===refId){ userBalance=curBal+100; updateAllDisplay(); showToast('🎉 Referral bonus credited! ₹100 added.'); } else if(isAdminLoggedIn()) showToast('✅ Referral bonus approved! ₹100 added.'); if(isAdminLoggedIn()) loadAdminRequests(); loadTopReferrers(); };
-    window.rejectReferralBonus=async(key)=>{ await db.ref(`admin/referralBonusRequests/${key}`).update({status:'rejected'}); showToast('❌ Referral request rejected.','error'); if(isAdminLoggedIn()) loadAdminRequests(); };
-    async function loadUpiAccounts(){ const snap=await db.ref('settings/upiAccounts').once('value'); let accounts=snap.val(); if(!accounts||accounts.length===0){ accounts=[{name:"Lucky Baadshah", upi:"thakurraj8156@okhdfcbank", limit:40000, received:0, lastResetDate:getTodayDate()},{name:"Lucky Baadshah", upi:"7041748558@ptsbi", limit:40000, received:0, lastResetDate:getTodayDate()},{name:"Lucky Baadshah", upi:"7383235938@ptyes", limit:40000, received:0, lastResetDate:getTodayDate()},{name:"Lucky Baadshah", upi:"9725124689-2@axl", limit:40000, received:0, lastResetDate:getTodayDate()}]; await db.ref('settings/upiAccounts').set(accounts); } else { let changed=false; for(let acc of accounts){ if(!acc.limit){ acc.limit=40000; changed=true; } if(!acc.name){ acc.name="Lucky Baadshah"; changed=true; } const today=getTodayDate(); if(!acc.lastResetDate||acc.lastResetDate!==today){ acc.received=0; acc.lastResetDate=today; changed=true; } } if(changed) await db.ref('settings/upiAccounts').set(accounts); } upiAccounts=accounts; renderUpiAccounts(); if(isAdminLoggedIn() && document.getElementById('tabDeposits').classList.contains('active')) loadAdminRequests(); if(document.getElementById('depositPanel').style.display!=='none') generateQR(); }
-    function renderUpiAccounts(){ const cont=document.getElementById('upiAccountsList'); if(!cont) return; if(upiAccounts.length===0){ cont.innerHTML='<p style="color:#8E9AAF;">No UPI accounts added.</p>'; return; } const today=getTodayDate(); cont.innerHTML=upiAccounts.map((acc,idx)=>`<div class="upi-account-card"><strong>${acc.name}</strong> (${acc.upi})<br>Daily Limit: ₹${acc.limit}<br>Today's Received: ₹${acc.lastResetDate===today?acc.received:0}<br><button class="delete-upi-btn" data-idx="${idx}" style="background:#ef4444; border:none; padding:4px 12px; border-radius:20px; color:white; margin-top:8px; cursor:pointer;">Delete</button></div>`).join(''); document.querySelectorAll('.delete-upi-btn').forEach(btn=>{ btn.onclick=async(e)=>{ const idx=parseInt(btn.getAttribute('data-idx')); if(confirm('Delete this UPI account?')){ upiAccounts.splice(idx,1); await db.ref('settings/upiAccounts').set(upiAccounts); loadUpiAccounts(); } }; }); }
-    async function addUpiAccount(){ const name=document.getElementById('newUpiName').value.trim()||"Lucky Baadshah"; const upiId=document.getElementById('newUpiId').value.trim(); const limit=parseInt(document.getElementById('newUpiLimit').value)||40000; if(!upiId) return alert('Please fill UPI ID'); upiAccounts.push({name, upi:upiId, limit, received:0, lastResetDate:getTodayDate()}); await db.ref('settings/upiAccounts').set(upiAccounts); document.getElementById('newUpiName').value=''; document.getElementById('newUpiId').value=''; document.getElementById('newUpiLimit').value='40000'; loadUpiAccounts(); }
-    async function uploadLogoFromFile(){ const fileInput=document.getElementById('logoFileInput'); const file=fileInput.files[0]; if(!file) return alert('Please select an image file'); const reader=new FileReader(); reader.onload=async function(e){ const base64=e.target.result; await db.ref('settings/logoBase64').set(base64); loadLogo(); alert('Logo uploaded! It will now appear permanently.'); }; reader.readAsDataURL(file); }
-    async function loadLogo(){ const snap=await db.ref('settings/logoBase64').once('value'); const logoBase64=snap.val(); const logoDiv=document.getElementById('headerLogo'); if(logoBase64 && logoDiv){ logoDiv.style.background='none'; logoDiv.style.backgroundImage=`url(${logoBase64})`; logoDiv.style.backgroundSize='cover'; logoDiv.innerHTML=''; } else if(logoDiv){ logoDiv.style.background='linear-gradient(135deg, #FFD700, #FFA500)'; logoDiv.innerHTML='LB'; } const preview=document.getElementById('currentLogoPreview'); if(preview){ if(logoBase64) preview.innerHTML=`<img src="${logoBase64}" style="max-width:100px; border-radius:20px;">`; else preview.innerHTML='<p style="color:#8E9AAF;">No logo set. Using default "LB".</p>'; } }
-    async function submitReferralBonus(){ if(!currentUser) return alert('Please login!'); const friendUTR=document.getElementById('refFriendUTR').value.trim(); const friendEmail=document.getElementById('refFriendEmail').value.trim(); if(!friendUTR||!friendEmail) return alert('Please enter both UTR and friend email/name.'); const existing=await db.ref('admin/referralBonusRequests').orderByChild('friendUTR').equalTo(friendUTR).once('value'); if(existing.exists()) return alert('This UTR has already been submitted.'); await db.ref('admin/referralBonusRequests').push({ referrerId:currentUser.uid, referrerName:currentUser.displayName||currentUser.email, referrerEmail:currentUser.email, friendEmail, friendUTR, status:'pending', timestamp:Date.now() }); document.getElementById('referralStatus').innerHTML='<span style="color:#10b981;">✅ Request submitted! Admin will verify and credit ₹100 soon.</span>'; document.getElementById('refFriendUTR').value=''; document.getElementById('refFriendEmail').value=''; setTimeout(()=>document.getElementById('referralStatus').innerHTML='',5000); showToast('Referral request submitted!','success'); }
-    function generateMatkaResult(){ const openNums=[Math.floor(Math.random()*10),Math.floor(Math.random()*10),Math.floor(Math.random()*10)]; const openSum=openNums[0]+openNums[1]+openNums[2]; const openDigit=openSum%10; const closeNums=[Math.floor(Math.random()*10),Math.floor(Math.random()*10),Math.floor(Math.random()*10)]; const closeSum=closeNums[0]+closeNums[1]+closeNums[2]; const closeDigit=closeSum%10; return {open:openDigit, close:closeDigit, jodi:parseInt(`${openDigit}${closeDigit}`)}; }
-    function getPayout(type,val,open,close,jodi){ if(type==="single"){ if(val.type==="open" && val.number===open) return 7; if(val.type==="close" && val.number===close) return 7; return 0; } if(type==="jodi"){ if(parseInt(val)===jodi) return 90; return 0; } if(type==="patti"){ if(Math.random()<0.01) return 600; return 0; } return 0; }
-    function startMatkaTimer(){ if(gameInterval) clearInterval(gameInterval); timeLeft=60; const gameTimerEl=document.getElementById('gameTimer'), homeTimerEl=document.getElementById('homeTimer'); if(gameTimerEl) gameTimerEl.textContent='01:00'; if(homeTimerEl) homeTimerEl.textContent='01:00'; gameInterval=setInterval(()=>{ timeLeft--; const mins=Math.floor(timeLeft/60), secs=timeLeft%60; const timeStr=`${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; if(gameTimerEl) gameTimerEl.textContent=timeStr; if(homeTimerEl) homeTimerEl.textContent=timeStr; if(timeLeft<=0){ clearInterval(gameInterval); declareMatkaResult(); setTimeout(startMatkaTimer,3000); } },1000); }
-    async function declareMatkaResult(){ const result=generateMatkaResult(); document.getElementById('resultOpen').textContent=result.open; document.getElementById('resultClose').textContent=result.close; document.getElementById('resultJodi').textContent=result.jodi.toString().padStart(2,'0'); document.getElementById('matkaResultDisplay').style.display='block'; document.getElementById('lastOpen').textContent=result.open; document.getElementById('lastClose').textContent=result.close; document.getElementById('lastJodi').textContent=result.jodi.toString().padStart(2,'0'); resultsHistory.unshift({open:result.open,close:result.close}); if(resultsHistory.length>20) resultsHistory.pop(); updateHotNumbers(); if(pendingBet){ let multiplier=getPayout(pendingBet.type,pendingBet.value,result.open,result.close,result.jodi); let winAmount=0; if(multiplier>0){ winAmount=pendingBet.amount*multiplier; userBalance+=winAmount; winCount++; document.getElementById('matkaWinMessage').innerHTML=`<span style="color:#10b981;">🎉 YOU WON! ₹${winAmount.toLocaleString()} (${multiplier}x) 🎉</span>`; addToGameHistory(currentUser?.displayName||'Player',pendingBet.amount,winAmount,true); addToTicker(currentUser?.displayName||'Player',winAmount); showToast(`🎉 You won ₹${winAmount.toLocaleString()}!`,'success'); } else { document.getElementById('matkaWinMessage').innerHTML=`<span style="color:#f97316;">💔 You lost ₹${pendingBet.amount.toLocaleString()}</span>`; addToGameHistory(currentUser?.displayName||'Player',pendingBet.amount,0,false); showToast(`💔 You lost ₹${pendingBet.amount.toLocaleString()}`,'error'); } totalBets++; await saveBetToHistory(pendingBet.amount,pendingBet.type,pendingBet.value,multiplier>0?'win':'loss',winAmount); await saveUserData(); updateAllDisplay(); pendingBet=null; } setTimeout(()=>{ document.getElementById('matkaResultDisplay').style.display='none'; document.getElementById('matkaWinMessage').innerHTML=''; },4000); }
-    function placeMatkaBet(){ if(!currentUser) return alert('Please login first!'); if(pendingBet) return alert('You already placed a bet for this round! Wait for result.'); const amount=parseFloat(document.getElementById('matkaBetAmount').value); if(isNaN(amount)||amount<10) return alert('Minimum bet ₹10'); if(amount>userBalance) return alert('Insufficient balance!'); let betValue=null; if(currentBetType==="single"){ if(selectedSingleNumber===null) return alert('Select a number!'); if(!selectedSingleType) return alert('Select Open or Close!'); betValue={type:selectedSingleType, number:selectedSingleNumber}; } else if(currentBetType==="jodi"){ if(selectedJodiNumber===null) return alert('Select a Jodi number!'); betValue=selectedJodiNumber; } else if(currentBetType==="patti"){ if(!selectedPattiNumber) return alert('Select a Patti number!'); betValue=selectedPattiNumber; } userBalance-=amount; updateAllDisplay(); pendingBet={type:currentBetType, value:betValue, amount:amount}; document.getElementById('matkaBetStatus').innerHTML=`<span style="color:#FFD700;">✅ Bet placed! ₹${amount} deducted. Waiting for result...</span>`; setTimeout(()=>document.getElementById('matkaBetStatus').innerHTML='',3000); showToast(`Bet placed! ₹${amount} deducted.`,'success'); saveUserData(); }
-    function addToGameHistory(name,betAmt,winAmt,isWin){ gameHistory.unshift({name,betAmt,winAmt,isWin,time:new Date().toLocaleTimeString()}); if(gameHistory.length>15) gameHistory.pop(); const cont=document.getElementById('matkaHistoryList'); if(cont) cont.innerHTML=gameHistory.map(h=>`<div class="history-item"><span>${h.name}</span><span>Bet: ₹${h.betAmt}</span><span class="${h.isWin?'win':'loss'}">${h.isWin?'+'+h.winAmt:'-'+h.betAmt} ₹</span><span style="font-size:9px;">${h.time}</span></div>`).join(''); }
-    function addToTicker(name,amount){ const ticker=document.getElementById('tickerContent'); const span=document.createElement('span'); span.innerHTML=`<i class="fas fa-trophy"></i> ${name} won ₹${amount.toLocaleString()}! 🔥`; ticker.appendChild(span); if(ticker.children.length>20) ticker.removeChild(ticker.children[0]); }
-    function generateSingleNumbers(){ const cont=document.getElementById('singleNumbers'); if(!cont) return; cont.innerHTML=''; for(let i=0;i<=9;i++){ const btn=document.createElement('div'); btn.className='number-option'; if(selectedSingleNumber===i) btn.classList.add('selected'); btn.textContent=i; btn.onclick=()=>{ document.querySelectorAll('#singleNumbers .number-option').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedSingleNumber=i; updatePayoutDisplay(); }; cont.appendChild(btn); } }
-    function generateOpenCloseSelect(){ const cont=document.getElementById('openCloseSelect'); if(!cont) return; cont.innerHTML=''; ['open','close'].forEach(oc=>{ const btn=document.createElement('div'); btn.className='number-option'; if(selectedSingleType===oc) btn.classList.add('selected'); btn.textContent=oc.toUpperCase(); btn.onclick=()=>{ document.querySelectorAll('#openCloseSelect .number-option').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedSingleType=oc; updatePayoutDisplay(); }; cont.appendChild(btn); }); }
-    function generateJodiNumbers(){ const cont=document.getElementById('jodiNumbers'); if(!cont) return; cont.innerHTML=''; for(let i=0;i<=99;i++){ const num=i.toString().padStart(2,'0'); const btn=document.createElement('div'); btn.className='number-option'; if(selectedJodiNumber===i) btn.classList.add('selected'); btn.textContent=num; btn.onclick=()=>{ document.querySelectorAll('#jodiNumbers .number-option').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedJodiNumber=i; updatePayoutDisplay(); }; cont.appendChild(btn); } }
-    function generatePattiNumbers(){ const cont=document.getElementById('pattiNumbers'); if(!cont) return; cont.innerHTML=''; const common=[111,222,333,444,555,666,777,888,999,123,456,789,000]; common.forEach(num=>{ const btn=document.createElement('div'); btn.className='number-option'; if(selectedPattiNumber===num) btn.classList.add('selected'); btn.textContent=num.toString().padStart(3,'0'); btn.onclick=()=>{ document.querySelectorAll('#pattiNumbers .number-option').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedPattiNumber=num; updatePayoutDisplay(); }; cont.appendChild(btn); }); }
-    function updatePayoutDisplay(){ const amt=parseFloat(document.getElementById('matkaBetAmount')?.value)||100; let mult=currentBetType==="single"?7:currentBetType==="jodi"?90:600; document.getElementById('payoutAmount').textContent=`₹${(amt*mult).toLocaleString()}`; }
-    const indianNames=["Rajesh Kumar","Priya Singh","Amit Sharma","Neha Verma","Vikram Rathore","Pooja Patel","Rahul Mehta","Anjali Nair"]; let fakePlayers=[]; function initFakePlayers(){ for(let i=0;i<10;i++) fakePlayers.push({name:indianNames[Math.floor(Math.random()*indianNames.length)], bet:Math.floor(Math.random()*8000)+200, result:Math.random()>0.6?'win':'loss'}); updateGameLivePlayers(); setInterval(()=>{ fakePlayers.forEach(p=>{ if(Math.random()>0.7) p.bet=Math.floor(Math.random()*8000)+200; if(Math.random()>0.8) p.result=Math.random()>0.45?'win':'loss'; }); updateGameLivePlayers(); },5000); }
-    function updateGameLivePlayers(){ const cont=document.getElementById('gameLivePlayerList'); if(cont) cont.innerHTML=fakePlayers.map(p=>`<div class="player-row"><span class="player-name">${p.name}</span><span class="player-bet">₹${p.bet.toLocaleString()}</span><span class="player-result ${p.result}">${p.result==='win'?'🎉 +'+Math.floor(p.bet*1.5).toLocaleString():'💔 -'+p.bet.toLocaleString()}</span></div>`).join(''); }
-    function generateQR(){ const idx=getAvailableUpiAccount(); if(idx===-1||!upiAccounts[idx]){ document.getElementById('qrMessage').innerHTML='No UPI account available. All limits reached for today.'; document.getElementById('qrMessage').style.color='#ef4444'; return; } const acc=upiAccounts[idx]; let upiString=`upi://pay?pa=${acc.upi}&pn=${encodeURIComponent(acc.name)}`; if(selectedAmount) upiString+=`&am=${selectedAmount}`; upiString+=`&cu=INR`; const qrDiv=document.getElementById('qrcode'); if(qrDiv){ qrDiv.innerHTML=''; try{ new QRCode(qrDiv,{text:upiString,width:180,height:180}); }catch(e){} document.getElementById('qrMessage').innerHTML=`Scan QR to pay to ${acc.name}`; document.getElementById('qrMessage').style.color='#FFD700'; } selectedUpiIndexForPayment=idx; }
-    function updateAmountDisplay(){ const disp=document.getElementById('amountDisplay'); if(disp) disp.innerHTML=selectedAmount?`₹${selectedAmount.toLocaleString()}`:'₹0'; }
-    async function addDepositRequest(amount,utr){ if(!currentUser) return; if(selectedUpiIndexForPayment===null||selectedUpiIndexForPayment===undefined) return alert('Please select amount and click "DEPOSIT VIA UPI" first'); await db.ref('admin/depositRequests').push({ userId:currentUser.uid, userName:currentUser.displayName||currentUser.email, email:currentUser.email, amount, bonus:amount===1000?200:amount===5000?2000:0, utr, upiAccountId:selectedUpiIndexForPayment, status:'pending', timestamp:Date.now() }); showToast(`✅ Deposit request submitted! Amount: ₹${amount}, UTR: ${utr}`,'success'); document.getElementById('utrSection').style.display='none'; document.getElementById('utrCode').value=''; tempPaidAmount=null; selectedUpiIndexForPayment=null; document.getElementById('depositStatusMsg').innerHTML='<span style="color:#10b981;">Request submitted! Check profile for status.</span>'; setTimeout(()=>document.getElementById('depositStatusMsg').innerHTML='',5000); if(document.getElementById('profilePanel').style.display!=='none') loadDepositHistory(); }
-    async function requestWithdraw(){ if(!currentUser) return; const amount=parseFloat(document.getElementById('withdrawAmount')?.value); const accHolder=document.getElementById('accHolderName')?.value; const accNumber=document.getElementById('accNumber')?.value; const ifsc=document.getElementById('ifscCode')?.value; if(!accHolder||!accNumber||!ifsc) return alert('Please fill all bank details!'); if(amount<5000) return alert('Minimum withdrawal amount is ₹5,000!'); if(amount>100000) return alert('Maximum withdrawal amount is ₹1,00,000!'); if(amount>userBalance) return alert('Insufficient balance!'); userBalance-=amount; await saveUserData(); updateAllDisplay(); showToast(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted. Amount deducted.`,'success'); await db.ref('admin/withdrawals').push({ userId:currentUser.uid, userName:currentUser.displayName||currentUser.email, email:currentUser.email, amount, accountHolder:accHolder, accountNumber:accNumber, ifsc, bankName:document.getElementById('bankName')?.value||'', status:'pending', timestamp:Date.now() }); if(document.getElementById('profilePanel').style.display!=='none') loadWithdrawalHistory(); }
-    async function loadIplMatches(){ const snap=await db.ref('iplMatches').orderByChild('matchTime').once('value'); const matches=[]; snap.forEach(ch=>matches.push({id:ch.key,...ch.val()})); const cont=document.getElementById('iplMatchesList'); if(!cont) return; if(matches.length===0){ cont.innerHTML='<p style="color:#8E9AAF;">No IPL matches scheduled yet.</p>'; return; } let html=''; for(const match of matches){ const matchTime=new Date(match.matchTime); const now=new Date(); const status=match.status||'upcoming'; let statusText='', canBet=false, countdownText=''; if(status==='closed') statusText='Betting Closed'; else if(status==='result_declared') statusText=`Result: ${match.winner||'TBD'}`; else{ if(matchTime<=now) statusText='Betting Closed (Match Started)'; else{ statusText=`Opens until ${matchTime.toLocaleString()}`; canBet=true; const diff=matchTime-now; if(diff>0){ const hours=Math.floor(diff/(1000*60*60)); const minutes=Math.floor((diff%(3600000))/60000); const seconds=Math.floor((diff%60000)/1000); countdownText=`<div class="countdown-timer">⏱️ ${hours}h ${minutes}m ${seconds}s</div>`; } } } let betCountA=match.betCountA||0, betCountB=match.betCountB||0; const total=betCountA+betCountB; const percentA=total===0?50:Math.round((betCountA/total)*100); const percentB=100-percentA; html+=`<div class="ipl-match-card"><div class="ipl-match-header"><span class="ipl-teams">${match.teamA} vs ${match.teamB}</span><span>${matchTime.toLocaleString()}</span></div>${countdownText}<div class="betting-trend">📊 Betting Trend: ${match.teamA} ${percentA}% | ${match.teamB} ${percentB}%</div><div class="live-score" id="liveScore_${match.id}">🏏 Live Score: ${match.liveScore||'Not started'}</div><div class="ipl-status">${statusText}</div>`; if(canBet){ html+=`<div class="ipl-bet-buttons"><div class="ipl-bet-btn" data-match="${match.id}" data-team="${match.teamA}" data-odds="${match.oddsA||3}">${match.teamA} (${match.oddsA}x)</div><div class="ipl-bet-btn" data-match="${match.id}" data-team="${match.teamB}" data-odds="${match.oddsB||3}">${match.teamB} (${match.oddsB}x)</div></div><div class="bet-amount-section" style="margin-top:10px;"><input type="number" id="iplBetAmount_${match.id}" class="bet-input-premium" placeholder="Bet Amount (Max ₹10,000)" value="100" min="10" max="10000"></div>`; } html+=`</div>`; } cont.innerHTML=html; if(currentUser){ document.querySelectorAll('.ipl-bet-btn').forEach(btn=>{ btn.addEventListener('click',async(e)=>{ const matchId=btn.getAttribute('data-match'); const team=btn.getAttribute('data-team'); const odds=parseFloat(btn.getAttribute('data-odds')); const amountInput=document.getElementById(`iplBetAmount_${matchId}`); let amount=parseFloat(amountInput.value); if(isNaN(amount)||amount<10) return alert('Minimum bet ₹10'); if(amount>10000) return alert('Maximum bet per match is ₹10,000'); if(amount>userBalance) return alert('Insufficient balance!'); const existing=await db.ref(`iplBets/${currentUser.uid}_${matchId}`).once('value'); if(existing.exists()) return alert('You already placed a bet on this match!'); userBalance-=amount; await saveUserData(); updateAllDisplay(); await db.ref(`iplBets/${currentUser.uid}_${matchId}`).set({ userId:currentUser.uid, matchId, matchName:`${match.teamA} vs ${match.teamB}`, team, amount, multiplier:odds, status:'pending', timestamp:Date.now() }); showToast(`IPL bet placed! ₹${amount} on ${team} (${odds}x)`,'success'); const matchRef=db.ref(`iplMatches/${matchId}`); const snap2=await matchRef.once('value'); const curMatch=snap2.val(); const newA=curMatch.betCountA||0; const newB=curMatch.betCountB||0; if(team===curMatch.teamA) await matchRef.update({betCountA:newA+1}); else await matchRef.update({betCountB:newB+1}); loadIplMatches(); }); }); } if(iplFakeInterval) clearInterval(iplFakeInterval); iplFakeInterval=setInterval(async()=>{ const matchesSnap=await db.ref('iplMatches').once('value'); const updates={}; matchesSnap.forEach(child=>{ const match=child.val(); if(match.status!=='upcoming' && match.status!=='closed') return; let curA=match.betCountA||0, curB=match.betCountB||0; if(curA+curB>=30000) return; let incA=Math.floor(Math.random()*4), incB=Math.floor(Math.random()*4); if(curA+incA+curB+incB>30000){ if(curA+curB<30000){ const rem=30000-(curA+curB); incA=Math.floor(rem/2); incB=rem-incA; } else { incA=0; incB=0; } } if(incA>0||incB>0){ updates[`iplMatches/${child.key}/betCountA`]=curA+incA; updates[`iplMatches/${child.key}/betCountB`]=curB+incB; } }); if(Object.keys(updates).length) await db.ref().update(updates); loadIplMatches(); },3000); }
-    async function loadIplMatchesAdmin(){ if(!isAdminLoggedIn()) return; const snap=await db.ref('iplMatches').once('value'); const matches=[]; snap.forEach(ch=>matches.push({id:ch.key,...ch.val()})); matches.sort((a,b)=>new Date(a.matchTime)-new Date(b.matchTime)); const cont=document.getElementById('iplMatchesAdminList'); if(!cont) return; if(matches.length===0){ cont.innerHTML='<p style="color:#8E9AAF;">No IPL matches added yet.</p>'; return; } let html=''; for(const match of matches){ const matchTime=new Date(match.matchTime); const now=new Date(); const status=match.status||'upcoming'; html+=`<div class="admin-match-item"><div><strong>${match.teamA} (${match.oddsA}x) vs ${match.teamB} (${match.oddsB}x)</strong> - ${matchTime.toLocaleString()}</div><div>Status: ${status==='closed'?'Betting Closed':(status==='result_declared'?`Result: ${match.winner||'TBD'}`:'Upcoming')}</div><div>Live Score: <input type="text" id="liveScoreInput_${match.id}" placeholder="Enter score" value="${match.liveScore||''}" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:4px 8px; border-radius:20px; color:white;"> <button class="accept-btn" onclick="updateLiveScore('${match.id}')">Update</button></div><div style="margin-top:8px;">${status!=='closed' && status!=='result_declared' && matchTime<=now?`<button class="accept-btn" onclick="closeIplBetting('${match.id}')">Close Betting</button>`:''} ${status!=='result_declared'?`<button class="accept-btn" onclick="declareIplResult('${match.id}')">Declare Result</button>`:''} <button class="reject-btn" onclick="deleteIplMatch('${match.id}')">Delete Match</button></div></div>`; } cont.innerHTML=html; }
-    window.updateLiveScore=async(matchId)=>{ const input=document.getElementById(`liveScoreInput_${matchId}`); const score=input.value.trim(); if(!score) return; await db.ref(`iplMatches/${matchId}`).update({liveScore:score}); loadIplMatchesAdmin(); loadIplMatches(); showToast('Live score updated','success'); };
-    window.closeIplBetting=async(matchId)=>{ await db.ref(`iplMatches/${matchId}`).update({status:'closed'}); loadIplMatchesAdmin(); loadIplMatches(); };
-    window.declareIplResult=async(matchId)=>{ const winner=prompt("Enter winning team name (exactly as in match):"); if(!winner) return; const matchSnap=await db.ref(`iplMatches/${matchId}`).once('value'); const match=matchSnap.val(); if(!match) return; await db.ref(`iplMatches/${matchId}`).update({status:'result_declared', winner}); const betsSnap=await db.ref('iplBets').orderByChild('matchId').equalTo(matchId).once('value'); const updates={}; betsSnap.forEach(child=>{ const bet=child.val(); if(bet.team===winner){ const winAmt=bet.amount*bet.multiplier; const userRef=db.ref(`users/${bet.userId}`); userRef.transaction(cur=>{ if(cur) cur.balance=(cur.balance||0)+winAmt; return cur; }); updates[child.key]={status:'won', winAmount:winAmt}; if(currentUser && bet.userId===currentUser.uid){ userBalance+=winAmt; updateAllDisplay(); showToast(`🎉 You won ₹${winAmt} on IPL match!`,'success'); } } else { updates[child.key]={status:'lost', winAmount:0}; } }); for(const [key,data] of Object.entries(updates)) await db.ref(`iplBets/${key}`).update(data); loadIplMatchesAdmin(); loadIplMatches(); if(currentUser) loadIplBetHistory(); };
-    window.deleteIplMatch=async(matchId)=>{ if(confirm("Delete this match?")){ await db.ref(`iplMatches/${matchId}`).remove(); loadIplMatchesAdmin(); loadIplMatches(); } };
-    async function addIplMatch(){ const teamA=document.getElementById('newMatchTeamA').value.trim(); const oddsA=parseInt(document.getElementById('newMatchOddsA').value); const teamB=document.getElementById('newMatchTeamB').value.trim(); const oddsB=parseInt(document.getElementById('newMatchOddsB').value); const matchDateTime=document.getElementById('newMatchDateTime').value; if(!teamA||!teamB||!matchDateTime||isNaN(oddsA)||isNaN(oddsB)) return alert('Please fill all fields (odds 1-35)'); if(oddsA<1||oddsA>35||oddsB<1||oddsB>35) return alert('Odds must be between 1 and 35'); const matchTime=new Date(matchDateTime).getTime(); const newRef=db.ref('iplMatches').push(); await newRef.set({ teamA, oddsA, teamB, oddsB, matchTime, status:'upcoming', betCountA:0, betCountB:0, liveScore:'' }); document.getElementById('newMatchTeamA').value=''; document.getElementById('newMatchOddsA').value=''; document.getElementById('newMatchTeamB').value=''; document.getElementById('newMatchOddsB').value=''; document.getElementById('newMatchDateTime').value=''; loadIplMatchesAdmin(); loadIplMatches(); }
-    async function loadIplBanner(){ const snap=await db.ref('settings/iplBanner').once('value'); const banner=snap.val(); const cont=document.getElementById('iplBannerContainer'); if(!cont) return; if(banner) cont.innerHTML=`<img src="${banner}" class="ipl-banner" alt="IPL Banner">`; else cont.innerHTML=`<img src="https://cdn-icons-png.flaticon.com/512/188/188987.png" class="ipl-banner" alt="IPL Banner" style="background:#1A1E2C; padding:20px; object-fit:contain;">`; }
-    async function uploadIplBanner(){ const fileInput=document.getElementById('iplBannerFileInput'); const file=fileInput.files[0]; if(!file) return alert('Select an image file'); const reader=new FileReader(); reader.onload=async function(e){ const base64=e.target.result; await db.ref('settings/iplBanner').set(base64); loadIplBanner(); const preview=document.getElementById('currentIplBannerPreview'); if(preview) preview.innerHTML=`<img src="${base64}" style="max-width:100%; border-radius:20px;">`; alert('Banner uploaded!'); }; reader.readAsDataURL(file); }
-    function showHome(){ document.getElementById('homePage').style.display='block'; document.getElementById('gamePage').style.display='none'; document.getElementById('depositPanel').style.display='none'; document.getElementById('withdrawPanel').style.display='none'; document.getElementById('profilePanel').style.display='none'; document.getElementById('iplPanel').style.display='none'; document.querySelectorAll('.nav-item-premium').forEach(n=>n.classList.remove('active')); document.querySelector('.nav-item-premium[data-page="home"]').classList.add('active'); if(iplFakeInterval) clearInterval(iplFakeInterval); }
-    function showGame(){ document.getElementById('homePage').style.display='none'; document.getElementById('gamePage').style.display='block'; document.getElementById('depositPanel').style.display='none'; document.getElementById('withdrawPanel').style.display='none'; document.getElementById('profilePanel').style.display='none'; document.getElementById('iplPanel').style.display='none'; document.querySelectorAll('.nav-item-premium').forEach(n=>n.classList.remove('active')); document.querySelector('.nav-item-premium[data-page="game"]').classList.add('active'); generateSingleNumbers(); generateOpenCloseSelect(); generateJodiNumbers(); generatePattiNumbers(); updatePayoutDisplay(); if(iplFakeInterval) clearInterval(iplFakeInterval); }
-    function showIpl(){ document.getElementById('homePage').style.display='none'; document.getElementById('gamePage').style.display='none'; document.getElementById('depositPanel').style.display='none'; document.getElementById('withdrawPanel').style.display='none'; document.getElementById('profilePanel').style.display='none'; document.getElementById('iplPanel').style.display='block'; document.querySelectorAll('.nav-item-premium').forEach(n=>n.classList.remove('active')); document.querySelector('.nav-item-premium[data-page="ipl"]').classList.add('active'); loadIplMatches(); loadIplBanner(); }
-    function showPanel(panelId){ document.getElementById('homePage').style.display='none'; document.getElementById('gamePage').style.display='none'; document.getElementById('depositPanel').style.display='none'; document.getElementById('withdrawPanel').style.display='none'; document.getElementById('profilePanel').style.display='none'; document.getElementById('iplPanel').style.display='none'; document.getElementById(panelId).style.display='block'; const page=panelId.replace('Panel','').toLowerCase(); document.querySelectorAll('.nav-item-premium').forEach(n=>n.classList.remove('active')); document.querySelector(`.nav-item-premium[data-page="${page}"]`).classList.add('active'); if(panelId==='profilePanel'){ loadDepositHistory(); loadWithdrawalHistory(); loadBetHistory(); loadIplBetHistory(); loadTopReferrers(); } if(panelId==='depositPanel'){ generateQR(); document.getElementById('utrSection').style.display='none'; document.getElementById('utrCode').value=''; document.getElementById('depositStatusMsg').innerHTML=''; tempPaidAmount=null; selectedUpiIndexForPayment=null; } if(iplFakeInterval) clearInterval(iplFakeInterval); }
-    let adminLoggedIn=false; function isAdminLoggedIn(){ return adminLoggedIn; }
-    function adminLogin(){ const pwd=document.getElementById('adminPassword').value; if(pwd===ADMIN_PASSWORD){ adminLoggedIn=true; document.getElementById('loginPage').style.display='none'; document.getElementById('adminPanelPage').style.display='block'; loadUpiAccounts(); loadLogo(); loadAdminRequests(); loadIplMatchesAdmin(); document.getElementById('adminErrorMsg').innerHTML=''; } else document.getElementById('adminErrorMsg').innerHTML='Incorrect password!'; }
-    function adminLogout(){ adminLoggedIn=false; document.getElementById('adminPanelPage').style.display='none'; document.getElementById('loginPage').style.display='flex'; document.getElementById('adminPassword').value=''; document.getElementById('adminErrorMsg').innerHTML=''; if(iplFakeInterval) clearInterval(iplFakeInterval); }
-    auth.onAuthStateChanged(async(user)=>{ if(user && !adminLoggedIn){ currentUser=user; await loadUserData(); if(!user.displayName){ await user.updateProfile({displayName:user.email.split('@')[0]}); currentUser=auth.currentUser; } updateAllDisplay(); document.getElementById('loginPage').style.display='none'; document.getElementById('mainApp').style.display='block'; startMatkaTimer(); initFakePlayers(); showHome(); await loadUpiAccounts(); await loadLogo(); loadLeaderboard(); loadTopReferrers(); const lastResults=await db.ref('game/lastResults').once('value'); if(lastResults.exists()){ resultsHistory=lastResults.val()||[]; updateHotNumbers(); } } else if(!user && !adminLoggedIn){ document.getElementById('loginPage').style.display='flex'; document.getElementById('mainApp').style.display='none'; document.getElementById('adminPanelPage').style.display='none'; } });
-    async function saveResultsHistory(){ if(resultsHistory.length) await db.ref('game/lastResults').set(resultsHistory); } const origDeclare=declareMatkaResult; declareMatkaResult=async function(){ await origDeclare(); saveResultsHistory(); };
-    document.getElementById('googleLoginBtn').onclick=()=>auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); document.getElementById('logoutBtn').onclick=()=>auth.signOut(); document.getElementById('editNameBtn').onclick=async()=>{ const nn=prompt('Enter new name:',currentUser?.displayName||'Player'); if(nn&&nn.trim()){ await currentUser.updateProfile({displayName:nn.trim()}); currentUser=auth.currentUser; await saveUserData(); updateAllDisplay(); loadLeaderboard(); } }; document.getElementById('submitReferralBonusBtn').onclick=submitReferralBonus; document.getElementById('closeReferralModal').onclick=()=>{document.getElementById('referralModal').classList.remove('active');}; document.getElementById('referralModal').addEventListener('click',(e)=>{if(e.target===document.getElementById('referralModal')) document.getElementById('referralModal').classList.remove('active');}); const adminToggleBtn=document.getElementById('adminToggleBtn'), adminLoginFormDiv=document.getElementById('adminLoginForm'); adminToggleBtn.onclick=()=>{ if(adminLoginFormDiv.style.display==='none'||adminLoginFormDiv.style.display==='') adminLoginFormDiv.style.display='block'; else adminLoginFormDiv.style.display='none'; }; document.getElementById('adminLoginBtn').onclick=adminLogin; document.getElementById('adminLogoutBtn').onclick=adminLogout; document.querySelectorAll('.bet-tab').forEach(tab=>{tab.onclick=()=>{ document.querySelectorAll('.bet-tab').forEach(t=>t.classList.remove('active')); tab.classList.add('active'); currentBetType=tab.getAttribute('data-type'); document.getElementById('singleBetArea').style.display=currentBetType==='single'?'block':'none'; document.getElementById('jodiBetArea').style.display=currentBetType==='jodi'?'block':'none'; document.getElementById('pattiBetArea').style.display=currentBetType==='patti'?'block':'none'; updatePayoutDisplay(); }; }); document.getElementById('multiplyMatkaBtn').onclick=()=>{ const inp=document.getElementById('matkaBetAmount'); let v=parseFloat(inp.value); if(isNaN(v)) v=10; inp.value=Math.min(v*2,userBalance); updatePayoutDisplay(); }; document.getElementById('matkaBetAmount').oninput=()=>updatePayoutDisplay(); document.getElementById('placeMatkaBetBtn').onclick=placeMatkaBet; document.getElementById('backHomeBtn')?.addEventListener('click',showHome); document.getElementById('backFromDeposit')?.addEventListener('click',()=>showHome()); document.getElementById('backFromWithdraw')?.addEventListener('click',()=>showHome()); document.getElementById('backFromProfile')?.addEventListener('click',()=>showHome()); document.getElementById('backFromIpl')?.addEventListener('click',()=>showHome()); document.querySelectorAll('.amount-btn').forEach(btn=>{btn.onclick=()=>{ document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedAmount=parseInt(btn.getAttribute('data-amount')); updateAmountDisplay(); generateQR(); }; }); document.getElementById('payNowBtn')?.addEventListener('click',()=>{ if(!selectedAmount) return alert('Select amount first!'); const idx=getAvailableUpiAccount(); if(idx===-1||!upiAccounts[idx]) return alert('No UPI account available today.'); const acc=upiAccounts[idx]; const upiUrl=`upi://pay?pa=${acc.upi}&pn=${encodeURIComponent(acc.name)}&am=${selectedAmount}&cu=INR`; window.open(upiUrl,'_blank'); tempPaidAmount=selectedAmount; selectedUpiIndexForPayment=idx; const utrSec=document.getElementById('utrSection'); if(utrSec){ utrSec.style.display='block'; document.getElementById('paidAmountDisplay').innerText=`₹${selectedAmount.toLocaleString()}`; } }); document.getElementById('submitUtrBtn')?.addEventListener('click',async()=>{ const utr=document.getElementById('utrCode')?.value.trim(); if(!utr) return alert('Enter UTR number'); if(!tempPaidAmount) return alert('Please select amount and click "DEPOSIT VIA UPI" first'); await addDepositRequest(tempPaidAmount,utr); }); document.querySelectorAll('.quick-amount').forEach(btn=>{btn.onclick=()=>{ const wa=document.getElementById('withdrawAmount'); if(wa) wa.value=btn.getAttribute('data-amount'); }; }); document.getElementById('requestWithdrawBtn')?.addEventListener('click',requestWithdraw); document.querySelectorAll('.admin-tab-btn').forEach(btn=>{btn.onclick=()=>{ document.querySelectorAll('.admin-tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const tab=btn.getAttribute('data-tab'); document.querySelectorAll('.admin-tab-content').forEach(c=>c.classList.remove('active')); document.getElementById(`tab${tab.charAt(0).toUpperCase()+tab.slice(1)}`).classList.add('active'); if(tab==='analytics') loadAdminAnalytics(); if(tab==='ipl') loadIplMatchesAdmin(); if(tab==='iplBanner'){ db.ref('settings/iplBanner').once('value').then(snap=>{ const banner=snap.val(); const preview=document.getElementById('currentIplBannerPreview'); if(preview){ if(banner) preview.innerHTML=`<img src="${banner}" style="max-width:100%; border-radius:20px;">`; else preview.innerHTML='<p style="color:#8E9AAF;">No banner uploaded.</p>'; } }); } }; }); document.getElementById('addUpiAccountBtn')?.addEventListener('click',addUpiAccount); document.getElementById('uploadLogoBtn')?.addEventListener('click',uploadLogoFromFile); document.getElementById('addIplMatchBtn')?.addEventListener('click',addIplMatch); document.getElementById('uploadIplBannerBtn')?.addEventListener('click',uploadIplBanner); document.querySelectorAll('.nav-item-premium').forEach(nav=>{nav.onclick=()=>{ const pg=nav.getAttribute('data-page'); if(pg==='home') showHome(); else if(pg==='game') showGame(); else if(pg==='ipl') showIpl(); else if(pg==='deposit') showPanel('depositPanel'); else if(pg==='withdraw') showPanel('withdrawPanel'); else if(pg==='profile') showPanel('profilePanel'); }; }); document.getElementById('avatarBtn')?.addEventListener('click',()=>showPanel('profilePanel')); document.getElementById('termsLink')?.addEventListener('click',(e)=>{e.preventDefault(); alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed within 24-48 hours.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`);}); document.getElementById('privacyLink')?.addEventListener('click',(e)=>{e.preventDefault(); alert(`Privacy Policy\n\n1. We collect email and name for account management.\n2. All transactions are logged for security.\n3. Your data is never shared with third parties.\n4. UPI transactions are processed securely.\n5. You can request data deletion by contacting admin.\n\nWe prioritize your privacy and security.`);});
+    // Matka bet history (same as before, but kept compact)
+    async function saveBetToHistory(betAmount, betType, betValue, result, winAmount) {
+        if (!currentUser) return;
+        await db.ref(`users/${currentUser.uid}/bets`).push({ amount: betAmount, type: betType, value: JSON.stringify(betValue), result: result, winAmount: winAmount, timestamp: Date.now() });
+        const betsRef = db.ref(`users/${currentUser.uid}/bets`);
+        const snapshot = await betsRef.orderByChild('timestamp').once('value');
+        let count = 0;
+        snapshot.forEach(child => { count++; if (count > 50) child.ref.remove(); });
+    }
+    async function loadBetHistory() {
+        if (!currentUser) return;
+        const snapshot = await db.ref(`users/${currentUser.uid}/bets`).orderByChild('timestamp').limitToLast(20).once('value');
+        const container = document.getElementById('betHistoryList');
+        if (!container) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const bet = child.val();
+            const winLossClass = bet.winAmount > 0 ? 'win' : 'loss';
+            const winLossText = bet.winAmount > 0 ? `+₹${bet.winAmount}` : `-₹${bet.amount}`;
+            html += `<div class="history-item"><span>${new Date(bet.timestamp).toLocaleString()}</span><span>${bet.type}</span><span>₹${bet.amount}</span><span class="${winLossClass}">${winLossText}</span></div>`;
+        });
+        if (!html) html = '<p style="color:#8E9AAF;">No bets yet.</p>';
+        container.innerHTML = html;
+    }
+    async function loadIplBetHistory() {
+        if (!currentUser) return;
+        const snapshot = await db.ref(`users/${currentUser.uid}/iplBets`).orderByChild('timestamp').limitToLast(20).once('value');
+        const container = document.getElementById('iplBetHistoryList');
+        if (!container) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const bet = child.val();
+            const winLossClass = bet.status === 'won' ? 'win' : (bet.status === 'lost' ? 'loss' : 'pending');
+            const winLossText = bet.status === 'won' ? `+₹${bet.winAmount}` : (bet.status === 'lost' ? `-₹${bet.amount}` : `Pending`);
+            html += `<div class="history-item"><span>${new Date(bet.timestamp).toLocaleString()}</span><span>${bet.matchName}</span><span>${bet.team}</span><span>₹${bet.amount}</span><span class="${winLossClass}">${winLossText}</span></div>`;
+        });
+        if (!html) html = '<p style="color:#8E9AAF;">No IPL bets yet.</p>';
+        container.innerHTML = html;
+    }
+    async function loadWithdrawalHistory() {
+        if (!currentUser) return;
+        const snapshot = await db.ref('admin/withdrawals').orderByChild('userId').equalTo(currentUser.uid).once('value');
+        const container = document.getElementById('withdrawalHistoryList');
+        if (!container) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const req = child.val();
+            const statusClass = req.status === 'approved' ? 'status-approved' : (req.status === 'rejected' ? 'status-rejected' : 'status-pending');
+            html += `<div class="deposit-history-item" style="background:#1A1E2C; border-radius:16px; padding:12px; margin-bottom:10px;"><div>💸 Amount: ₹${req.amount}</div><div>🏦 ${req.accountHolder} (${req.accountNumber})</div><div>📅 ${new Date(req.timestamp).toLocaleString()}</div><div>Status: <span class="${statusClass}">${req.status.toUpperCase()}</span></div></div>`;
+        });
+        if (!html) html = '<p style="color:#8E9AAF;">No withdrawal requests yet.</p>';
+        container.innerHTML = html;
+    }
+    async function loadLeaderboard() {
+        const usersRef = db.ref('users');
+        const snapshot = await usersRef.orderByChild('totalBets').limitToLast(5).once('value');
+        const users = [];
+        snapshot.forEach(child => { users.push({ name: child.val().name || child.val().email.split('@')[0], totalBets: child.val().totalBets || 0 }); });
+        users.reverse();
+        const container = document.getElementById('leaderboardList');
+        if (!container) return;
+        if (users.length === 0) { container.innerHTML = '<p style="color:#8E9AAF;">No data yet.</p>'; return; }
+        container.innerHTML = users.map((u, i) => `<div class="player-row"><span class="player-name">${i+1}. ${u.name}</span><span class="player-bet">${u.totalBets} bets</span></div>`).join('');
+    }
+    async function loadTopReferrers() {
+        const bonusSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('approved').once('value');
+        const referrerCount = {};
+        bonusSnap.forEach(child => { const req = child.val(); referrerCount[req.referrerId] = (referrerCount[req.referrerId] || 0) + 1; });
+        const sorted = Object.entries(referrerCount).sort((a,b) => b[1] - a[1]).slice(0,5);
+        const container = document.getElementById('topReferrersList');
+        if (!container) return;
+        if (sorted.length === 0) { container.innerHTML = '<p style="color:#8E9AAF;">No referrals yet.</p>'; return; }
+        let html = '';
+        for (const [uid, count] of sorted) {
+            const userSnap = await db.ref(`users/${uid}`).once('value');
+            const name = userSnap.val()?.name || 'Anonymous';
+            html += `<div class="player-row"><span class="player-name">${name}</span><span class="player-bet">${count} referrals</span></div>`;
+        }
+        container.innerHTML = html;
+    }
+    function updateHotNumbers() {
+        if (resultsHistory.length === 0) return;
+        const openCount = Array(10).fill(0), closeCount = Array(10).fill(0);
+        resultsHistory.forEach(res => { openCount[res.open]++; closeCount[res.close]++; });
+        const openContainer = document.getElementById('hotOpenContainer'), closeContainer = document.getElementById('hotCloseContainer');
+        if (!openContainer || !closeContainer) return;
+        openContainer.innerHTML = ''; closeContainer.innerHTML = '';
+        for (let i=0;i<=9;i++) {
+            openContainer.innerHTML += `<div class="hot-number-item"><div class="hot-number-digit">${i}</div><div class="hot-number-count">${openCount[i]}</div></div>`;
+            closeContainer.innerHTML += `<div class="hot-number-item"><div class="hot-number-digit">${i}</div><div class="hot-number-count">${closeCount[i]}</div></div>`;
+        }
+    }
+    async function loadAdminAnalytics() {
+        if (!isAdminLoggedIn()) return;
+        const usersSnap = await db.ref('users').once('value');
+        document.getElementById('analyticsTotalUsers').innerText = usersSnap.numChildren();
+        const depositsSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('approved').once('value');
+        let totalDeposits = 0; depositsSnap.forEach(child => { totalDeposits += child.val().amount; });
+        document.getElementById('analyticsTotalDeposits').innerText = '₹' + totalDeposits.toLocaleString();
+        const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('approved').once('value');
+        let totalWithdrawals = 0; withdrawSnap.forEach(child => { totalWithdrawals += child.val().amount; });
+        document.getElementById('analyticsTotalWithdrawals').innerText = '₹' + totalWithdrawals.toLocaleString();
+        const today = getTodayDate(), todayStart = new Date(today).getTime(), todayEnd = todayStart + 86400000;
+        let todayDeposits = 0, todayWithdrawals = 0;
+        depositsSnap.forEach(child => { const req = child.val(); if (req.timestamp >= todayStart && req.timestamp < todayEnd) todayDeposits += req.amount; });
+        withdrawSnap.forEach(child => { const req = child.val(); if (req.timestamp >= todayStart && req.timestamp < todayEnd) todayWithdrawals += req.amount; });
+        document.getElementById('analyticsTodayRevenue').innerText = '₹' + (todayDeposits - todayWithdrawals).toLocaleString();
+        const pendingDeposits = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
+        document.getElementById('analyticsPendingDeposits').innerText = pendingDeposits.numChildren();
+        const pendingWithdrawals = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
+        document.getElementById('analyticsPendingWithdrawals').innerText = pendingWithdrawals.numChildren();
+    }
+    
+    async function loadUserData() {
+        if(!currentUser) return;
+        const snapshot = await db.ref(`users/${currentUser.uid}`).once('value');
+        const data = snapshot.val() || {};
+        userBalance = data.balance || 0;
+        totalBets = data.totalBets || 0;
+        winCount = data.winCount || 0;
+        if(data.name) currentUser.displayName = data.name;
+        updateAllDisplay();
+        const modalShown = localStorage.getItem('referralModalShown');
+        if(!modalShown) { setTimeout(() => { document.getElementById('referralModal').classList.add('active'); localStorage.setItem('referralModalShown', 'true'); }, 1000); }
+        const refCode = getReferralCode(currentUser.uid);
+        document.getElementById('referralCodeDisplay').innerText = refCode;
+        loadDepositHistory(); loadWithdrawalHistory(); loadBetHistory(); loadIplBetHistory();
+    }
+    async function saveUserData() { if(!currentUser) return; await db.ref(`users/${currentUser.uid}`).update({ balance: userBalance, totalBets: totalBets, winCount: winCount, name: currentUser.displayName, email: currentUser.email, lastUpdated: Date.now() }); }
+    function updateAllDisplay() {
+        document.getElementById('walletBalance').textContent = Math.floor(userBalance).toLocaleString();
+        document.getElementById('withdrawBalance').textContent = `₹${Math.floor(userBalance).toLocaleString()}`;
+        document.getElementById('profileBalance').textContent = `₹${Math.floor(userBalance).toLocaleString()}`;
+        document.getElementById('userName').textContent = currentUser?.displayName?.split(' ')[0] || 'Player';
+        document.getElementById('profileNameDisplay').textContent = currentUser?.displayName || 'Player';
+        document.getElementById('avatarInitial').textContent = (currentUser?.displayName?.charAt(0) || 'P').toUpperCase();
+        document.getElementById('profileTotalBets').textContent = totalBets;
+        const winRate = totalBets > 0 ? Math.floor((winCount / totalBets) * 100) : 0;
+        document.getElementById('profileWinRate').textContent = `${winRate}%`;
+        const level = Math.floor(totalBets / 100) + 1;
+        document.getElementById('profileLevel').textContent = level;
+        document.getElementById('levelBadge').innerHTML = `Level ${level}`;
+        const progress = (totalBets % 100);
+        document.getElementById('profileLevelProgress').style.width = `${progress}%`;
+        document.getElementById('nextLevelText').innerHTML = `${progress}/100 bets to next level`;
+    }
+    async function loadDepositHistory() {
+        if(!currentUser) return;
+        const snapshot = await db.ref('admin/depositRequests').orderByChild('userId').equalTo(currentUser.uid).once('value');
+        const historyDiv = document.getElementById('depositHistoryList');
+        if(!historyDiv) return;
+        let html = '';
+        snapshot.forEach(child => {
+            const req = child.val();
+            const statusClass = req.status === 'approved' ? 'status-approved' : (req.status === 'rejected' ? 'status-rejected' : 'status-pending');
+            html += `<div class="deposit-history-item" style="background:#1A1E2C; border-radius:16px; padding:12px; margin-bottom:10px;"><div>💰 Amount: ₹${req.amount} + Bonus: ₹${req.bonus || 0}</div><div>🔢 UTR: ${req.utr}</div><div>📅 ${new Date(req.timestamp).toLocaleString()}</div><div>Status: <span class="${statusClass}">${req.status.toUpperCase()}</span></div></div>`;
+        });
+        if(!html) html = '<p style="color:#8E9AAF;">No deposit requests yet.</p>';
+        historyDiv.innerHTML = html;
+    }
+    
+    // Admin requests (simplified but functional)
+    async function loadAdminRequests() {
+        if(!isAdminLoggedIn()) return;
+        const depositSnap = await db.ref('admin/depositRequests').orderByChild('status').equalTo('pending').once('value');
+        const depositRequests = {};
+        depositSnap.forEach(child => { const req = child.val(); const upiId = req.upiAccountId !== undefined ? req.upiAccountId : 'unknown'; if (!depositRequests[upiId]) depositRequests[upiId] = []; depositRequests[upiId].push({ key: child.key, ...req }); });
+        let depositHtml = '';
+        const today = getTodayDate();
+        for (let i = 0; i < upiAccounts.length; i++) {
+            const account = upiAccounts[i], accountName = account.name, upiDisplay = account.upi, receivedToday = account.lastResetDate === today ? account.received : 0, limit = account.limit, requests = depositRequests[i] || [];
+            depositHtml += `<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>📱 ${accountName} (${upiDisplay})</h3><span>Daily: ₹${receivedToday}/${limit}</span></div><div style="overflow-x:auto;"><table class="request-table"><thead>……
+<th>User</th><th>Amount + Bonus</th><th>UTR</th><th>Time</th><th>Actions</th></thead><tbody>`;
+            if (requests.length === 0) depositHtml += `……<td colspan="5" class="no-requests">No pending deposits for this account. </td> </tr>`;
+            else requests.forEach(req => { depositHtml += `……<td><strong>${req.userName}</strong><br><small>${req.email || ''}</small> </td><td>₹${req.amount} + ₹${req.bonus || 0} </td><td>${req.utr} </td><td>${new Date(req.timestamp).toLocaleString()} <td><td class="action-buttons-cell"><button class="accept-btn" onclick="approveDeposit('${req.key}', ${req.amount}, ${req.bonus || 0}, '${req.userId}', ${req.upiAccountId})">Accept</button><button class="reject-btn" onclick="rejectDeposit('${req.key}')">Reject</button> </td> </tr>`; });
+            depositHtml += `</tbody> </table> </div> </div>`;
+        }
+        if (upiAccounts.length === 0) depositHtml = '<p style="color:#8E9AAF;">No UPI accounts configured.</p>';
+        document.getElementById('depositRequestsList').innerHTML = depositHtml;
+        
+        const withdrawSnap = await db.ref('admin/withdrawals').orderByChild('status').equalTo('pending').once('value');
+        let withdrawHtml = '<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>💸 Withdrawal Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead>……<th>User</th><th>Amount</th><th>Account Details</th><th>Time</th><th>Actions</th></thead><tbody>';
+        if (withdrawSnap.size === 0) withdrawHtml += '……<td colspan="5" class="no-requests">No pending withdrawals. </td> </tr>';
+        else withdrawSnap.forEach(child => { const req = child.val(); withdrawHtml += `……<td><strong>${req.userName}</strong><br><small>${req.email || ''}</small> </td><td>₹${req.amount} <td><td>${req.accountHolder}<br>${req.accountNumber}<br>${req.ifsc} </td><td>${new Date(req.timestamp).toLocaleString()} <td><td class="action-buttons-cell"><button class="accept-btn" onclick="approveWithdraw('${child.key}', ${req.amount}, '${req.userId}')">Accept</button><button class="reject-btn" onclick="rejectWithdraw('${child.key}')">Reject</button> </td> </tr>`; });
+        withdrawHtml += `</tbody> </tr> </div> </div>`;
+        document.getElementById('withdrawalRequestsList').innerHTML = withdrawHtml;
+        
+        const referralSnap = await db.ref('admin/referralBonusRequests').orderByChild('status').equalTo('pending').once('value');
+        let referralHtml = '<div class="upi-deposit-card"><div class="upi-deposit-header"><h3>🎁 Referral Bonus Requests</h3></div><div style="overflow-x:auto;"><table class="request-table"><thead>……<th>Referrer</th><th>Friend Email</th><th>UTR</th><th>Time</th><th>Actions</th></thead><tbody>';
+        if (referralSnap.size === 0) referralHtml += '……<td colspan="5" class="no-requests">No pending referrals. </td> </tr>';
+        else referralSnap.forEach(child => { const req = child.val(); referralHtml += `……<td><strong>${req.referrerName}</strong><br><small>${req.referrerEmail}</small> </td><td>${req.friendEmail} </td><td>${req.friendUTR} </td><td>${new Date(req.timestamp).toLocaleString()} <td><td class="action-buttons-cell"><button class="accept-btn" onclick="approveReferralBonus('${child.key}', '${req.referrerId}')">Accept</button><button class="reject-btn" onclick="rejectReferralBonus('${child.key}')">Reject</button> </td> </tr>`; });
+        referralHtml += `</tbody> </table> </div> </div>`;
+        document.getElementById('referralRequestsList').innerHTML = referralHtml;
+        loadAdminAnalytics();
+    }
+    
+    window.approveDeposit = async (key, amount, bonus, userId, upiAccountId) => {
+        await db.ref(`admin/depositRequests/${key}`).update({ status: 'approved' });
+        const userRef = db.ref(`users/${userId}`);
+        const snap = await userRef.once('value');
+        const currentBalance = snap.val()?.balance || 0;
+        await userRef.update({ balance: currentBalance + amount + bonus });
+        if(currentUser && currentUser.uid === userId) { userBalance = currentBalance + amount + bonus; updateAllDisplay(); showToast(`✅ Deposit approved! ₹${amount + bonus} added to your wallet.`); }
+        else if(isAdminLoggedIn()) showToast(`✅ Deposit approved! ₹${amount + bonus} added to ${snap.val()?.name || 'user'}.`);
+        if (upiAccountId !== undefined && upiAccounts[upiAccountId]) {
+            const account = upiAccounts[upiAccountId];
+            const today = getTodayDate();
+            if (account.lastResetDate !== today) { account.received = 0; account.lastResetDate = today; }
+            account.received += (amount + bonus);
+            await db.ref('settings/upiAccounts').set(upiAccounts);
+        }
+        if(isAdminLoggedIn()) loadAdminRequests();
+        if(currentUser && currentUser.uid === userId) loadDepositHistory();
+    };
+    window.rejectDeposit = async (key) => { await db.ref(`admin/depositRequests/${key}`).update({ status: 'rejected' }); showToast(`❌ Deposit rejected.`, 'error'); if(isAdminLoggedIn()) loadAdminRequests(); const snap = await db.ref(`admin/depositRequests/${key}`).once('value'); const req = snap.val(); if(req && currentUser && req.userId === currentUser.uid) loadDepositHistory(); };
+    window.approveWithdraw = async (key, amount, userId) => { await db.ref(`admin/withdrawals/${key}`).update({ status: 'approved' }); if(isAdminLoggedIn()) showToast(`✅ Withdrawal approved.`); if(isAdminLoggedIn()) loadAdminRequests(); };
+    window.rejectWithdraw = async (key) => { const snap = await db.ref(`admin/withdrawals/${key}`).once('value'); const req = snap.val(); if(req) { const userRef = db.ref(`users/${req.userId}`); const userSnap = await userRef.once('value'); const currentBalance = userSnap.val()?.balance || 0; await userRef.update({ balance: currentBalance + req.amount }); await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' }); if(currentUser && currentUser.uid === req.userId) { userBalance = currentBalance + req.amount; updateAllDisplay(); showToast(`❌ Withdrawal rejected. ₹${req.amount} refunded.`, 'error'); } else if(isAdminLoggedIn()) showToast(`❌ Withdrawal rejected. ₹${req.amount} refunded.`, 'error'); } else { await db.ref(`admin/withdrawals/${key}`).update({ status: 'rejected' }); showToast(`❌ Withdrawal rejected.`, 'error'); } if(isAdminLoggedIn()) loadAdminRequests(); if(currentUser && currentUser.uid === req?.userId) loadWithdrawalHistory(); };
+    window.approveReferralBonus = async (key, referrerId) => { const userRef = db.ref(`users/${referrerId}`); const snap = await userRef.once('value'); const currentBalance = snap.val()?.balance || 0; await userRef.update({ balance: currentBalance + 100 }); await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'approved' }); if(currentUser && currentUser.uid === referrerId) { userBalance = currentBalance + 100; updateAllDisplay(); showToast(`🎉 Referral bonus credited! ₹100 added to your wallet.`); } else if(isAdminLoggedIn()) showToast(`✅ Referral bonus approved! ₹100 added.`); if(isAdminLoggedIn()) loadAdminRequests(); loadTopReferrers(); };
+    window.rejectReferralBonus = async (key) => { await db.ref(`admin/referralBonusRequests/${key}`).update({ status: 'rejected' }); showToast(`❌ Referral request rejected.`, 'error'); if(isAdminLoggedIn()) loadAdminRequests(); };
+    
+    // UPI Accounts
+    async function loadUpiAccounts() {
+        const snapshot = await db.ref('settings/upiAccounts').once('value');
+        let accounts = snapshot.val();
+        if (!accounts || accounts.length === 0) {
+            accounts = [
+                { name: "Lucky Baadshah", upi: "thakurraj8156@okhdfcbank", limit: 40000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "7041748558@ptsbi", limit: 40000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "7383235938@ptyes", limit: 40000, received: 0, lastResetDate: getTodayDate() },
+                { name: "Lucky Baadshah", upi: "9725124689-2@axl", limit: 40000, received: 0, lastResetDate: getTodayDate() }
+            ];
+            await db.ref('settings/upiAccounts').set(accounts);
+        } else {
+            let changed = false;
+            for (let acc of accounts) {
+                if (!acc.limit) { acc.limit = 40000; changed = true; }
+                if (!acc.name) { acc.name = "Lucky Baadshah"; changed = true; }
+                const today = getTodayDate();
+                if (!acc.lastResetDate || acc.lastResetDate !== today) { acc.received = 0; acc.lastResetDate = today; changed = true; }
+            }
+            if (changed) await db.ref('settings/upiAccounts').set(accounts);
+        }
+        upiAccounts = accounts;
+        renderUpiAccounts();
+        if (isAdminLoggedIn() && document.getElementById('tabDeposits').classList.contains('active')) loadAdminRequests();
+        if(document.getElementById('depositPanel').style.display !== 'none') generateQR();
+    }
+    function renderUpiAccounts() {
+        const container = document.getElementById('upiAccountsList');
+        if(!container) return;
+        if(upiAccounts.length === 0) { container.innerHTML = '<p style="color:#8E9AAF;">No UPI accounts added.</p>'; return; }
+        const today = getTodayDate();
+        container.innerHTML = upiAccounts.map((acc, idx) => `<div class="upi-account-card"><strong>${acc.name}</strong> (${acc.upi})<br>Daily Limit: ₹${acc.limit}<br>Today's Received: ₹${acc.lastResetDate === today ? acc.received : 0}<br><button class="delete-upi-btn" data-idx="${idx}" style="background:#ef4444; border:none; padding:4px 12px; border-radius:20px; color:white; margin-top:8px; cursor:pointer;">Delete</button></div>`).join('');
+        document.querySelectorAll('.delete-upi-btn').forEach(btn => { btn.onclick = async (e) => { const idx = parseInt(btn.getAttribute('data-idx')); if(confirm('Delete this UPI account?')) { upiAccounts.splice(idx, 1); await db.ref('settings/upiAccounts').set(upiAccounts); loadUpiAccounts(); } }; });
+    }
+    async function addUpiAccount() {
+        const name = document.getElementById('newUpiName').value.trim() || "Lucky Baadshah";
+        const upiId = document.getElementById('newUpiId').value.trim();
+        const limit = parseInt(document.getElementById('newUpiLimit').value) || 40000;
+        if(!upiId) return alert('Please fill UPI ID');
+        upiAccounts.push({ name, upi: upiId, limit, received: 0, lastResetDate: getTodayDate() });
+        await db.ref('settings/upiAccounts').set(upiAccounts);
+        document.getElementById('newUpiName').value = ''; document.getElementById('newUpiId').value = ''; document.getElementById('newUpiLimit').value = '40000';
+        loadUpiAccounts();
+    }
+    
+    // Logo upload from file (base64) - permanent
+    async function uploadLogoFromFile() {
+        const fileInput = document.getElementById('logoFileInput');
+        const file = fileInput.files[0];
+        if (!file) return alert('Please select an image file');
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64 = e.target.result;
+            await db.ref('settings/logoBase64').set(base64);
+            loadLogo();
+            alert('Logo uploaded! It will now appear permanently.');
+        };
+        reader.readAsDataURL(file);
+    }
+    async function loadLogo() {
+        const snap = await db.ref('settings/logoBase64').once('value');
+        const logoBase64 = snap.val();
+        const logoDiv = document.getElementById('headerLogo');
+        if(logoBase64 && logoDiv) {
+            logoDiv.style.background = 'none';
+            logoDiv.style.backgroundImage = `url(${logoBase64})`;
+            logoDiv.style.backgroundSize = 'cover';
+            logoDiv.innerHTML = '';
+        } else if(logoDiv) {
+            logoDiv.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+            logoDiv.innerHTML = 'LB';
+        }
+        const preview = document.getElementById('currentLogoPreview');
+        if(preview) {
+            if(logoBase64) preview.innerHTML = `<img src="${logoBase64}" style="max-width:100px; border-radius:20px;">`;
+            else preview.innerHTML = '<p style="color:#8E9AAF;">No logo set. Using default "LB".</p>';
+        }
+    }
+    
+    // Referral submission
+    async function submitReferralBonus() {
+        if(!currentUser) return alert('Please login!');
+        const friendUTR = document.getElementById('refFriendUTR').value.trim();
+        const friendEmail = document.getElementById('refFriendEmail').value.trim();
+        if(!friendUTR || !friendEmail) return alert('Please enter both UTR and friend email/name.');
+        const existing = await db.ref('admin/referralBonusRequests').orderByChild('friendUTR').equalTo(friendUTR).once('value');
+        if(existing.exists()) return alert('This UTR has already been submitted.');
+        await db.ref('admin/referralBonusRequests').push({ referrerId: currentUser.uid, referrerName: currentUser.displayName || currentUser.email, referrerEmail: currentUser.email, friendEmail: friendEmail, friendUTR: friendUTR, status: 'pending', timestamp: Date.now() });
+        document.getElementById('referralStatus').innerHTML = '<span style="color:#10b981;">✅ Request submitted! Admin will verify and credit ₹100 soon.</span>';
+        document.getElementById('refFriendUTR').value = ''; document.getElementById('refFriendEmail').value = '';
+        setTimeout(() => document.getElementById('referralStatus').innerHTML = '', 5000);
+        showToast('Referral request submitted!', 'success');
+    }
+    
+    // Matka game functions (instant deduction)
+    function generateMatkaResult() {
+        const openNums = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)];
+        const openSum = openNums[0] + openNums[1] + openNums[2];
+        const openDigit = openSum % 10;
+        const closeNums = [Math.floor(Math.random()*10), Math.floor(Math.random()*10), Math.floor(Math.random()*10)];
+        const closeSum = closeNums[0] + closeNums[1] + closeNums[2];
+        const closeDigit = closeSum % 10;
+        return { open: openDigit, close: closeDigit, jodi: parseInt(`${openDigit}${closeDigit}`) };
+    }
+    function getPayout(betType, betValue, openDigit, closeDigit, jodi) {
+        if(betType === "single") {
+            if(betValue.type === "open" && betValue.number === openDigit) return 7;
+            if(betValue.type === "close" && betValue.number === closeDigit) return 7;
+            return 0;
+        }
+        if(betType === "jodi") { if(parseInt(betValue) === jodi) return 90; return 0; }
+        if(betType === "patti") { if(Math.random() < 0.01) return 600; return 0; }
+        return 0;
+    }
+    function startMatkaTimer() {
+        if(gameInterval) clearInterval(gameInterval);
+        timeLeft = 60;
+        const gameTimerEl = document.getElementById('gameTimer'), homeTimerEl = document.getElementById('homeTimer');
+        if(gameTimerEl) gameTimerEl.textContent = '01:00';
+        if(homeTimerEl) homeTimerEl.textContent = '01:00';
+        gameInterval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60), secs = timeLeft % 60;
+            const timeStr = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            if(gameTimerEl) gameTimerEl.textContent = timeStr;
+            if(homeTimerEl) homeTimerEl.textContent = timeStr;
+            if(timeLeft <= 0) { clearInterval(gameInterval); declareMatkaResult(); setTimeout(startMatkaTimer, 3000); }
+        }, 1000);
+    }
+    async function declareMatkaResult() {
+        const result = generateMatkaResult();
+        document.getElementById('resultOpen').textContent = result.open;
+        document.getElementById('resultClose').textContent = result.close;
+        document.getElementById('resultJodi').textContent = result.jodi.toString().padStart(2,'0');
+        document.getElementById('matkaResultDisplay').style.display = 'block';
+        document.getElementById('lastOpen').textContent = result.open;
+        document.getElementById('lastClose').textContent = result.close;
+        document.getElementById('lastJodi').textContent = result.jodi.toString().padStart(2,'0');
+        resultsHistory.unshift({ open: result.open, close: result.close });
+        if (resultsHistory.length > 20) resultsHistory.pop();
+        updateHotNumbers();
+        if(pendingBet) {
+            let multiplier = getPayout(pendingBet.type, pendingBet.value, result.open, result.close, result.jodi);
+            let winAmount = 0;
+            if(multiplier > 0) {
+                winAmount = pendingBet.amount * multiplier;
+                userBalance += winAmount;
+                winCount++;
+                document.getElementById('matkaWinMessage').innerHTML = `<span style="color:#10b981;">🎉 YOU WON! ₹${winAmount.toLocaleString()} (${multiplier}x) 🎉</span>`;
+                addToGameHistory(currentUser?.displayName || 'Player', pendingBet.amount, winAmount, true);
+                addToTicker(currentUser?.displayName || 'Player', winAmount);
+                showToast(`🎉 You won ₹${winAmount.toLocaleString()}!`, 'success');
+            } else {
+                document.getElementById('matkaWinMessage').innerHTML = `<span style="color:#f97316;">💔 You lost ₹${pendingBet.amount.toLocaleString()}</span>`;
+                addToGameHistory(currentUser?.displayName || 'Player', pendingBet.amount, 0, false);
+                showToast(`💔 You lost ₹${pendingBet.amount.toLocaleString()}`, 'error');
+            }
+            totalBets++;
+            await saveBetToHistory(pendingBet.amount, pendingBet.type, pendingBet.value, multiplier > 0 ? 'win' : 'loss', winAmount);
+            await saveUserData();
+            updateAllDisplay();
+            pendingBet = null;
+        }
+        setTimeout(() => { document.getElementById('matkaResultDisplay').style.display = 'none'; document.getElementById('matkaWinMessage').innerHTML = ''; }, 4000);
+    }
+    function placeMatkaBet() {
+        if(!currentUser) return alert('Please login first!');
+        if(pendingBet) return alert('You already placed a bet for this round! Wait for result.');
+        const amount = parseFloat(document.getElementById('matkaBetAmount').value);
+        if(isNaN(amount) || amount < 10) return alert('Minimum bet ₹10');
+        if(amount > userBalance) return alert('Insufficient balance! Current balance: ₹' + userBalance);
+        let betValue = null;
+        if(currentBetType === "single") { if(selectedSingleNumber === null) return alert('Select a number!'); if(!selectedSingleType) return alert('Select Open or Close!'); betValue = { type: selectedSingleType, number: selectedSingleNumber }; }
+        else if(currentBetType === "jodi") { if(selectedJodiNumber === null) return alert('Select a Jodi number!'); betValue = selectedJodiNumber; }
+        else if(currentBetType === "patti") { if(!selectedPattiNumber) return alert('Select a Patti number!'); betValue = selectedPattiNumber; }
+        userBalance -= amount;
+        updateAllDisplay();
+        pendingBet = { type: currentBetType, value: betValue, amount: amount };
+        document.getElementById('matkaBetStatus').innerHTML = `<span style="color:#FFD700;">✅ Bet placed! ₹${amount} deducted. Waiting for result...</span>`;
+        setTimeout(() => document.getElementById('matkaBetStatus').innerHTML = '', 3000);
+        showToast(`Bet placed! ₹${amount} deducted.`, 'success');
+        saveUserData();
+    }
+    function addToGameHistory(name, betAmount, winAmount, isWin) {
+        gameHistory.unshift({ name, betAmount, winAmount, isWin, time: new Date().toLocaleTimeString() });
+        if(gameHistory.length > 15) gameHistory.pop();
+        const container = document.getElementById('matkaHistoryList');
+        if(container) container.innerHTML = gameHistory.map(h => `<div class="history-item"><span>${h.name}</span><span>Bet: ₹${h.betAmount}</span><span class="${h.isWin?'win':'loss'}">${h.isWin?'+'+h.winAmount:'-'+h.betAmount} ₹</span><span style="font-size:9px;">${h.time}</span></div>`).join('');
+    }
+    function addToTicker(name, amount) {
+        const ticker = document.getElementById('tickerContent');
+        const span = document.createElement('span');
+        span.innerHTML = `<i class="fas fa-trophy"></i> ${name} won ₹${amount.toLocaleString()}! 🔥`;
+        ticker.appendChild(span);
+        if(ticker.children.length > 20) ticker.removeChild(ticker.children[0]);
+    }
+    function generateSingleNumbers() {
+        const container = document.getElementById('singleNumbers');
+        if(!container) return;
+        container.innerHTML = '';
+        for(let i=0;i<=9;i++) {
+            const btn = document.createElement('div'); btn.className = 'number-option'; if(selectedSingleNumber === i) btn.classList.add('selected'); btn.textContent = i;
+            btn.onclick = () => { document.querySelectorAll('#singleNumbers .number-option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedSingleNumber = i; updatePayoutDisplay(); };
+            container.appendChild(btn);
+        }
+    }
+    function generateOpenCloseSelect() {
+        const container = document.getElementById('openCloseSelect');
+        if(!container) return;
+        container.innerHTML = '';
+        ['open','close'].forEach(oc => {
+            const btn = document.createElement('div'); btn.className = 'number-option'; if(selectedSingleType === oc) btn.classList.add('selected'); btn.textContent = oc.toUpperCase();
+            btn.onclick = () => { document.querySelectorAll('#openCloseSelect .number-option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedSingleType = oc; updatePayoutDisplay(); };
+            container.appendChild(btn);
+        });
+    }
+    function generateJodiNumbers() {
+        const container = document.getElementById('jodiNumbers');
+        if(!container) return;
+        container.innerHTML = '';
+        for(let i=0;i<=99;i++) {
+            const num = i.toString().padStart(2,'0');
+            const btn = document.createElement('div'); btn.className = 'number-option'; if(selectedJodiNumber === i) btn.classList.add('selected'); btn.textContent = num;
+            btn.onclick = () => { document.querySelectorAll('#jodiNumbers .number-option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedJodiNumber = i; updatePayoutDisplay(); };
+            container.appendChild(btn);
+        }
+    }
+    function generatePattiNumbers() {
+        const container = document.getElementById('pattiNumbers');
+        if(!container) return;
+        container.innerHTML = '';
+        const common = [111,222,333,444,555,666,777,888,999,123,456,789,000];
+        common.forEach(num => {
+            const btn = document.createElement('div'); btn.className = 'number-option'; if(selectedPattiNumber === num) btn.classList.add('selected'); btn.textContent = num.toString().padStart(3,'0');
+            btn.onclick = () => { document.querySelectorAll('#pattiNumbers .number-option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedPattiNumber = num; updatePayoutDisplay(); };
+            container.appendChild(btn);
+        });
+    }
+    function updatePayoutDisplay() {
+        const amount = parseFloat(document.getElementById('matkaBetAmount')?.value) || 100;
+        let multiplier = currentBetType === "single" ? 7 : currentBetType === "jodi" ? 90 : 600;
+        document.getElementById('payoutAmount').textContent = `₹${(amount * multiplier).toLocaleString()}`;
+    }
+    
+    // Live Players (fake)
+    const indianNames = ["Rajesh Kumar","Priya Singh","Amit Sharma","Neha Verma","Vikram Rathore","Pooja Patel","Rahul Mehta","Anjali Nair"];
+    let fakePlayers = [];
+    function initFakePlayers() {
+        for(let i=0;i<10;i++) fakePlayers.push({ name: indianNames[Math.floor(Math.random()*indianNames.length)], bet: Math.floor(Math.random()*8000)+200, result: Math.random()>0.6?'win':'loss' });
+        updateGameLivePlayers();
+        setInterval(() => { fakePlayers.forEach(p => { if(Math.random()>0.7) p.bet = Math.floor(Math.random()*8000)+200; if(Math.random()>0.8) p.result = Math.random()>0.45?'win':'loss'; }); updateGameLivePlayers(); }, 5000);
+    }
+    function updateGameLivePlayers() {
+        const gameContainer = document.getElementById('gameLivePlayerList');
+        if(gameContainer) gameContainer.innerHTML = fakePlayers.map(p => `<div class="player-row"><span class="player-name">${p.name}</span><span class="player-bet">₹${p.bet.toLocaleString()}</span><span class="player-result ${p.result}">${p.result==='win'?'🎉 +'+Math.floor(p.bet*1.5).toLocaleString():'💔 -'+p.bet.toLocaleString()}</span></div>`).join('');
+    }
+    
+    // Deposit functions
+    function generateQR() {
+        const availableIndex = getAvailableUpiAccount();
+        if (availableIndex === -1 || !upiAccounts[availableIndex]) { document.getElementById('qrMessage').innerHTML = 'No UPI account available. All limits reached for today.'; document.getElementById('qrMessage').style.color = '#ef4444'; return; }
+        const acc = upiAccounts[availableIndex];
+        let upiString = `upi://pay?pa=${acc.upi}&pn=${encodeURIComponent(acc.name)}`;
+        if(selectedAmount) upiString += `&am=${selectedAmount}`;
+        upiString += `&cu=INR`;
+        const qrDiv = document.getElementById('qrcode');
+        if(qrDiv) { qrDiv.innerHTML = ''; try { new QRCode(qrDiv, { text: upiString, width: 180, height: 180 }); } catch(e) {} document.getElementById('qrMessage').innerHTML = `Scan QR to pay to ${acc.name}`; document.getElementById('qrMessage').style.color = '#FFD700'; }
+        selectedUpiIndexForPayment = availableIndex;
+    }
+    function updateAmountDisplay() { const display = document.getElementById('amountDisplay'); if(display) display.innerHTML = selectedAmount ? `₹${selectedAmount.toLocaleString()}` : '₹0'; }
+    async function addDepositRequest(amount, utr) {
+        if(!currentUser) return;
+        if (selectedUpiIndexForPayment === null || selectedUpiIndexForPayment === undefined) { alert('Please select amount and click "DEPOSIT VIA UPI" first'); return; }
+        await db.ref('admin/depositRequests').push({ userId: currentUser.uid, userName: currentUser.displayName || currentUser.email, email: currentUser.email, amount: amount, bonus: amount === 1000 ? 200 : amount === 5000 ? 2000 : 0, utr: utr, upiAccountId: selectedUpiIndexForPayment, status: 'pending', timestamp: Date.now() });
+        showToast(`✅ Deposit request submitted! Amount: ₹${amount}, UTR: ${utr}`, 'success');
+        document.getElementById('utrSection').style.display = 'none'; document.getElementById('utrCode').value = ''; tempPaidAmount = null; selectedUpiIndexForPayment = null;
+        document.getElementById('depositStatusMsg').innerHTML = '<span style="color:#10b981;">Request submitted! Check profile for status.</span>';
+        setTimeout(() => document.getElementById('depositStatusMsg').innerHTML = '', 5000);
+        if(document.getElementById('profilePanel').style.display !== 'none') loadDepositHistory();
+    }
+    async function requestWithdraw() {
+        if(!currentUser) return;
+        const amount = parseFloat(document.getElementById('withdrawAmount')?.value);
+        const accHolder = document.getElementById('accHolderName')?.value;
+        const accNumber = document.getElementById('accNumber')?.value;
+        const ifsc = document.getElementById('ifscCode')?.value;
+        if(!accHolder || !accNumber || !ifsc) return alert('Please fill all bank details!');
+        if(amount < 5000) return alert('Minimum withdrawal amount is ₹5,000!');
+        if(amount > 100000) return alert('Maximum withdrawal amount is ₹1,00,000!');
+        if(amount > userBalance) return alert('Insufficient balance!');
+        userBalance -= amount;
+        await saveUserData();
+        updateAllDisplay();
+        showToast(`✅ Withdrawal request of ₹${amount.toLocaleString()} submitted. Amount deducted.`, 'success');
+        await db.ref('admin/withdrawals').push({ userId: currentUser.uid, userName: currentUser.displayName || currentUser.email, email: currentUser.email, amount: amount, accountHolder: accHolder, accountNumber: accNumber, ifsc: ifsc, bankName: document.getElementById('bankName')?.value || '', status: 'pending', timestamp: Date.now() });
+        if(document.getElementById('profilePanel').style.display !== 'none') loadWithdrawalHistory();
+    }
+    
+    // IPL Functions (fake counts, countdown, trends, live scores, limit)
+    async function loadIplMatches() {
+        const snapshot = await db.ref('iplMatches').orderByChild('matchTime').once('value');
+        const matches = [];
+        snapshot.forEach(child => { matches.push({ id: child.key, ...child.val() }); });
+        const container = document.getElementById('iplMatchesList');
+        if (!container) return;
+        if (matches.length === 0) { container.innerHTML = '<p style="color:#8E9AAF;">No IPL matches scheduled yet.</p>'; return; }
+        let html = '';
+        for (const match of matches) {
+            const matchTime = new Date(match.matchTime);
+            const now = new Date();
+            const status = match.status || 'upcoming';
+            let statusText = '';
+            let canBet = false;
+            let countdownText = '';
+            if (status === 'closed') statusText = 'Betting Closed';
+            else if (status === 'result_declared') statusText = `Result: ${match.winner || 'TBD'}`;
+            else {
+                if (matchTime <= now) statusText = 'Betting Closed (Match Started)';
+                else { 
+                    statusText = `Opens until ${matchTime.toLocaleString()}`;
+                    canBet = true;
+                    const diff = matchTime - now;
+                    if (diff > 0) {
+                        const hours = Math.floor(diff / (1000*60*60));
+                        const minutes = Math.floor((diff % (3600000)) / 60000);
+                        const seconds = Math.floor((diff % 60000) / 1000);
+                        countdownText = `<div class="countdown-timer">⏱️ ${hours}h ${minutes}m ${seconds}s</div>`;
+                    }
+                }
+            }
+            let betCountA = match.betCountA || 0;
+            let betCountB = match.betCountB || 0;
+            const total = betCountA + betCountB;
+            const percentA = total === 0 ? 50 : Math.round((betCountA / total) * 100);
+            const percentB = 100 - percentA;
+            html += `<div class="ipl-match-card">
+                        <div class="ipl-match-header"><span class="ipl-teams">${match.teamA} vs ${match.teamB}</span><span>${matchTime.toLocaleString()}</span></div>
+                        ${countdownText}
+                        <div class="betting-trend">📊 Betting Trend: ${match.teamA} ${percentA}% | ${match.teamB} ${percentB}%</div>
+                        <div class="live-score" id="liveScore_${match.id}">🏏 Live Score: ${match.liveScore || 'Not started'}</div>
+                        <div class="ipl-status">${statusText}</div>`;
+            if (canBet) {
+                html += `<div class="ipl-bet-buttons">
+                            <div class="ipl-bet-btn" data-match="${match.id}" data-team="${match.teamA}" data-odds="${match.oddsA || 3}">${match.teamA} (${match.oddsA}x)</div>
+                            <div class="ipl-bet-btn" data-match="${match.id}" data-team="${match.teamB}" data-odds="${match.oddsB || 3}">${match.teamB} (${match.oddsB}x)</div>
+                         </div>
+                         <div class="bet-amount-section" style="margin-top:10px;">
+                            <input type="number" id="iplBetAmount_${match.id}" class="bet-input-premium" placeholder="Bet Amount (Max ₹10,000)" value="100" min="10" max="10000">
+                         </div>`;
+            }
+            html += `</div>`;
+        }
+        container.innerHTML = html;
+        if (currentUser) {
+            document.querySelectorAll('.ipl-bet-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const matchId = btn.getAttribute('data-match');
+                    const team = btn.getAttribute('data-team');
+                    const odds = parseFloat(btn.getAttribute('data-odds'));
+                    const amountInput = document.getElementById(`iplBetAmount_${matchId}`);
+                    let amount = parseFloat(amountInput.value);
+                    if (isNaN(amount) || amount < 10) return alert('Minimum bet ₹10');
+                    if (amount > 10000) return alert('Maximum bet per match is ₹10,000');
+                    if (amount > userBalance) return alert('Insufficient balance!');
+                    const existingBet = await db.ref(`iplBets/${currentUser.uid}_${matchId}`).once('value');
+                    if (existingBet.exists()) return alert('You already placed a bet on this match!');
+                    userBalance -= amount;
+                    await saveUserData();
+                    updateAllDisplay();
+                    await db.ref(`iplBets/${currentUser.uid}_${matchId}`).set({
+                        userId: currentUser.uid,
+                        matchId: matchId,
+                        matchName: `${match.teamA} vs ${match.teamB}`,
+                        team: team,
+                        amount: amount,
+                        multiplier: odds,
+                        status: 'pending',
+                        timestamp: Date.now()
+                    });
+                    showToast(`IPL bet placed! ₹${amount} on ${team} (${odds}x)`, 'success');
+                    const matchRef = db.ref(`iplMatches/${matchId}`);
+                    const snap = await matchRef.once('value');
+                    const currentMatch = snap.val();
+                    const newCountA = currentMatch.betCountA || 0;
+                    const newCountB = currentMatch.betCountB || 0;
+                    if (team === currentMatch.teamA) {
+                        await matchRef.update({ betCountA: newCountA + 1 });
+                    } else {
+                        await matchRef.update({ betCountB: newCountB + 1 });
+                    }
+                    loadIplMatches();
+                });
+            });
+        }
+        if (iplFakeInterval) clearInterval(iplFakeInterval);
+        iplFakeInterval = setInterval(async () => {
+            const matchesSnap = await db.ref('iplMatches').once('value');
+            const updates = {};
+            matchesSnap.forEach(child => {
+                const match = child.val();
+                if (match.status !== 'upcoming' && match.status !== 'closed') return;
+                const currentA = match.betCountA || 0;
+                const currentB = match.betCountB || 0;
+                if (currentA + currentB >= 30000) return;
+                let incA = Math.floor(Math.random() * 4);
+                let incB = Math.floor(Math.random() * 4);
+                if (currentA + incA + currentB + incB > 30000) {
+                    if (currentA + currentB < 30000) {
+                        const remaining = 30000 - (currentA + currentB);
+                        incA = Math.floor(remaining / 2);
+                        incB = remaining - incA;
+                    } else { incA = 0; incB = 0; }
+                }
+                if (incA > 0 || incB > 0) {
+                    updates[`iplMatches/${child.key}/betCountA`] = currentA + incA;
+                    updates[`iplMatches/${child.key}/betCountB`] = currentB + incB;
+                }
+            });
+            if (Object.keys(updates).length) await db.ref().update(updates);
+            loadIplMatches();
+        }, 3000);
+    }
+    async function loadIplMatchesAdmin() {
+        if (!isAdminLoggedIn()) return;
+        const snapshot = await db.ref('iplMatches').once('value');
+        const matches = [];
+        snapshot.forEach(child => { matches.push({ id: child.key, ...child.val() }); });
+        matches.sort((a,b) => new Date(a.matchTime) - new Date(b.matchTime));
+        const container = document.getElementById('iplMatchesAdminList');
+        if (!container) return;
+        if (matches.length === 0) { container.innerHTML = '<p style="color:#8E9AAF;">No IPL matches added yet.</p>'; return; }
+        let html = '';
+        for (const match of matches) {
+            const matchTime = new Date(match.matchTime);
+            const now = new Date();
+            const status = match.status || 'upcoming';
+            html += `<div class="admin-match-item">
+                        <div><strong>${match.teamA} (${match.oddsA}x) vs ${match.teamB} (${match.oddsB}x)</strong> - ${matchTime.toLocaleString()}</div>
+                        <div>Status: ${status === 'closed' ? 'Betting Closed' : (status === 'result_declared' ? `Result: ${match.winner || 'TBD'}` : 'Upcoming')}</div>
+                        <div>Live Score: <input type="text" id="liveScoreInput_${match.id}" placeholder="Enter score" value="${match.liveScore || ''}" style="background:#1A1E2C; border:1px solid rgba(255,193,7,0.3); padding:4px 8px; border-radius:20px; color:white;"> <button class="accept-btn" onclick="updateLiveScore('${match.id}')">Update</button></div>
+                        <div style="margin-top:8px;">
+                            ${status !== 'closed' && status !== 'result_declared' && matchTime <= now ? `<button class="accept-btn" onclick="closeIplBetting('${match.id}')">Close Betting</button>` : ''}
+                            ${status !== 'result_declared' ? `<button class="accept-btn" onclick="declareIplResult('${match.id}')">Declare Result</button>` : ''}
+                            <button class="reject-btn" onclick="deleteIplMatch('${match.id}')">Delete Match</button>
+                        </div>
+                    </div>`;
+        }
+        container.innerHTML = html;
+    }
+    window.updateLiveScore = async (matchId) => {
+        const input = document.getElementById(`liveScoreInput_${matchId}`);
+        const score = input.value.trim();
+        if (!score) return;
+        await db.ref(`iplMatches/${matchId}`).update({ liveScore: score });
+        loadIplMatchesAdmin(); loadIplMatches();
+        showToast('Live score updated', 'success');
+    };
+    window.closeIplBetting = async (matchId) => {
+        await db.ref(`iplMatches/${matchId}`).update({ status: 'closed' });
+        loadIplMatchesAdmin(); loadIplMatches();
+    };
+    window.declareIplResult = async (matchId) => {
+        const winner = prompt("Enter winning team name (exactly as in match):");
+        if (!winner) return;
+        const matchSnap = await db.ref(`iplMatches/${matchId}`).once('value');
+        const match = matchSnap.val();
+        if (!match) return;
+        await db.ref(`iplMatches/${matchId}`).update({ status: 'result_declared', winner: winner });
+        const betsSnap = await db.ref('iplBets').orderByChild('matchId').equalTo(matchId).once('value');
+        const updates = {};
+        betsSnap.forEach(child => {
+            const bet = child.val();
+            if (bet.team === winner) {
+                const winAmount = bet.amount * bet.multiplier;
+                const userRef = db.ref(`users/${bet.userId}`);
+                userRef.transaction(current => { if (current) current.balance = (current.balance || 0) + winAmount; return current; });
+                updates[child.key] = { status: 'won', winAmount: winAmount };
+                if (currentUser && bet.userId === currentUser.uid) { userBalance += winAmount; updateAllDisplay(); showToast(`🎉 You won ₹${winAmount} on IPL match!`, 'success'); }
+            } else { updates[child.key] = { status: 'lost', winAmount: 0 }; }
+        });
+        for (const [key, data] of Object.entries(updates)) { await db.ref(`iplBets/${key}`).update(data); }
+        loadIplMatchesAdmin(); loadIplMatches(); if (currentUser) loadIplBetHistory();
+    };
+    window.deleteIplMatch = async (matchId) => {
+        if (confirm("Delete this match?")) { await db.ref(`iplMatches/${matchId}`).remove(); loadIplMatchesAdmin(); loadIplMatches(); }
+    };
+    async function addIplMatch() {
+        const teamA = document.getElementById('newMatchTeamA').value.trim();
+        const oddsA = parseInt(document.getElementById('newMatchOddsA').value);
+        const teamB = document.getElementById('newMatchTeamB').value.trim();
+        const oddsB = parseInt(document.getElementById('newMatchOddsB').value);
+        const matchDateTime = document.getElementById('newMatchDateTime').value;
+        if (!teamA || !teamB || !matchDateTime || isNaN(oddsA) || isNaN(oddsB)) return alert('Please fill all fields (odds 1-35)');
+        if (oddsA < 1 || oddsA > 35 || oddsB < 1 || oddsB > 35) return alert('Odds must be between 1 and 35');
+        const matchTime = new Date(matchDateTime).getTime();
+        const newMatchRef = db.ref('iplMatches').push();
+        await newMatchRef.set({
+            teamA, oddsA, teamB, oddsB, matchTime, status: 'upcoming',
+            betCountA: 0, betCountB: 0, liveScore: ''
+        });
+        document.getElementById('newMatchTeamA').value = ''; document.getElementById('newMatchOddsA').value = '';
+        document.getElementById('newMatchTeamB').value = ''; document.getElementById('newMatchOddsB').value = '';
+        document.getElementById('newMatchDateTime').value = '';
+        loadIplMatchesAdmin(); loadIplMatches();
+    }
+    
+    // IPL Banner functions (with default attractive image)
+    async function loadIplBanner() {
+        const snap = await db.ref('settings/iplBanner').once('value');
+        const bannerBase64 = snap.val();
+        const container = document.getElementById('iplBannerContainer');
+        if (!container) return;
+        if (bannerBase64) {
+            container.innerHTML = `<img src="${bannerBase64}" class="ipl-banner" alt="IPL Banner">`;
+        } else {
+            // default attractive banner (cricket ball image)
+            container.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/188/188987.png" class="ipl-banner" alt="IPL Banner" style="background:#1A1E2C; padding:20px; object-fit:contain;">`;
+        }
+    }
+    async function uploadIplBanner() {
+        const fileInput = document.getElementById('iplBannerFileInput');
+        const file = fileInput.files[0];
+        if (!file) return alert('Select an image file');
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64 = e.target.result;
+            await db.ref('settings/iplBanner').set(base64);
+            loadIplBanner();
+            const preview = document.getElementById('currentIplBannerPreview');
+            if (preview) preview.innerHTML = `<img src="${base64}" style="max-width:100%; border-radius:20px;">`;
+            alert('Banner uploaded!');
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    // Navigation
+    function showHome() {
+        document.getElementById('homePage').style.display = 'block';
+        document.getElementById('gamePage').style.display = 'none';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.getElementById('iplPanel').style.display = 'none';
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector('.nav-item-premium[data-page="home"]').classList.add('active');
+        if (iplFakeInterval) clearInterval(iplFakeInterval);
+    }
+    function showGame() {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('gamePage').style.display = 'block';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.getElementById('iplPanel').style.display = 'none';
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector('.nav-item-premium[data-page="game"]').classList.add('active');
+        generateSingleNumbers(); generateOpenCloseSelect(); generateJodiNumbers(); generatePattiNumbers(); updatePayoutDisplay();
+        if (iplFakeInterval) clearInterval(iplFakeInterval);
+    }
+    function showIpl() {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('gamePage').style.display = 'none';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.getElementById('iplPanel').style.display = 'block';
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector('.nav-item-premium[data-page="ipl"]').classList.add('active');
+        loadIplMatches(); loadIplBanner();
+    }
+    function showPanel(panelId) {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('gamePage').style.display = 'none';
+        document.getElementById('depositPanel').style.display = 'none';
+        document.getElementById('withdrawPanel').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+        document.getElementById('iplPanel').style.display = 'none';
+        document.getElementById(panelId).style.display = 'block';
+        const page = panelId.replace('Panel', '').toLowerCase();
+        document.querySelectorAll('.nav-item-premium').forEach(n => n.classList.remove('active'));
+        document.querySelector(`.nav-item-premium[data-page="${page}"]`).classList.add('active');
+        if(panelId === 'profilePanel') { loadDepositHistory(); loadWithdrawalHistory(); loadBetHistory(); loadIplBetHistory(); loadTopReferrers(); }
+        if(panelId === 'depositPanel') { generateQR(); document.getElementById('utrSection').style.display = 'none'; document.getElementById('utrCode').value = ''; document.getElementById('depositStatusMsg').innerHTML = ''; tempPaidAmount = null; selectedUpiIndexForPayment = null; }
+        if (iplFakeInterval) clearInterval(iplFakeInterval);
+    }
+    
+    let adminLoggedIn = false;
+    function isAdminLoggedIn() { return adminLoggedIn; }
+    function adminLogin() {
+        const password = document.getElementById('adminPassword').value;
+        if (password === ADMIN_PASSWORD) {
+            adminLoggedIn = true;
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPanelPage').style.display = 'block';
+            loadUpiAccounts(); loadLogo(); loadAdminRequests(); loadIplMatchesAdmin();
+            document.getElementById('adminErrorMsg').innerHTML = '';
+        } else { document.getElementById('adminErrorMsg').innerHTML = 'Incorrect password!'; }
+    }
+    function adminLogout() {
+        adminLoggedIn = false;
+        document.getElementById('adminPanelPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminErrorMsg').innerHTML = '';
+        if (iplFakeInterval) clearInterval(iplFakeInterval);
+    }
+    
+    auth.onAuthStateChanged(async (user) => {
+        if(user && !adminLoggedIn) {
+            currentUser = user;
+            await loadUserData();
+            if(!user.displayName) { await user.updateProfile({ displayName: user.email.split('@')[0] }); currentUser = auth.currentUser; }
+            updateAllDisplay();
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            startMatkaTimer();
+            initFakePlayers();
+            showHome();
+            await loadUpiAccounts();
+            await loadLogo();
+            loadLeaderboard(); loadTopReferrers();
+            const lastResults = await db.ref('game/lastResults').once('value');
+            if (lastResults.exists()) { resultsHistory = lastResults.val() || []; updateHotNumbers(); }
+        } else if(!user && !adminLoggedIn) { document.getElementById('loginPage').style.display = 'flex'; document.getElementById('mainApp').style.display = 'none'; document.getElementById('adminPanelPage').style.display = 'none'; }
+    });
+    
+    async function saveResultsHistory() { if (resultsHistory.length > 0) await db.ref('game/lastResults').set(resultsHistory); }
+    const originalDeclare = declareMatkaResult;
+    declareMatkaResult = async function() { await originalDeclare(); saveResultsHistory(); };
+    
+    // Event Listeners
+    document.getElementById('googleLoginBtn').onclick = () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    document.getElementById('logoutBtn').onclick = () => auth.signOut();
+    document.getElementById('editNameBtn').onclick = async () => {
+        const newName = prompt('Enter new name:', currentUser?.displayName || 'Player');
+        if(newName && newName.trim()) { await currentUser.updateProfile({ displayName: newName.trim() }); currentUser = auth.currentUser; await saveUserData(); updateAllDisplay(); loadLeaderboard(); }
+    };
+    document.getElementById('submitReferralBonusBtn').onclick = submitReferralBonus;
+    document.getElementById('closeReferralModal').onclick = () => { document.getElementById('referralModal').classList.remove('active'); };
+    document.getElementById('referralModal').addEventListener('click', (e) => { if(e.target === document.getElementById('referralModal')) document.getElementById('referralModal').classList.remove('active'); });
+    
+    const adminToggleBtn = document.getElementById('adminToggleBtn'), adminLoginForm = document.getElementById('adminLoginForm');
+    adminToggleBtn.onclick = () => { if(adminLoginForm.style.display === 'none' || adminLoginForm.style.display === '') adminLoginForm.style.display = 'block'; else adminLoginForm.style.display = 'none'; };
+    document.getElementById('adminLoginBtn').onclick = adminLogin;
+    document.getElementById('adminLogoutBtn').onclick = adminLogout;
+    
+    document.querySelectorAll('.bet-tab').forEach(tab => { tab.onclick = () => { document.querySelectorAll('.bet-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentBetType = tab.getAttribute('data-type'); document.getElementById('singleBetArea').style.display = currentBetType === 'single' ? 'block' : 'none'; document.getElementById('jodiBetArea').style.display = currentBetType === 'jodi' ? 'block' : 'none'; document.getElementById('pattiBetArea').style.display = currentBetType === 'patti' ? 'block' : 'none'; updatePayoutDisplay(); }; });
+    document.getElementById('multiplyMatkaBtn').onclick = () => { const input = document.getElementById('matkaBetAmount'); let val = parseFloat(input.value); if(isNaN(val)) val = 10; input.value = Math.min(val * 2, userBalance); updatePayoutDisplay(); };
+    document.getElementById('matkaBetAmount').oninput = () => updatePayoutDisplay();
+    document.getElementById('placeMatkaBetBtn').onclick = placeMatkaBet;
+    
+    document.getElementById('backHomeBtn')?.addEventListener('click', showHome);
+    document.getElementById('backFromDeposit')?.addEventListener('click', () => showHome());
+    document.getElementById('backFromWithdraw')?.addEventListener('click', () => showHome());
+    document.getElementById('backFromProfile')?.addEventListener('click', () => showHome());
+    document.getElementById('backFromIpl')?.addEventListener('click', () => showHome());
+    
+    document.querySelectorAll('.amount-btn').forEach(btn => { btn.onclick = () => { document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedAmount = parseInt(btn.getAttribute('data-amount')); updateAmountDisplay(); generateQR(); }; });
+    document.getElementById('payNowBtn')?.addEventListener('click', () => {
+        if(!selectedAmount) return alert('Select amount first!');
+        const availableIndex = getAvailableUpiAccount();
+        if (availableIndex === -1 || !upiAccounts[availableIndex]) return alert('No UPI account available today.');
+        const acc = upiAccounts[availableIndex];
+        const upiUrl = `upi://pay?pa=${acc.upi}&pn=${encodeURIComponent(acc.name)}&am=${selectedAmount}&cu=INR`;
+        window.open(upiUrl, '_blank');
+        tempPaidAmount = selectedAmount;
+        selectedUpiIndexForPayment = availableIndex;
+        const utrSection = document.getElementById('utrSection');
+        if(utrSection) { utrSection.style.display = 'block'; document.getElementById('paidAmountDisplay').innerText = `₹${selectedAmount.toLocaleString()}`; }
+    });
+    document.getElementById('submitUtrBtn')?.addEventListener('click', async () => {
+        const utr = document.getElementById('utrCode')?.value.trim();
+        if(!utr) return alert('Enter UTR number');
+        if(!tempPaidAmount) return alert('Please select amount and click "DEPOSIT VIA UPI" first');
+        await addDepositRequest(tempPaidAmount, utr);
+    });
+    
+    document.querySelectorAll('.quick-amount').forEach(btn => { btn.onclick = () => { const withdrawAmount = document.getElementById('withdrawAmount'); if(withdrawAmount) withdrawAmount.value = btn.getAttribute('data-amount'); }; });
+    document.getElementById('requestWithdrawBtn')?.addEventListener('click', requestWithdraw);
+    
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => { btn.onclick = () => { document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); const tab = btn.getAttribute('data-tab'); document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active')); document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active'); if (tab === 'analytics') loadAdminAnalytics(); if (tab === 'ipl') loadIplMatchesAdmin(); if (tab === 'iplBanner') { db.ref('settings/iplBanner').once('value').then(snap => { const banner = snap.val(); const preview = document.getElementById('currentIplBannerPreview'); if(preview) { if(banner) preview.innerHTML = `<img src="${banner}" style="max-width:100%; border-radius:20px;">`; else preview.innerHTML = '<p style="color:#8E9AAF;">No banner uploaded.</p>'; } }); } }; });
+    document.getElementById('addUpiAccountBtn')?.addEventListener('click', addUpiAccount);
+    document.getElementById('uploadLogoBtn')?.addEventListener('click', uploadLogoFromFile);
+    document.getElementById('addIplMatchBtn')?.addEventListener('click', addIplMatch);
+    document.getElementById('uploadIplBannerBtn')?.addEventListener('click', uploadIplBanner);
+    
+    document.querySelectorAll('.nav-item-premium').forEach(nav => { nav.onclick = () => { const page = nav.getAttribute('data-page'); if(page === 'home') showHome(); else if(page === 'game') showGame(); else if(page === 'ipl') showIpl(); else if(page === 'deposit') showPanel('depositPanel'); else if(page === 'withdraw') showPanel('withdrawPanel'); else if(page === 'profile') showPanel('profilePanel'); }; });
+    document.getElementById('avatarBtn')?.addEventListener('click', () => showPanel('profilePanel'));
+    
+    document.getElementById('termsLink')?.addEventListener('click', (e) => { e.preventDefault(); alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed within 24-48 hours.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`); });
+    document.getElementById('privacyLink')?.addEventListener('click', (e) => { e.preventDefault(); alert(`Privacy Policy\n\n1. We collect email and name for account management.\n2. All transactions are logged for security.\n3. Your data is never shared with third parties.\n4. UPI transactions are processed securely.\n5. You can request data deletion by contacting admin.\n\nWe prioritize your privacy and security.`); });
 </script>
 </body>
 </html>
