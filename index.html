@@ -1792,5 +1792,9 @@
     document.getElementById('termsLink')?.addEventListener('click', (e) => { e.preventDefault(); alert(`Terms & Conditions\n\n1. Users must be 18+ years old.\n2. All bets are final once placed.\n3. Withdrawals processed within 24-48 hours.\n4. Minimum withdrawal ₹5,000.\n5. Admin reserves the right to verify transactions.\n6. Any fraudulent activity will result in account suspension.\n\nBy using this platform, you agree to these terms.`); });
     document.getElementById('privacyLink')?.addEventListener('click', (e) => { e.preventDefault(); alert(`Privacy Policy\n\n1. We collect email and name for account management.\n2. All transactions are logged for security.\n3. Your data is never shared with third parties.\n4. UPI transactions are processed securely.\n5. You can request data deletion by contacting admin.\n\nWe prioritize your privacy and security.`); });
 </script>
+<script type="module">
+    import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@1/+esm';
+    inject();
+</script>
 </body>
 </html>
