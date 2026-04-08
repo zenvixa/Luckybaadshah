@@ -1,0 +1,21 @@
+{
+  "name": "luckybaadshah",
+  "version": "1.0.0",
+  "description": "Lucky Baadshah - Matka Game",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8080 || python -m http.server 8080",
+    "preview": "python3 -m http.server 8080 || python -m http.server 8080"
+  },
+  "keywords": [
+    "matka",
+    "game",
+    "lucky-baadshah"
+  ],
+  "author": "zenvixa",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenvixa/Luckybaadshah.git"
+  }
+}
